@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
+import CtaSection from "@/app/components/CtaSection";
 import efeImg from "@/people/efe.JPG";
 import ruthImg from "@/people/ruth.jpeg";
 import tochukwuImg from "@/people/tochukwu.jpg";
@@ -255,8 +256,8 @@ const LEADERSHIP_MEMBERS = [
     shadowColor: "shadow-[8px_8px_0px_0px_#5C59ED]",
   },
   {
-    name: "Tochukwu Emmanuel Ndukauba",
-    role: "Operations",
+    name: "Tochukwu E. Ndukauba",
+    role: "Global Coordinator",
     image: tochukwuImg,
     shadowColor: "shadow-[8px_8px_0px_0px_#1b7a42]",
   },
@@ -343,8 +344,8 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
 
         <div className="relative z-[3] max-w-3xl mx-auto flex flex-col items-center gap-4">
           <h1
-            className="font-['Gasoek_One',sans-serif] text-[40px] sm:text-[56px] md:text-[72px] text-white leading-[0.95] tracking-tight uppercase m-0"
-            style={{ fontFamily: "'Gasoek One', sans-serif" }}
+            className="text-[40px] sm:text-[56px] md:text-[72px] text-white leading-[0.95] tracking-tight uppercase m-0"
+            style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
           >
             About Us
           </h1>
@@ -357,14 +358,14 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
           {/* Section Heading & Subtitle */}
           <div className="text-center max-w-[960px] mx-auto mb-14 sm:mb-18 flex flex-col gap-4">
             <h2
-              className="font-['Gasoek_One',sans-serif] text-[32px] sm:text-[40px] md:text-[42px] text-[#210901] leading-tight m-0"
-              style={{ fontFamily: "'Gasoek One', sans-serif" }}
+              className="text-[32px] sm:text-[40px] md:text-[42px] text-[#210901] leading-tight m-0"
+              style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
             >
               We Refuse to Conform. We Choose to Be Transformed.
             </h2>
             <p
-              className="font-['Instrument_Sans:Medium',sans-serif] font-medium text-[19px] sm:text-[23px] text-[#210901]/80 max-w-[800px] mx-auto leading-relaxed"
-              style={{ fontVariationSettings: '"wdth" 100' }}
+              className="font-medium text-[19px] sm:text-[23px] text-[#210901]/80 max-w-[800px] mx-auto leading-relaxed"
+              style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
             >
               We aren't just another youth group. We are a generation stepping out of the world’s narrative and into God’s calling. We are Gen Z’s for Christ.
             </p>
@@ -376,13 +377,16 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
             <div className="bg-[#26103d] content-stretch flex flex-col gap-[36px] items-center justify-center overflow-clip py-[64px] sm:py-[80px] lg:py-[96px] px-[40px] sm:px-[56px] lg:px-[64px] relative rounded-[16px] shadow-[10px_10px_0px_0px_#fbb222] shrink-0 w-full min-h-[464px]">
               <div className="content-stretch flex flex-col gap-[36px] items-center relative shrink-0 w-full">
                 <Eye />
-                <div className="font-['Instrument_Serif:Regular',sans-serif] text-[#fbb222] text-[52px] sm:text-[64px] text-center leading-none not-italic">
+                <div
+                  className="text-[#fbb222] text-[52px] sm:text-[64px] text-center leading-none"
+                  style={{ fontFamily: "'Instrument Serif', serif" }}
+                >
                   Vision
                 </div>
               </div>
               <p
-                className="font-['Instrument_Sans:Regular',sans-serif] font-normal leading-[1.2] text-[20px] sm:text-[24px] text-center text-white w-full"
-                style={{ fontVariationSettings: '"wdth" 100' }}
+                className="font-normal leading-[1.2] text-[20px] sm:text-[24px] text-center text-white w-full"
+                style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
               >
                 To awaken and equip Generation Z to live for Christ,
                 transforming the narrative from who the world says we
@@ -394,13 +398,16 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
             <div className="bg-[#00434a] content-stretch flex flex-col gap-[36px] items-center justify-center overflow-clip py-[64px] sm:py-[80px] lg:py-[96px] px-[40px] sm:px-[56px] lg:px-[64px] relative rounded-[16px] shadow-[10px_10px_0px_0px_#d7f741] shrink-0 w-full min-h-[464px]">
               <div className="content-stretch flex flex-col gap-[36px] items-center relative shrink-0 w-full">
                 <Target />
-                <div className="font-['Instrument_Serif:Regular',sans-serif] text-[#d7f741] text-[52px] sm:text-[64px] text-center leading-none not-italic">
+                <div
+                  className="text-[#d7f741] text-[52px] sm:text-[64px] text-center leading-none"
+                  style={{ fontFamily: "'Instrument Serif', serif" }}
+                >
                   Mission
                 </div>
               </div>
               <p
-                className="font-['Instrument_Sans:Regular',sans-serif] font-normal leading-[1.2] text-[20px] sm:text-[24px] text-center text-white w-full"
-                style={{ fontVariationSettings: '"wdth" 100' }}
+                className="font-normal leading-[1.2] text-[20px] sm:text-[24px] text-center text-white w-full"
+                style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
               >
                 To ignite a Christ centered revival through
                 discipleship, prayer, the word and evangelism, raising
@@ -413,16 +420,16 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       </section>
 
       {/* ── 3. Core Values (Same Card Design as Mission & Vision Cards) ──── */}
-      <section className="bg-[#faf8f5] w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
+      <section className="bg-[#FFEDE5] w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
         <div className="max-w-[1312px] mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2
-              className="font-['Gasoek_One',sans-serif] text-[36px] sm:text-[48px] text-[#210901] leading-tight mb-2"
-              style={{ fontFamily: "'Gasoek One', sans-serif" }}
+              className="text-[40px] sm:text-[56px] text-[#210901] leading-tight mb-3"
+              style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
             >
               Our core values
             </h2>
-            <p className="font-['Instrument_Serif:Regular',sans-serif] text-[24px] sm:text-[28px] text-[#4b001a]">
+            <p className="text-[1.0625rem] sm:text-[1.5rem] text-[#210901]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
               The bedrock principles guiding everything we do.
             </p>
           </div>
@@ -443,15 +450,18 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
                     />
                   </div>
 
-                  <div className={`font-['Instrument_Serif:Regular',sans-serif] ${val.titleColor} text-[52px] sm:text-[64px] text-center leading-none not-italic`}>
+                  <div
+                    className={`${val.titleColor} text-[48px] sm:text-[64px] text-center leading-none`}
+                    style={{ fontFamily: "'Instrument Serif', serif" }}
+                  >
                     {val.name}
                   </div>
                 </div>
 
                 {/* Description in Instrument Sans */}
                 <p
-                  className="font-['Instrument_Sans:Regular',sans-serif] font-normal leading-[1.2] text-[20px] sm:text-[24px] text-center text-white w-full"
-                  style={{ fontVariationSettings: '"wdth" 100' }}
+                  className="font-normal leading-[1.2] text-[20px] sm:text-[24px] text-center text-white w-full"
+                  style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
                 >
                   {val.desc}
                 </p>
@@ -468,12 +478,12 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-20 sm:mb-28">
             <h2
-              className="font-['Gasoek_One',sans-serif] text-[40px] sm:text-[56px] text-[#210901] leading-tight mb-3"
-              style={{ fontFamily: "'Gasoek One', sans-serif" }}
+              className="text-[40px] sm:text-[56px] text-[#210901] leading-tight mb-3"
+              style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
             >
               The Genesis
             </h2>
-            <p className="font-['Instrument_Serif:Regular',sans-serif] text-[24px] sm:text-[30px] text-[#4b001a]">
+            <p className="text-[24px] sm:text-[30px] text-[#4b001a]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
               How one moment of obedience started a global movement.
             </p>
           </div>
@@ -512,8 +522,9 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
                     <div className="hidden md:flex w-[38%] pr-0 items-start justify-end relative">
                       <div className="sticky top-[200px] flex items-center justify-end gap-5 py-1 w-full relative">
                         <span
-                          className={`font-['Instrument_Serif:Regular',sans-serif] text-[40px] lg:text-[52px] leading-none transition-colors duration-300 ${isActive ? "text-[#1b7a42]" : "text-[#210901]/40"
+                          className={`text-[40px] lg:text-[52px] leading-none transition-colors duration-300 ${isActive ? "text-[#1b7a42]" : "text-[#210901]/40"
                             }`}
+                          style={{ fontFamily: "'Instrument Serif', serif" }}
                         >
                           {item.date}
                         </span>
@@ -537,11 +548,17 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
                     {/* Desktop Right Column: Story Content */}
                     <div className="hidden md:block w-[62%] pl-10 lg:pl-16 pt-0">
                       <div className="sticky top-[200px]">
-                        <h3 className="font-['Instrument_Serif:Regular',sans-serif] text-[42px] lg:text-[54px] text-[#1b7a42] leading-[1.05] mb-4">
+                        <h3
+                          className="text-[42px] lg:text-[54px] text-[#1b7a42] leading-[1.05] mb-4"
+                          style={{ fontFamily: "'Instrument Serif', serif" }}
+                        >
                           {item.title}
                         </h3>
 
-                        <p className="font-['Instrument_Sans',sans-serif] font-normal text-[18px] lg:text-[20px] text-[#210901]/85 leading-relaxed max-w-[560px]">
+                        <p
+                          className="font-normal text-[18px] lg:text-[20px] text-[#210901]/85 leading-relaxed max-w-[560px]"
+                          style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
+                        >
                           {item.text}
                         </p>
                       </div>
@@ -555,15 +572,24 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
                           }`}
                       />
 
-                      <span className="font-['Instrument_Serif:Regular',sans-serif] text-[36px] text-[#1b7a42] leading-none mb-2">
+                      <span
+                        className="text-[36px] text-[#1b7a42] leading-none mb-2"
+                        style={{ fontFamily: "'Instrument Serif', serif" }}
+                      >
                         {item.date}
                       </span>
 
-                      <h3 className="font-['Instrument_Serif:Regular',sans-serif] text-[30px] text-[#210901] leading-tight mb-3">
+                      <h3
+                        className="text-[30px] text-[#210901] leading-tight mb-3"
+                        style={{ fontFamily: "'Instrument Serif', serif" }}
+                      >
                         {item.title}
                       </h3>
 
-                      <p className="font-['Instrument_Sans',sans-serif] font-normal text-[16px] text-[#210901]/80 leading-relaxed">
+                      <p
+                        className="font-normal text-[16px] text-[#210901]/80 leading-relaxed"
+                        style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
+                      >
                         {item.text}
                       </p>
                     </div>
@@ -579,16 +605,16 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       </section>
 
       {/* ── 5. Leadership & Team Section ─────────────────────────────────── */}
-      <section className="bg-[#faf8f5] w-full py-20 sm:py-28 px-6 sm:px-12 lg:px-20">
+      <section className="bg-[#d7f741] w-full py-20 sm:py-28 px-6 sm:px-12 lg:px-20">
         <div className="max-w-[1240px] mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2
-              className="font-['Gasoek_One',sans-serif] text-[36px] sm:text-[48px] text-[#210901] leading-tight mb-2"
-              style={{ fontFamily: "'Gasoek One', sans-serif" }}
+              className="text-[40px] sm:text-[56px] text-[#210901] leading-tight mb-3"
+              style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
             >
               Meet the leadership
             </h2>
-            <p className="font-['Instrument_Serif:Regular',sans-serif] text-[24px] sm:text-[28px] text-[#4b001a]">
+            <p className="text-[24px] sm:text-[30px] text-[#210901]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
               Dedicated kingdom stewards passionately serving Generation Z.
             </p>
           </div>
@@ -597,7 +623,7 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
           <div className="bg-white border border-[#210901] rounded-[24px] p-6 sm:p-10 shadow-[8px_8px_0px_0px_#fbb222] mb-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Founder Image */}
-              <div className="lg:col-span-5">
+              <div className="lg:col-span-5 mb-auto">
                 <div className="relative rounded-[20px] overflow-hidden border border-[#210901] bg-[#07070f] aspect-[4/5] max-h-[460px] mx-auto shadow-sm">
                   <img
                     src={efeImg}
@@ -610,18 +636,30 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
               {/* Founder Info */}
               <div className="lg:col-span-7 flex flex-col gap-4">
                 <h3
-                  className="font-['Gasoek_One',sans-serif] text-[36px] sm:text-[44px] text-[#210901] leading-tight"
-                  style={{ fontFamily: "'Gasoek One', sans-serif" }}
+                  className="text-[36px] sm:text-[44px] text-[#210901] leading-tight"
+                  style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
                 >
                   Efe Eruemulor
                 </h3>
 
-                <p className="font-['Instrument_Serif:Regular',sans-serif] text-[22px] text-[#4b001a]">
-                  Founder, Gen Z's for Christ
+                <p className="text-[22px] text-[#4b001a]" style={{ fontFamily: "'Instrument Serif', serif" }}>
+                  Founder, Gen Zs for Christ
                 </p>
 
                 <p className="text-[#210901]/80 text-[17px] sm:text-[18px] leading-relaxed">
-                  Called by God in September 2023 with a divine mandate to transform the narrative of Generation Z, Efe leads the movement with passion, biblical conviction, and deep faith. Her heart is to see young people rooted in Christ, raised in truth, and equipped to ignite revival across nations.
+                  Efe Eruemulor is the Founder and Convener of Gen Zs for Christ, a global Christian movement with a divine mandate to change the narrative of Generation Z by raising young people who know Christ, live for His glory, and transform the world through the power of the Gospel.
+                  <br />
+                  <br />
+                  In September 2023, God gave Efe the vision to establish a community that would call Generation Z back to Him. What began as a personal encounter with God has grown into a movement committed to raising a generation of revivalists, disciples, leaders, and reformers who boldly represent Christ in every sphere of society.
+                  <br />
+                  <br />
+                  Efe is deeply passionate about revival, discipleship, leadership, and seeing young people discover their identity and purpose in Christ. She believes that Generation Z is not defined by the labels placed on them by society but by what God says about them. Through Gen Zs for Christ, she is committed to equipping young people to grow in intimacy with God, stand firmly on biblical truth, and become ambassadors of Christ who influence their generation with love, excellence, integrity, and the power of the Holy Spirit.
+                  <br />
+                  <br />
+                  Beyond Gen Zs for Christ, Efe is also the Founder of Building Legacies Initiative (BLI), a platform dedicated to raising purpose-driven leaders and equipping individuals to build lives of significance and lasting impact.
+                  <br />
+                  <br />
+                  Her life's mission is to see a generation wholly surrendered to Jesus Christ; a generation that carries His presence, advances His Kingdom, and leaves a legacy that echoes through eternity.
                 </p>
               </div>
             </div>
@@ -646,13 +684,13 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
                 {/* Member Details */}
                 <div className="flex flex-col gap-2 text-center sm:text-left flex-1 justify-center">
                   <h4
-                    className="font-['Gasoek_One',sans-serif] text-[24px] sm:text-[28px] text-[#210901] leading-tight m-0"
-                    style={{ fontFamily: "'Gasoek One', sans-serif" }}
+                    className="text-[32px] sm:text-[40px] text-[#210901] leading-tight"
+                    style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
                   >
                     {leader.name}
                   </h4>
 
-                  <p className="font-['Instrument_Serif:Regular',sans-serif] text-[22px] sm:text-[24px] text-[#4b001a] leading-snug m-0">
+                  <p className="text-[22px] text-[#4b001a]" style={{ fontFamily: "'Instrument Serif', serif" }}>
                     {leader.role}
                   </p>
                 </div>
@@ -662,59 +700,7 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
         </div>
       </section>
 
-      {/* ── 6. Call To Action Banner ─────────────────────────────────────── */}
-      <section className="bg-white w-full py-16 sm:py-20 px-6 sm:px-12 lg:px-20">
-        <div className="max-w-[1240px] mx-auto bg-[#5C59ED] border border-[#210901] rounded-[28px] p-8 sm:p-14 text-center relative overflow-hidden shadow-[8px_8px_0px_0px_#D7F741]">
-          <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center gap-4">
-            <h2
-              className="font-['Gasoek_One',sans-serif] text-[36px] sm:text-[48px] text-white leading-tight m-0"
-              style={{ fontFamily: "'Gasoek One', sans-serif" }}
-            >
-              Be part of the revival
-            </h2>
-
-            <p className="text-white/90 text-[18px] sm:text-[20px] leading-relaxed">
-              Whether you want to join a community hub, volunteer, partner, or connect with our leadership, we would love to hear from you.
-            </p>
-
-            <div className="flex flex-wrap gap-4 justify-center mt-4">
-              <button
-                type="button"
-                onClick={onNavigateContact}
-                className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex gap-[8px] h-[56px] items-center justify-center px-[32px] py-[16px] relative rounded-[16px] shrink-0 cursor-pointer"
-                data-name="button"
-              >
-                <div
-                  aria-hidden
-                  className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[16px]"
-                />
-                <div className="flex flex-col font-['Instrument_Sans:SemiBold',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-[#210901] text-[20px] text-center whitespace-nowrap">
-                  <p className="leading-[0.9]">Get in touch</p>
-                </div>
-                <div className="overflow-clip relative shrink-0 size-[24px]">
-                  <ArrowRight size={20} />
-                </div>
-              </button>
-
-              <a
-                href="https://instagram.com/genzsforchrist"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#D7F741] content-stretch drop-shadow-[4px_4px_0px_#210901] flex gap-[8px] h-[56px] items-center justify-center px-[32px] py-[16px] relative rounded-[16px] shrink-0 cursor-pointer"
-                data-name="button"
-              >
-                <div
-                  aria-hidden
-                  className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[16px]"
-                />
-                <div className="flex flex-col font-['Instrument_Sans:SemiBold',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-[#210901] text-[20px] text-center whitespace-nowrap">
-                  <p className="leading-[0.9]">Follow on Instagram</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CtaSection />
 
       {/* ── 7. Footer (Exact same Footer as Homepage & Contact) ─────────── */}
       <Footer />

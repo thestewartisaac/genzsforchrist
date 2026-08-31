@@ -1,183 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Gasoek+One&family=Instrument+Sans:ital,wdth,wght@0,75..125,100..700;1,75..125,100..700&family=Instrument+Serif:ital@0;1&family=Montserrat:wght@400;600;700;800&family=Noto+Sans:wght@400;700;800&display=swap');
+/* =============================================================================
+   fonts.css
+   =============================================================================
+   Google Fonts are loaded via <link rel="stylesheet"> in index.html — that's
+   the ONLY thing needed. Fonts load correctly in dev and production.
 
-/* ==========================================================================
-   1. Canonical @font-face rules
-   ========================================================================== */
+   To use a font anywhere, set it with a plain inline style in JSX:
 
-/* Gasoek One */
-@font-face {
-  font-family: 'Gasoek One';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Gasoek One'),
-       url('https://fonts.gstatic.com/s/gasoekone/v4/EJRTQgQ_UMUKvDgnlX80zro.ttf') format('truetype');
-}
+     style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
+     style={{ fontFamily: "'Instrument Serif', serif" }}
+     style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
 
-/* Gasoek One Aliases (for Figma / Tailwind arbitrary values) */
-@font-face {
-  font-family: 'Gasoek_One';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Gasoek One'),
-       url('https://fonts.gstatic.com/s/gasoekone/v4/EJRTQgQ_UMUKvDgnlX80zro.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Gasoek_One:Regular';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Gasoek One'),
-       url('https://fonts.gstatic.com/s/gasoekone/v4/EJRTQgQ_UMUKvDgnlX80zro.ttf') format('truetype');
-}
-
-/* Instrument Serif */
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Instrument Serif'),
-       url('https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Instrument Serif Italic'),
-       url('https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zATiw.ttf') format('truetype');
-}
-
-/* Instrument Serif Aliases */
-@font-face {
-  font-family: 'Instrument_Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Instrument Serif'),
-       url('https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Instrument_Serif:Regular';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Instrument Serif'),
-       url('https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-2zI.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Instrument_Serif:Italic';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Instrument Serif Italic'),
-       url('https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zATiw.ttf') format('truetype');
-}
-
-/* Instrument Sans */
-@font-face {
-  font-family: 'Instrument Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Instrument Sans'),
-       url('https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npSTF-Qf1.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Instrument Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: local('Instrument Sans Medium'),
-       url('https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npST3-Qf1.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Instrument Sans';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Instrument Sans SemiBold'),
-       url('https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npSQb_gf1.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Instrument Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local('Instrument Sans Bold'),
-       url('https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npSQi_gf1.ttf') format('truetype');
-}
-
-/* Instrument Sans Aliases */
-@font-face {
-  font-family: 'Instrument_Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Instrument Sans'),
-       url('https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npSTF-Qf1.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Instrument_Sans:Regular';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Instrument Sans'),
-       url('https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npSTF-Qf1.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Instrument_Sans:Medium';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: local('Instrument Sans Medium'),
-       url('https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npST3-Qf1.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Instrument_Sans:SemiBold';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Instrument Sans SemiBold'),
-       url('https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npSQb_gf1.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'Instrument_Sans:Bold';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local('Instrument Sans Bold'),
-       url('https://fonts.gstatic.com/s/instrumentsans/v4/pximypc9vsFDm051Uf6KVwgkfoSxQ0GsQv8ToedPibnr-yp2JGEJOH9npSQi_gf1.ttf') format('truetype');
-}
-
-/* ==========================================================================
-   2. Universal Class Resolvers
-   ========================================================================== */
-[class*="Gasoek_One"],
-[class*="gasoek"] {
-  font-family: 'Gasoek One', 'Gasoek_One', 'Impact', 'Arial Black', sans-serif !important;
-}
-
-[class*="Instrument_Serif"],
-[class*="instrument-serif"] {
-  font-family: 'Instrument Serif', 'Instrument_Serif', Georgia, serif !important;
-}
-
-[class*="Instrument_Sans"],
-[class*="instrument-sans"] {
-  font-family: 'Instrument Sans', 'Instrument_Sans', system-ui, -apple-system, sans-serif !important;
-}
-
-[class*="Montserrat"] {
-  font-family: 'Montserrat', sans-serif !important;
-}
-
-[class*="Noto_Sans"] {
-  font-family: 'Noto Sans', sans-serif !important;
-}
-
-[class*="Noto_Emoji"] {
-  font-family: 'Noto Color Emoji', 'Noto Sans', sans-serif !important;
-}
+   Available families (all loaded by index.html):
+     'Gasoek One'       — display headings, weight 400 only
+     'Instrument Serif' — card headings, subtitles, weight 400 (normal + italic)
+     'Instrument Sans'  — body, buttons, labels, weight 400/500/600/700
+     'Montserrat'       — logo text, weight 400/600/700/800
+     'Noto Sans'        — fallback, weight 400/700/800
+============================================================================= */

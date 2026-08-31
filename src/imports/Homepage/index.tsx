@@ -10,6 +10,7 @@ import imgFrame33 from "./8cfb78f68128e08761f1d331859ac14bf6168641.png";
 import { imgGroup, imgGroup1 } from "./svg-r6r8i";
 import logoColorLight from "@/imports/logo_color-light_transparent.svg";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
+import CtaSection from "@/app/components/CtaSection";
 import FooterSection from "@/imports/Footer/index";
 type CarouselImgCollectionProps = {
   className?: string;
@@ -1169,7 +1170,10 @@ function Humanitarian() {
 function Frame26() {
   return (
     <div className="[word-break:break-word] content-stretch flex flex-col gap-[48px] items-center relative shrink-0 text-[#210901] text-center">
-      <div className="[text-box-edge:cap_alphabetic] [text-box-trim:trim-both] flex flex-col font-['Gasoek_One:Regular',sans-serif] justify-end leading-[0] min-w-full not-italic relative shrink-0 text-[64px] w-[min-content]">
+      <div
+        className="[text-box-edge:cap_alphabetic] [text-box-trim:trim-both] [word-break:break-word] flex flex-col justify-end leading-[0] min-w-full not-italic relative shrink-0 text-[#210901] text-[64px] text-center w-[min-content]"
+        style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
+      >
         <p className="leading-none">Our Story</p>
       </div>
       <p
@@ -1747,7 +1751,7 @@ function Figure() {
   );
 }
 
-function MacBookPro1() {
+function OurStory() {
   return (
     <div
       className="bg-white content-stretch flex flex-col gap-[10px] items-start overflow-clip px-[100px] py-[140px] relative shrink-0 w-full"
@@ -2566,8 +2570,9 @@ export default function Homepage() {
       <Hero />
       <WelcomeSection />
       <Humanitarian />
-      <MacBookPro1 />
+      <OurStory />
       <WhatWeDo />
+      <CtaSection />
       <Footer />
     </div>
   );

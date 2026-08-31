@@ -640,8 +640,12 @@ export default function App() {
           line-height: 1 !important;
         }
 
-        /* Sub-Headings / Card Titles (48px) */
-        [class*="text-[48px]"] {
+        /* Sub-Headings / Card Titles (48px) — scoped to Homepage Figma frames only */
+        [data-name="Homepage"] [class*="text-[48px]"],
+        [data-name^="MacBook Pro 14'"] [class*="text-[48px]"],
+        [data-name="what we do"] [class*="text-[48px]"],
+        [data-name="Welcome section"] [class*="text-[48px]"],
+        [data-name="Humanitarian"] [class*="text-[48px]"] {
           font-family: 'Instrument Serif', serif !important;
           font-size: 3rem !important; /* 48px */
           line-height: 1.05 !important;
@@ -668,15 +672,20 @@ export default function App() {
           line-height: 1.25 !important;
         }
 
-        /* Content Body / Descriptions (24px) */
-        [class*="text-[24px]"] {
+        /* Content Body / Descriptions (24px) — scoped to Homepage Figma frames only */
+        [data-name="Homepage"] [class*="text-[24px]"],
+        [data-name^="MacBook Pro 14'"] [class*="text-[24px]"],
+        [data-name="what we do"] [class*="text-[24px]"],
+        [data-name="Welcome section"] [class*="text-[24px]"],
+        [data-name="Humanitarian"] [class*="text-[24px]"] {
           font-family: 'Instrument Sans', sans-serif !important;
           font-size: 1.5rem !important; /* 24px */
           line-height: 1.35 !important;
         }
 
-        /* Buttons & Badges (20px) */
-        [class*="text-[20px]"],
+        /* Buttons & Badges (20px) — scoped to Homepage Figma frames only */
+        [data-name="Homepage"] [class*="text-[20px]"],
+        [data-name^="MacBook Pro 14'"] [class*="text-[20px]"],
         [data-name="button"] [class*="text-[20px]"],
         [data-name="button"] [class*="text-[24px]"] {
           font-family: 'Instrument Sans', sans-serif !important;
