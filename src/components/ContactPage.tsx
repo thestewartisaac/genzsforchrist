@@ -4,6 +4,7 @@ import { Mail, Phone, Copy, Check, CheckCircle2 } from "lucide-react";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
 import svgPaths from "@/imports/Footer/svg-n1pws9r301";
+import CtaSection from "@/app/components/CtaSection";
 
 function FaInstagram() {
   return (
@@ -391,6 +392,7 @@ export default function ContactPage() {
         </div>
       </section>
 
+      <CtaSection />
       {/* ── 3. Footer (Exact same Footer as Homepage) ───────────────────── */}
       <Footer />
     </div>
