@@ -1892,7 +1892,7 @@ function Frame17() {
         className="font-['Instrument_Sans:Medium',sans-serif] font-medium relative shrink-0 text-[0px] w-full"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
-        <span className="leading-[1.2] text-[24px]">{`From daily prayers to `}</span>
+        <span className="leading-[1.2] text-[20px]">{`From daily prayers to `}</span>
         <span
           className="font-['Instrument_Sans:Bold',sans-serif] font-bold leading-[1.2] text-[24px] uppercase"
           style={{ fontVariationSettings: '"wdth" 100' }}
