@@ -7,6 +7,7 @@ import logoColorDark from "../imports/logo_color-dark_transparent.svg";
 import Homepage from "../imports/Homepage/index";
 import ContactPage from "../components/ContactPage";
 import AboutPage from "../components/AboutPage";
+import EventsPage from "../components/EventsPage";
 import SiteNavbar from "../components/Navbar";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -43,11 +44,12 @@ function TikTokIcon({ size = 24 }: { size?: number }) {
   );
 }
 
-function getInitialPage(): "home" | "contact" | "about" {
+function getInitialPage(): "home" | "contact" | "about" | "events" {
   if (typeof window === "undefined") return "home";
   const hash = window.location.hash.toLowerCase();
   const path = window.location.pathname.toLowerCase();
   if (hash === "#/about" || hash === "#about" || path === "/about" || path.endsWith("/about")) return "about";
+  if (hash === "#/events" || hash === "#events" || path === "/events" || path.endsWith("/events")) return "events";
   if (hash === "#/contact" || hash === "#contact" || path === "/contact" || path.endsWith("/contact")) return "contact";
   return "home";
 }
@@ -58,7 +60,7 @@ export default function App() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const didMount = useRef(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<"home" | "contact" | "about">(getInitialPage);
+  const [currentPage, setCurrentPage] = useState<"home" | "contact" | "about" | "events">(getInitialPage);
 
   // ── Sync URL changes (both hash and popstate) ────────────────────────────
   useEffect(() => {
@@ -75,9 +77,9 @@ export default function App() {
     };
   }, []);
 
-  const navigateTo = (page: "home" | "contact" | "about") => {
+  const navigateTo = (page: "home" | "contact" | "about" | "events") => {
     window.location.hash =
-      page === "about" ? "#/about" : page === "contact" ? "#/contact" : "#/";
+      page === "about" ? "#/about" : page === "events" ? "#/events" : page === "contact" ? "#/contact" : "#/";
     setCurrentPage(page);
     setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -179,6 +181,47 @@ export default function App() {
     const click = () => navigateTo("about");
     targetBtn.addEventListener("click", click);
     return () => targetBtn.removeEventListener("click", click);
+  }, [currentPage]);
+
+  // ── Wire 'See All Activities' button to Events page ───────────────────────
+  useEffect(() => {
+    if (currentPage !== "home") return;
+    const allButtons = document.querySelectorAll<HTMLElement>('[data-name="button"]');
+    let actBtn: HTMLElement | null = null;
+    allButtons.forEach((btn) => {
+      if (btn.textContent?.toLowerCase().includes("see all activities")) {
+        actBtn = btn;
+      }
+    });
+    if (!actBtn) return;
+    const targetBtn = actBtn as HTMLElement;
+    const click = () => navigateTo("events");
+    targetBtn.addEventListener("click", click);
+    return () => targetBtn.removeEventListener("click", click);
+  }, [currentPage]);
+
+  // ── Wire Footer navigation links ──────────────────────────────────────────
+  useEffect(() => {
+    const footerLinks = document.querySelectorAll<HTMLElement>('[data-name="Footer nav"] p');
+    if (!footerLinks.length) return;
+
+    const handlers: Array<{ el: HTMLElement; fn: () => void }> = [];
+    footerLinks.forEach((el) => {
+      const text = el.textContent?.trim().toLowerCase();
+      el.style.cursor = "pointer";
+      const fn = () => {
+        if (text === "home") navigateTo("home");
+        else if (text === "about") navigateTo("about");
+        else if (text === "events") navigateTo("events");
+        else if (text === "contact" || text === "give") navigateTo("contact");
+      };
+      el.addEventListener("click", fn);
+      handlers.push({ el, fn });
+    });
+
+    return () => {
+      handlers.forEach(({ el, fn }) => el.removeEventListener("click", fn));
+    };
   }, [currentPage]);
 
   // ── Scroll-aware sticky nav background ────────────────────────────────────
@@ -2330,12 +2373,14 @@ export default function App() {
               key={label}
               href={
                 label === "About"
-                  ? "/about"
-                  : label === "Contact"
-                    ? "/contact"
-                    : label === "Home"
-                      ? "/"
-                      : `${label.toLowerCase()}`
+                  ? "#/about"
+                  : label === "Events"
+                    ? "#/events"
+                    : label === "Contact"
+                      ? "#/contact"
+                      : label === "Home"
+                        ? "#/"
+                        : `#/${label.toLowerCase()}`
               }
               data-mi
               className="gz-nav-link"
@@ -2343,6 +2388,9 @@ export default function App() {
                 if (label === "About") {
                   e.preventDefault();
                   navigateTo("about");
+                } else if (label === "Events") {
+                  e.preventDefault();
+                  navigateTo("events");
                 } else if (label === "Contact") {
                   e.preventDefault();
                   navigateTo("contact");
@@ -2475,6 +2523,16 @@ export default function App() {
           />
 
           <AboutPage onNavigateContact={() => navigateTo("contact")} />
+        </>
+      ) : currentPage === "events" ? (
+        <>
+          {/* ── Persistent Floating Sticky Navbar for Events Page ── */}
+          <SiteNavbar
+            onNavigateHome={() => navigateTo("home")}
+            onOpenMenu={() => setMenuOpen(true)}
+          />
+
+          <EventsPage onNavigateContact={() => navigateTo("contact")} />
         </>
       ) : currentPage === "contact" ? (
         <>
