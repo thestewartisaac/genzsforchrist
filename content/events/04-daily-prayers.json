@@ -1,0 +1,31 @@
+{
+  "id": "daily-prayers",
+  "title": "Daily Prayers (Nightly Altar)",
+  "subtitle": "Staying consistent and connected with God every single day.",
+  "status": "ongoing",
+  "date": "Every Night • 4 Timezones",
+  "venue": "Live on Telegram Voice Channel",
+  "category": "daily",
+  "image": "/uploads/8cfb78f68128e08761f1d331859ac14bf6168641.png",
+  "cardBg": "bg-[#26103d]",
+  "cardText": "text-white",
+  "titleColor": "text-[#fbb222]",
+  "shadowColor": "#fbb222",
+  "description": "We gather every day for prayer, staying consistent and connected with God across global timezones.",
+  "fullDescription": "We gather every day for prayer, staying consistent and connected with God. A sacred altar where young believers unite nightly across time zones to pray, intercede, and carry His presence.",
+  "highlights": [
+    "WAT (Nigeria & Cameroon): 9:00 PM",
+    "GMT (Ghana & Sierra Leone): 8:00 PM",
+    "BST (United Kingdom): 9:00 PM",
+    "EAT (Kenya): 11:00 PM"
+  ],
+  "timezones": [
+    { "zone": "WAT", "region": "Nigeria & Cameroon", "time": "9:00 PM" },
+    { "zone": "GMT", "region": "Ghana & Sierra Leone", "time": "8:00 PM" },
+    { "zone": "BST", "region": "United Kingdom", "time": "9:00 PM" },
+    { "zone": "EAT", "region": "Kenya", "time": "11:00 PM" }
+  ],
+  "actionUrl": "https://t.me/genzsforchrist",
+  "actionText": "Join Daily Prayers on Telegram",
+  "order": 4
+}

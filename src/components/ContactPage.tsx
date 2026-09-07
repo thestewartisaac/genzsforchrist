@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import confetti from "canvas-confetti";
 import { Mail, Phone, Copy, Check, CheckCircle2 } from "lucide-react";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
 import svgPaths from "@/imports/Footer/svg-n1pws9r301";
 import CtaSection from "@/app/components/CtaSection";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function FaInstagram() {
   return (
@@ -127,8 +131,54 @@ export default function ContactPage() {
     setMessage("");
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const ctx = gsap.context(() => {
+      // 1. Hero Headline Entrance
+      gsap.from(".gz-contact-hero-title", {
+        opacity: 0,
+        y: 36,
+        duration: 0.9,
+        ease: "power3.out",
+      });
+
+      // 2. Split-Screen Layout: Left Column (Channels) and Right Column (Form)
+      gsap.from(".gz-contact-left-col", {
+        opacity: 0,
+        x: -40,
+        duration: 0.85,
+        ease: "power3.out",
+        clearProps: "transform",
+        scrollTrigger: {
+          trigger: ".gz-contact-body",
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      gsap.from(".gz-contact-right-col", {
+        opacity: 0,
+        x: 40,
+        duration: 0.85,
+        ease: "power3.out",
+        clearProps: "transform",
+        scrollTrigger: {
+          trigger: ".gz-contact-body",
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, container);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="bg-white text-[#210901] min-h-screen w-full flex flex-col font-['Instrument_Sans',sans-serif]">
+    <div ref={containerRef} className="gz-grid-bg text-[#210901] min-h-screen w-full flex flex-col font-['Instrument_Sans',sans-serif]">
       {/* ── 1. Hero Section (45% of screen height / 45vh) ─────────────── */}
       <section
         data-name="ContactHero"
@@ -139,7 +189,7 @@ export default function ContactPage() {
 
         <div className="relative z-[3] max-w-3xl mx-auto flex flex-col items-center gap-4">
           <h1
-            className="font-['Gasoek_One',sans-serif] text-[40px] sm:text-[56px] md:text-[72px] text-white leading-[0.95] tracking-tight uppercase m-0"
+            className="gz-contact-hero-title font-['Gasoek_One',sans-serif] text-[40px] sm:text-[56px] md:text-[72px] text-white leading-[0.95] tracking-tight uppercase m-0"
             style={{ fontFamily: "'Gasoek One', sans-serif" }}
           >
             Get in touch
@@ -148,11 +198,11 @@ export default function ContactPage() {
       </section>
 
       {/* ── 2. Clean White Body: Direct Channels + Contact Form ─────────── */}
-      <section className="bg-white w-full py-16 sm:py-20 px-6 sm:px-12 lg:px-20 flex-1">
+      <section className="gz-contact-body bg-transparent w-full py-16 sm:py-20 px-6 sm:px-12 lg:px-20 flex-1">
         <div className="max-w-[1240px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
           {/* Left Column: Direct Channels (5 cols) — No border rings */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
+          <div className="gz-contact-left-col lg:col-span-5 flex flex-col gap-6">
             <div>
               <h2
                 className="font-['Gasoek_One',sans-serif] leading-tight text-[36px] sm:text-[40px] text-[#210901] mb-3"
@@ -242,7 +292,7 @@ export default function ContactPage() {
           </div>
 
           {/* Right Column: Contact Form (7 cols) */}
-          <div className="lg:col-span-7">
+          <div className="gz-contact-right-col lg:col-span-7">
             <div className="bg-white border border-[#210901] rounded-[20px] p-6 sm:p-10 drop-shadow-[6px_6px_0px_#210901]">
               {isSubmitted ? (
                 /* Success Screen */

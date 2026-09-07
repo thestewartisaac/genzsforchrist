@@ -1,0 +1,59 @@
+fragment EventsParts on Events {
+  __typename
+  slug
+  title
+  subtitle
+  status
+  targetDate
+  date
+  venue
+  category
+  image
+  logo
+  cardBg
+  shadowColor
+  description
+  fullDescription
+  highlights
+  timezones {
+    __typename
+    zone
+    region
+    time
+  }
+  actionUrl
+  actionText
+  order
+}
+
+fragment GalleryParts on Gallery {
+  __typename
+  title
+  photos {
+    __typename
+    id
+    src
+    alt
+    caption
+  }
+}
+
+fragment BlogParts on Blog {
+  __typename
+  slug
+  title
+  subtitle
+  excerpt
+  date
+  dateFormatted
+  authorName
+  authorRole
+  authorAvatar
+  category
+  coverImage
+  readTime
+  featured
+  tags
+  content
+  order
+}

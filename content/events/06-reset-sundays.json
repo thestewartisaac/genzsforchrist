@@ -1,0 +1,24 @@
+{
+  "id": "reset-sundays",
+  "title": "Reset Sundays",
+  "subtitle": "Relax, connect, gist, and enjoy game nights for the new week.",
+  "status": "ongoing",
+  "date": "Every Other Sunday • 8:00 PM WAT",
+  "venue": "Online on Telegram",
+  "category": "weekly",
+  "image": "/uploads/f5348df6f5df01c615d6da6ff80c656b0f3abad1.png",
+  "cardBg": "bg-[#d7f741]",
+  "cardText": "text-[#210901]",
+  "titleColor": "text-[#210901]",
+  "shadowColor": "#210901",
+  "description": "A time to relax, connect, gist, and sometimes enjoy game nights as we refresh and prepare for the new week.",
+  "fullDescription": "A time to relax, connect, gist, and sometimes enjoy game nights as we refresh and prepare for the new week. Genuine, warm fellowship with brothers and sisters in Christ.",
+  "highlights": [
+    "Relaxed hangout & open gist session",
+    "Christian game nights & fun trivia",
+    "Spiritual recharge before stepping into Monday"
+  ],
+  "actionUrl": "https://t.me/genzsforchrist",
+  "actionText": "Join Reset Sunday on Telegram",
+  "order": 6
+}

@@ -20,7 +20,7 @@ export default function CtaSection({
     instagramUrl = "https://instagram.com/genzsforchrist",
 }: CtaSectionProps) {
     return (
-        <section className="bg-white w-full py-18 sm:py-20 px-6 sm:px-12 lg:px-20">
+        <section className="bg-transparent w-full py-18 sm:py-20 px-6 sm:px-12 lg:px-20">
             <div className="max-w-[1240px] mx-auto bg-[#07070f] border border-[#210901] rounded-[28px] p-12 sm:p-20 text-center relative overflow-hidden shadow-[8px_8px_0px_0px_#fbb222]">
                 <HeroAnimatedBackground />
                 <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center gap-4">

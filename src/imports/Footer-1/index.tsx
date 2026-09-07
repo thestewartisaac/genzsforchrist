@@ -106,7 +106,7 @@ function Frame4() {
         Events
       </p>
       <p className="relative shrink-0 w-full" style={{ fontVariationSettings: '"wdth" 100' }}>
-        Give
+        Foundation
       </p>
       <p className="relative shrink-0 w-full" style={{ fontVariationSettings: '"wdth" 100' }}>
         Contact

@@ -286,48 +286,148 @@ interface AboutPageProps {
 }
 
 export default function AboutPage({ onNavigateContact }: AboutPageProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const lineFillRef = useRef<HTMLDivElement>(null);
   const [activeIdx, setActiveIdx] = useState(0);
 
-  // ── Scroll-driven timeline line animation ─────────────────────────────────
+  // ── GSAP Scroll & Entrance Animations ──────────────────────────────────────
   useEffect(() => {
-    const timeline = timelineRef.current;
-    const lineFill = lineFillRef.current;
-    if (!timeline || !lineFill) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const st = ScrollTrigger.create({
-      trigger: timeline,
-      start: "top 60%",
-      end: "bottom 70%",
-      scrub: 0.2,
-      onUpdate: (self) => {
-        if (lineFill) {
-          lineFill.style.height = `${Math.min(100, Math.max(0, self.progress * 100))}%`;
-        }
-      },
-    });
+    const ctx = gsap.context(() => {
+      // 1. Hero Entrance
+      const heroTitle = container.querySelector(".gz-about-hero-title");
+      if (heroTitle) {
+        gsap.from(heroTitle, {
+          y: 36,
+          opacity: 0,
+          duration: 0.9,
+          ease: "power3.out",
+        });
+      }
 
-    const milestoneTriggers = GENESIS_MILESTONES.map((_, index) => {
-      const el = document.getElementById(`genesis-item-${index}`);
-      if (!el) return null;
-      return ScrollTrigger.create({
-        trigger: el,
-        start: "top 45%",
-        end: "bottom 45%",
-        onEnter: () => setActiveIdx(index),
-        onEnterBack: () => setActiveIdx(index),
+      // 2. Section Headings Reveal
+      container.querySelectorAll<HTMLElement>(".gz-about-section-header").forEach((header) => {
+        gsap.from(header, {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          clearProps: "transform",
+          scrollTrigger: {
+            trigger: header,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       });
-    });
 
-    return () => {
-      st.kill();
-      milestoneTriggers.forEach((t) => t?.kill());
-    };
+      // 3. Mission & Vision Cards (Pop-In)
+      const visionMissionCards = container.querySelectorAll<HTMLElement>(".gz-about-vision-card, .gz-about-mission-card");
+      if (visionMissionCards.length > 0) {
+        gsap.from(visionMissionCards, {
+          opacity: 0,
+          scale: 0.94,
+          y: 36,
+          duration: 0.85,
+          ease: "back.out(1.4)",
+          stagger: 0.15,
+          clearProps: "all",
+          scrollTrigger: {
+            trigger: ".gz-about-vision-grid",
+            start: "top 82%",
+            toggleActions: "play none none none",
+          },
+        });
+      }
+
+      // 4. Core Values 6 Cards Stagger
+      const valueCards = container.querySelectorAll<HTMLElement>(".gz-about-value-card");
+      if (valueCards.length > 0) {
+        gsap.from(valueCards, {
+          opacity: 0,
+          y: 36,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.1,
+          clearProps: "all",
+          scrollTrigger: {
+            trigger: ".gz-about-values-grid",
+            start: "top 82%",
+            toggleActions: "play none none none",
+          },
+        });
+      }
+
+      // 5. Timeline Line Scrub & Milestone Activation
+      const timeline = timelineRef.current;
+      const lineFill = lineFillRef.current;
+      if (timeline && lineFill) {
+        ScrollTrigger.create({
+          trigger: timeline,
+          start: "top 60%",
+          end: "bottom 70%",
+          scrub: 0.2,
+          onUpdate: (self) => {
+            lineFill.style.height = `${Math.min(100, Math.max(0, self.progress * 100))}%`;
+          },
+        });
+      }
+
+      GENESIS_MILESTONES.forEach((_, index) => {
+        const el = document.getElementById(`genesis-item-${index}`);
+        if (!el) return;
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top 45%",
+          end: "bottom 45%",
+          onEnter: () => setActiveIdx(index),
+          onEnterBack: () => setActiveIdx(index),
+        });
+      });
+
+      // 6. Leadership Section
+      const founderCard = container.querySelector<HTMLElement>(".gz-about-founder-card");
+      if (founderCard) {
+        gsap.from(founderCard, {
+          opacity: 0,
+          y: 36,
+          duration: 0.85,
+          ease: "power3.out",
+          clearProps: "all",
+          scrollTrigger: {
+            trigger: founderCard,
+            start: "top 82%",
+            toggleActions: "play none none none",
+          },
+        });
+      }
+
+      const teamCards = container.querySelectorAll<HTMLElement>(".gz-about-team-card");
+      if (teamCards.length > 0) {
+        gsap.from(teamCards, {
+          opacity: 0,
+          y: 32,
+          duration: 0.85,
+          ease: "power3.out",
+          stagger: 0.15,
+          clearProps: "all",
+          scrollTrigger: {
+            trigger: ".gz-about-team-grid",
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
+      }
+    }, container);
+
+    return () => ctx.revert();
   }, []);
 
   return (
-    <div className="bg-white text-[#210901] min-h-screen w-full flex flex-col font-['Instrument_Sans',sans-serif]">
+    <div ref={containerRef} className="gz-grid-bg text-[#210901] min-h-screen w-full flex flex-col font-['Instrument_Sans',sans-serif]">
       {/* ── 1. Hero Section (45% of view height) ─────────────────────────── */}
       <section
         data-name="ContactHero"
@@ -344,7 +444,7 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
 
         <div className="relative z-[3] max-w-3xl mx-auto flex flex-col items-center gap-4">
           <h1
-            className="text-[40px] sm:text-[56px] md:text-[72px] text-white leading-[0.95] tracking-tight uppercase m-0"
+            className="gz-about-hero-title text-[40px] sm:text-[56px] md:text-[72px] text-white leading-[0.95] tracking-tight uppercase m-0"
             style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
           >
             About Us
@@ -353,10 +453,10 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       </section>
 
       {/* ── 2. Mission & Vision Statements (Exact Homepage Card Style) ───── */}
-      <section className="bg-white w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
+      <section className="bg-transparent w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
         <div className="max-w-[1312px] mx-auto">
           {/* Section Heading & Subtitle */}
-          <div className="text-center max-w-[960px] mx-auto mb-14 sm:mb-18 flex flex-col gap-4">
+          <div className="gz-about-section-header text-center max-w-[960px] mx-auto mb-14 sm:mb-18 flex flex-col gap-4">
             <h2
               className="text-[32px] sm:text-[40px] md:text-[42px] text-[#210901] leading-tight m-0"
               style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
@@ -371,10 +471,10 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+          <div className="gz-about-vision-grid grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
 
             {/* Vision Card (Exact Homepage Style with Functional Eye) */}
-            <div className="bg-[#26103d] content-stretch flex flex-col gap-[36px] items-center justify-center overflow-clip py-[64px] sm:py-[80px] lg:py-[96px] px-[40px] sm:px-[56px] lg:px-[64px] relative rounded-[16px] shadow-[10px_10px_0px_0px_#fbb222] shrink-0 w-full min-h-[464px]">
+            <div className="gz-about-vision-card bg-[#26103d] content-stretch flex flex-col gap-[36px] items-center justify-center overflow-clip py-[64px] sm:py-[80px] lg:py-[96px] px-[40px] sm:px-[56px] lg:px-[64px] relative rounded-[16px] shadow-[10px_10px_0px_0px_#fbb222] shrink-0 w-full min-h-[464px]">
               <div className="content-stretch flex flex-col gap-[36px] items-center relative shrink-0 w-full">
                 <Eye />
                 <div
@@ -395,7 +495,7 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
             </div>
 
             {/* Mission Card (Exact Homepage Style with Functional Target) */}
-            <div className="bg-[#00434a] content-stretch flex flex-col gap-[36px] items-center justify-center overflow-clip py-[64px] sm:py-[80px] lg:py-[96px] px-[40px] sm:px-[56px] lg:px-[64px] relative rounded-[16px] shadow-[10px_10px_0px_0px_#d7f741] shrink-0 w-full min-h-[464px]">
+            <div className="gz-about-mission-card bg-[#00434a] content-stretch flex flex-col gap-[36px] items-center justify-center overflow-clip py-[64px] sm:py-[80px] lg:py-[96px] px-[40px] sm:px-[56px] lg:px-[64px] relative rounded-[16px] shadow-[10px_10px_0px_0px_#d7f741] shrink-0 w-full min-h-[464px]">
               <div className="content-stretch flex flex-col gap-[36px] items-center relative shrink-0 w-full">
                 <Target />
                 <div
@@ -422,7 +522,7 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       {/* ── 3. Core Values (Same Card Design as Mission & Vision Cards) ──── */}
       <section className="bg-[#FFEDE5] w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
         <div className="max-w-[1312px] mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="gz-about-section-header text-center max-w-2xl mx-auto mb-16">
             <h2
               className="text-[40px] sm:text-[56px] text-[#210901] leading-tight mb-3"
               style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
@@ -434,11 +534,11 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+          <div className="gz-about-values-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {CORE_VALUES.map((val) => (
               <div
                 key={val.num}
-                className={`${val.bgColor} ${val.shadow} content-stretch flex flex-col gap-[36px] items-center justify-center overflow-clip py-[64px] sm:py-[80px] lg:py-[88px] px-[36px] sm:px-[48px] relative rounded-[16px] shrink-0 w-full min-h-[464px] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all`}
+                className={`gz-about-value-card ${val.bgColor} ${val.shadow} content-stretch flex flex-col gap-[36px] items-center justify-center overflow-clip py-[64px] sm:py-[80px] lg:py-[88px] px-[36px] sm:px-[48px] relative rounded-[16px] shrink-0 w-full min-h-[464px] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all`}
               >
                 {/* Header: Sticker Icon + Title in Instrument Serif */}
                 <div className="content-stretch flex flex-col gap-[36px] items-center relative shrink-0 w-full">
@@ -472,11 +572,11 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       </section>
 
       {/* ── 4. The Genesis (Interactive Timeline with Animated Scroll Line) ── */}
-      <section className="bg-white w-full py-24 sm:py-32 px-6 sm:px-12 lg:px-20">
+      <section className="bg-transparent w-full py-24 sm:py-32 px-6 sm:px-12 lg:px-20">
         <div className="max-w-[1240px] mx-auto">
 
           {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-20 sm:mb-28">
+          <div className="gz-about-section-header text-center max-w-3xl mx-auto mb-20 sm:mb-28">
             <h2
               className="text-[40px] sm:text-[56px] text-[#210901] leading-tight mb-3"
               style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
@@ -607,7 +707,7 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       {/* ── 5. Leadership & Team Section ─────────────────────────────────── */}
       <section className="bg-[#d7f741] w-full py-20 sm:py-28 px-6 sm:px-12 lg:px-20">
         <div className="max-w-[1240px] mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="gz-about-section-header text-center max-w-2xl mx-auto mb-16">
             <h2
               className="text-[40px] sm:text-[56px] text-[#210901] leading-tight mb-3"
               style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
@@ -620,7 +720,7 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
           </div>
 
           {/* Founder Feature Card */}
-          <div className="bg-white border border-[#210901] rounded-[24px] p-6 sm:p-10 shadow-[8px_8px_0px_0px_#fbb222] mb-12">
+          <div className="gz-about-founder-card bg-white border border-[#210901] rounded-[24px] p-6 sm:p-10 shadow-[8px_8px_0px_0px_#fbb222] mb-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Founder Image */}
               <div className="lg:col-span-5 mb-auto">
@@ -666,11 +766,11 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
           </div>
 
           {/* Key Leadership Members (Ruth Alkali & Tochukwu Emmanuel Ndukauba) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="gz-about-team-grid grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             {LEADERSHIP_MEMBERS.map((leader, i) => (
               <div
                 key={i}
-                className={`bg-white border border-[#210901] rounded-[24px] p-6 sm:p-8 ${leader.shadowColor} flex flex-col sm:flex-row gap-6 items-center sm:items-start transition-all hover:translate-x-[-2px] hover:translate-y-[-2px]`}
+                className={`gz-about-team-card bg-white border border-[#210901] rounded-[24px] p-6 sm:p-8 ${leader.shadowColor} flex flex-col sm:flex-row gap-6 items-center sm:items-start transition-all hover:translate-x-[-2px] hover:translate-y-[-2px]`}
               >
                 {/* Member Photo */}
                 <div className="relative rounded-[18px] overflow-hidden border border-[#210901] bg-[#07070f] size-62 sm:size-40 shrink-0 shadow-sm">
@@ -700,7 +800,7 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
         </div>
       </section>
 
-      <CtaSection />
+      <CtaSection onNavigateContact={onNavigateContact} />
 
       {/* ── 7. Footer (Exact same Footer as Homepage & Contact) ─────────── */}
       <Footer />

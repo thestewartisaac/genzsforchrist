@@ -2,6 +2,8 @@ packages:
   - '.'
 allowBuilds:
   '@tailwindcss/oxide': false
+  better-sqlite3: true
+  core-js: true
   esbuild: false
 supportedArchitectures:
   os:

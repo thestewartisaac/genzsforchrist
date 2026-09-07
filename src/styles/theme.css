@@ -2,7 +2,7 @@
 
 :root {
   --font-size: 16px;
-  --background: #fff4ef;
+  --background: #ffffff;
   --foreground: #210901;
   --card: #ffffff;
   --card-foreground: #210901;
@@ -125,7 +125,22 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: #ffffff;
+    background-image: 
+      linear-gradient(to right, rgba(33, 9, 1, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(33, 9, 1, 0.055) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-repeat: repeat;
+    color: var(--foreground);
+  }
+
+  .gz-grid-bg {
+    background-color: #ffffff !important;
+    background-image: 
+      linear-gradient(to right, rgba(33, 9, 1, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(33, 9, 1, 0.055) 1px, transparent 1px) !important;
+    background-size: 60px 60px !important;
+    background-repeat: repeat !important;
   }
 
   /**

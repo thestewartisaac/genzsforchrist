@@ -8,6 +8,8 @@ import Homepage from "../imports/Homepage/index";
 import ContactPage from "../components/ContactPage";
 import AboutPage from "../components/AboutPage";
 import EventsPage from "../components/EventsPage";
+import FoundationPage from "../components/FoundationPage";
+import BlogPage from "../components/BlogPage";
 import SiteNavbar from "../components/Navbar";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -26,7 +28,8 @@ const NAV_LINKS = [
   "Home",
   "About",
   "Events",
-  "Give",
+  "Foundation",
+  "Blog",
   "Contact",
 ];
 
@@ -44,14 +47,57 @@ function TikTokIcon({ size = 24 }: { size?: number }) {
   );
 }
 
-function getInitialPage(): "home" | "contact" | "about" | "events" {
+function getInitialPage(): "home" | "contact" | "about" | "events" | "foundation" | "blog" {
   if (typeof window === "undefined") return "home";
+  const path = window.location.pathname.toLowerCase().replace(/\/+$/, "") || "/";
   const hash = window.location.hash.toLowerCase();
-  const path = window.location.pathname.toLowerCase();
-  if (hash === "#/about" || hash === "#about" || path === "/about" || path.endsWith("/about")) return "about";
-  if (hash === "#/events" || hash === "#events" || path === "/events" || path.endsWith("/events")) return "events";
-  if (hash === "#/contact" || hash === "#contact" || path === "/contact" || path.endsWith("/contact")) return "contact";
+
+  // Standard path checks
+  if (path === "/about") return "about";
+  if (path === "/events" || path.startsWith("/events/")) return "events";
+  if (path === "/blog" || path.startsWith("/blog/")) return "blog";
+  if (path === "/foundation" || path === "/give") return "foundation";
+  if (path === "/contact") return "contact";
+
+  // Legacy hash fallback
+  if (hash === "#/about" || hash === "#about") return "about";
+  if (hash.startsWith("#/events") || hash.startsWith("#events")) return "events";
+  if (hash.startsWith("#/blog") || hash.startsWith("#blog")) return "blog";
+  if (
+    hash === "#/foundation" ||
+    hash === "#foundation" ||
+    hash === "#/give" ||
+    hash === "#give"
+  )
+    return "foundation";
+  if (hash === "#/contact" || hash === "#contact") return "contact";
+
   return "home";
+}
+
+function getEventIdFromUrl(): string | undefined {
+  if (typeof window === "undefined") return undefined;
+  // Standard path: /events/:id
+  const pathMatch = window.location.pathname.match(/^\/events\/([a-zA-Z0-9_-]+)/i);
+  if (pathMatch) return pathMatch[1];
+
+  // Fallback hash: #/events/:id
+  const hashMatch = window.location.hash.match(/^#\/events\/([a-zA-Z0-9_-]+)/i) ||
+    window.location.hash.match(/^#(?:events\/)([a-zA-Z0-9_-]+)/i);
+  if (hashMatch) return hashMatch[1];
+  return undefined;
+}
+
+function getBlogSlugFromUrl(): string | undefined {
+  if (typeof window === "undefined") return undefined;
+  // Standard path: /blog/:slug
+  const pathMatch = window.location.pathname.match(/^\/blog\/([a-zA-Z0-9_-]+)/i);
+  if (pathMatch) return pathMatch[1];
+
+  // Fallback hash: #/blog/:slug
+  const hashMatch = window.location.hash.match(/^#\/blog\/([a-zA-Z0-9_-]+)/i);
+  if (hashMatch) return hashMatch[1];
+  return undefined;
 }
 
 export default function App() {
@@ -60,27 +106,69 @@ export default function App() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const didMount = useRef(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<"home" | "contact" | "about" | "events">(getInitialPage);
+  const [currentPage, setCurrentPage] = useState<"home" | "contact" | "about" | "events" | "foundation" | "blog">(getInitialPage);
+  const [, setNavKey] = useState(0);
 
-  // ── Sync URL changes (both hash and popstate) ────────────────────────────
+  const triggerRouteUpdate = () => setNavKey((k) => k + 1);
+
+  // ── Normalize legacy hash URLs to standard clean paths ─────────────────
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.startsWith("#/")) {
+      const cleanPath = hash.slice(1);
+      window.history.replaceState(null, "", cleanPath);
+    } else if (hash.startsWith("#") && hash.length > 1) {
+      const cleanName = hash.slice(1).toLowerCase();
+      if (["about", "events", "foundation", "give", "blog", "contact"].includes(cleanName)) {
+        window.history.replaceState(null, "", `/${cleanName === "give" ? "foundation" : cleanName}`);
+      }
+    }
+  }, []);
+
+  // ── Sync URL changes (popstate and hashchange) ──────────────────────────
   useEffect(() => {
     const handleNavigation = () => {
+      // Normalize legacy hash if present
+      if (window.location.hash.startsWith("#/")) {
+        const cleanPath = window.location.hash.slice(1);
+        window.history.replaceState(null, "", cleanPath);
+      }
       const page = getInitialPage();
       setCurrentPage(page);
+      triggerRouteUpdate();
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
-    window.addEventListener("hashchange", handleNavigation);
     window.addEventListener("popstate", handleNavigation);
+    window.addEventListener("hashchange", handleNavigation);
     return () => {
-      window.removeEventListener("hashchange", handleNavigation);
       window.removeEventListener("popstate", handleNavigation);
+      window.removeEventListener("hashchange", handleNavigation);
     };
   }, []);
 
-  const navigateTo = (page: "home" | "contact" | "about" | "events") => {
-    window.location.hash =
-      page === "about" ? "#/about" : page === "events" ? "#/events" : page === "contact" ? "#/contact" : "#/";
+  const navigateTo = (
+    page: "home" | "contact" | "about" | "events" | "foundation" | "blog",
+    subPath?: string
+  ) => {
+    const targetPath = subPath
+      ? subPath
+      : page === "about"
+        ? "/about"
+        : page === "events"
+          ? "/events"
+          : page === "foundation"
+            ? "/foundation"
+            : page === "blog"
+              ? "/blog"
+              : page === "contact"
+                ? "/contact"
+                : "/";
+
+    if (window.location.pathname !== targetPath || window.location.hash) {
+      window.history.pushState(null, "", targetPath);
+    }
     setCurrentPage(page);
+    triggerRouteUpdate();
     setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -200,20 +288,40 @@ export default function App() {
     return () => targetBtn.removeEventListener("click", click);
   }, [currentPage]);
 
+  // ── Wire 'Learn more' button under Faith in Action to Foundation page ──────
+  useEffect(() => {
+    if (currentPage !== "home") return;
+    const allButtons = document.querySelectorAll<HTMLElement>('[data-name="button"]');
+    let fndBtn: HTMLElement | null = null;
+    allButtons.forEach((btn) => {
+      if (btn.textContent?.toLowerCase().includes("learn more")) {
+        fndBtn = btn;
+      }
+    });
+    if (!fndBtn) return;
+    const targetBtn = fndBtn as HTMLElement;
+    const click = () => navigateTo("foundation");
+    targetBtn.addEventListener("click", click);
+    return () => targetBtn.removeEventListener("click", click);
+  }, [currentPage]);
+
   // ── Wire Footer navigation links ──────────────────────────────────────────
   useEffect(() => {
-    const footerLinks = document.querySelectorAll<HTMLElement>('[data-name="Footer nav"] p');
+    const footerLinks = document.querySelectorAll<HTMLElement>('[data-name="Footer nav"] a, [data-name="Footer nav"] p');
     if (!footerLinks.length) return;
 
-    const handlers: Array<{ el: HTMLElement; fn: () => void }> = [];
+    const handlers: Array<{ el: HTMLElement; fn: (e: Event) => void }> = [];
     footerLinks.forEach((el) => {
       const text = el.textContent?.trim().toLowerCase();
       el.style.cursor = "pointer";
-      const fn = () => {
+      const fn = (e: Event) => {
+        e.preventDefault();
         if (text === "home") navigateTo("home");
         else if (text === "about") navigateTo("about");
         else if (text === "events") navigateTo("events");
-        else if (text === "contact" || text === "give") navigateTo("contact");
+        else if (text === "foundation" || text === "give") navigateTo("foundation");
+        else if (text === "blog") navigateTo("blog");
+        else if (text === "contact") navigateTo("contact");
       };
       el.addEventListener("click", fn);
       handlers.push({ el, fn });
@@ -223,6 +331,51 @@ export default function App() {
       handlers.forEach(({ el, fn }) => el.removeEventListener("click", fn));
     };
   }, [currentPage]);
+
+  // ── Intercept internal SPA link clicks seamlessly ────────────────────────
+  useEffect(() => {
+    const handleGlobalClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) {
+        return;
+      }
+      const anchor = (e.target as HTMLElement).closest("a");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href");
+      if (!href) return;
+
+      if (
+        anchor.target === "_blank" ||
+        anchor.hasAttribute("download") ||
+        href.startsWith("http://") ||
+        href.startsWith("https://") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:")
+      ) {
+        return;
+      }
+
+      // Handle standard /page or legacy #/page
+      let cleanPath = href;
+      if (cleanPath.startsWith("#/")) {
+        cleanPath = cleanPath.slice(1);
+      }
+      if (cleanPath.startsWith("/")) {
+        e.preventDefault();
+        const pathOnly = cleanPath.split("?")[0].split("#")[0] || "/";
+        let page: "home" | "contact" | "about" | "events" | "foundation" | "blog" = "home";
+        if (pathOnly === "/about") page = "about";
+        else if (pathOnly === "/events" || pathOnly.startsWith("/events/")) page = "events";
+        else if (pathOnly === "/foundation" || pathOnly === "/give") page = "foundation";
+        else if (pathOnly === "/blog" || pathOnly.startsWith("/blog/")) page = "blog";
+        else if (pathOnly === "/contact") page = "contact";
+
+        navigateTo(page, cleanPath);
+      }
+    };
+
+    document.addEventListener("click", handleGlobalClick);
+    return () => document.removeEventListener("click", handleGlobalClick);
+  }, []);
 
   // ── Scroll-aware sticky nav background ────────────────────────────────────
   useEffect(() => {
@@ -447,6 +600,19 @@ export default function App() {
   return (
     <>
       <style>{`
+        /* ═══════════════════════════════════════════════════════════════
+           NEOBRUTALIST GRID BACKGROUND
+        ═══════════════════════════════════════════════════════════════ */
+        body,
+        .gz-grid-bg {
+          background-color: #ffffff !important;
+          background-image: 
+            linear-gradient(to right, rgba(33, 9, 1, 0.055) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(33, 9, 1, 0.055) 1px, transparent 1px) !important;
+          background-size: 60px 60px !important;
+          background-repeat: repeat !important;
+        }
+
         /* ═══════════════════════════════════════════════════════════════
            HERO SECTION (DESKTOP DEFAULT - 100% UNTOUCHED)
         ═══════════════════════════════════════════════════════════════ */
@@ -2313,7 +2479,10 @@ export default function App() {
           }}
         >
           {/* Official Light Transparent Logo */}
-          <div style={{ display: "flex", alignItems: "center", height: "48px", width: "135px", marginLeft: "-6px" }}>
+          <div
+            onClick={() => navigateTo("home")}
+            style={{ display: "flex", alignItems: "center", height: "48px", width: "135px", marginLeft: "-6px", cursor: "pointer" }}
+          >
             <img
               src={logoColorLight}
               alt="GenZs for Christ"
@@ -2373,32 +2542,33 @@ export default function App() {
               key={label}
               href={
                 label === "About"
-                  ? "#/about"
+                  ? "/about"
                   : label === "Events"
-                    ? "#/events"
-                    : label === "Contact"
-                      ? "#/contact"
-                      : label === "Home"
-                        ? "#/"
-                        : `#/${label.toLowerCase()}`
+                    ? "/events"
+                    : label === "Foundation"
+                      ? "/foundation"
+                      : label === "Blog"
+                        ? "/blog"
+                        : label === "Contact"
+                          ? "/contact"
+                          : "/"
               }
               data-mi
               className="gz-nav-link"
               onClick={(e) => {
+                e.preventDefault();
                 if (label === "About") {
-                  e.preventDefault();
                   navigateTo("about");
                 } else if (label === "Events") {
-                  e.preventDefault();
                   navigateTo("events");
+                } else if (label === "Foundation" || label === "Give") {
+                  navigateTo("foundation");
+                } else if (label === "Blog") {
+                  navigateTo("blog");
                 } else if (label === "Contact") {
-                  e.preventDefault();
                   navigateTo("contact");
-                } else if (label === "Home") {
-                  e.preventDefault();
-                  navigateTo("home");
                 } else {
-                  setMenuOpen(false);
+                  navigateTo("home");
                 }
               }}
             >
@@ -2427,7 +2597,7 @@ export default function App() {
         >
           {/* CTA — data-name="button" picks up the site-wide hover rule */}
           <a
-            href="#/contact"
+            href="/contact"
             data-mi
             data-name="button"
             className="gz-cta-btn"
@@ -2532,7 +2702,33 @@ export default function App() {
             onOpenMenu={() => setMenuOpen(true)}
           />
 
-          <EventsPage onNavigateContact={() => navigateTo("contact")} />
+          <EventsPage
+            onNavigateContact={() => navigateTo("contact")}
+            selectedEventId={getEventIdFromUrl()}
+          />
+        </>
+      ) : currentPage === "foundation" ? (
+        <>
+          {/* ── Persistent Floating Sticky Navbar for Foundation Page ── */}
+          <SiteNavbar
+            onNavigateHome={() => navigateTo("home")}
+            onOpenMenu={() => setMenuOpen(true)}
+          />
+
+          <FoundationPage onNavigateContact={() => navigateTo("contact")} />
+        </>
+      ) : currentPage === "blog" ? (
+        <>
+          {/* ── Persistent Floating Sticky Navbar for Blog Page ── */}
+          <SiteNavbar
+            onNavigateHome={() => navigateTo("home")}
+            onOpenMenu={() => setMenuOpen(true)}
+          />
+
+          <BlogPage
+            onNavigateContact={() => navigateTo("contact")}
+            selectedSlug={getBlogSlugFromUrl()}
+          />
         </>
       ) : currentPage === "contact" ? (
         <>
@@ -2545,7 +2741,7 @@ export default function App() {
           <ContactPage />
         </>
       ) : (
-        <div ref={rootRef} style={{ minHeight: "100svh" }}>
+        <div ref={rootRef} className="gz-grid-bg" style={{ minHeight: "100svh" }}>
           <Homepage />
         </div>
       )}

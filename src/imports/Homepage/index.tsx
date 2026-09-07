@@ -1754,7 +1754,7 @@ function Figure() {
 function OurStory() {
   return (
     <div
-      className="bg-white content-stretch flex flex-col gap-[10px] items-start overflow-clip px-[100px] py-[140px] relative shrink-0 w-full"
+      className="bg-transparent content-stretch flex flex-col gap-[10px] items-start overflow-clip px-[100px] py-[140px] relative shrink-0 w-full"
       data-name="MacBook Pro 14' - 4"
     >
       <Frame28 />
@@ -2320,7 +2320,7 @@ function Frame39() {
         className="relative shrink-0 w-full"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
-        Give
+        Foundation
       </p>
     </div>
   );
@@ -2564,7 +2564,7 @@ function Footer() {
 export default function Homepage() {
   return (
     <div
-      className="bg-white content-stretch flex flex-col items-start relative size-full"
+      className="gz-grid-bg content-stretch flex flex-col items-start relative size-full"
       data-name="Homepage"
     >
       <Hero />

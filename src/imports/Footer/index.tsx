@@ -222,36 +222,48 @@ function Frame5() {
 function Frame4() {
   return (
     <div className="[word-break:break-word] content-stretch flex flex-col font-['Instrument_Sans:Medium',sans-serif] font-medium gap-[5px] items-start leading-[1.143] relative shrink-0 text-[#210901] text-[24px]">
-      <p
-        className="relative shrink-0 w-full"
+      <a
+        href="/"
+        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         Home
-      </p>
-      <p
-        className="relative shrink-0 w-full"
+      </a>
+      <a
+        href="/about"
+        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         About
-      </p>
-      <p
-        className="relative shrink-0 w-full"
+      </a>
+      <a
+        href="/events"
+        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         Events
-      </p>
-      <p
-        className="relative shrink-0 w-full"
+      </a>
+      <a
+        href="/foundation"
+        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
-        Give
-      </p>
-      <p
-        className="relative shrink-0 w-full"
+        Foundation
+      </a>
+      <a
+        href="/blog"
+        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
+        style={{ fontVariationSettings: '"wdth" 100' }}
+      >
+        Blog
+      </a>
+      <a
+        href="/contact"
+        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         Contact
-      </p>
+      </a>
     </div>
   );
 }

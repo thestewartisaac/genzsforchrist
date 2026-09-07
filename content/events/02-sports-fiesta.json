@@ -1,0 +1,25 @@
+{
+  "id": "sports-fiesta",
+  "title": "Sports Fiesta & Fellowship",
+  "subtitle": "Building relationships, unity, & sharing Christ through sports.",
+  "status": "upcoming",
+  "targetDate": "2026-09-20T09:00:00Z",
+  "date": "September 20, 2026 • 9:00 AM",
+  "venue": "Main Bowl National Sports Arena, Lagos",
+  "category": "fun",
+  "image": "/uploads/ee341b9f360edf170fcd9e64ea7bbdd2baed5316.png",
+  "cardBg": "bg-[#e62129]",
+  "cardText": "text-white",
+  "titleColor": "text-[#FED33D]",
+  "shadowColor": "#210901",
+  "description": "At Gen Z’s for Christ, we believe that sports are more than just games—they are a powerful platform for building relationships, fostering unity, and sharing the love of Christ.",
+  "fullDescription": "At Gen Z’s for Christ, we believe that sports are more than just games—they are a powerful platform for building relationships, fostering unity, and sharing the love of Christ.\n\nThrough our sports fellowship initiatives, we create an environment where young people can connect, grow in friendship, and strengthen their faith while engaging in healthy competition and recreation.",
+  "highlights": [
+    "Football tournament, basketball match-ups & track races",
+    "Praise, barbecue & networking hangout",
+    "Open gospel invitation and salvation altar call"
+  ],
+  "actionUrl": "https://instagram.com/genzsforchrist",
+  "actionText": "Register / Join Sports Team",
+  "order": 2
+}

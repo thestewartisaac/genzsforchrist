@@ -1,0 +1,29 @@
+{
+  "title": "Photo Gallery",
+  "photos": [
+    {
+      "id": "1",
+      "src": "/uploads/8cfb78f68128e08761f1d331859ac14bf6168641.png",
+      "alt": "Gen Zs Worshiping at Secret Place",
+      "caption": "Passionate Worship"
+    },
+    {
+      "id": "2",
+      "src": "/uploads/f5348df6f5df01c615d6da6ff80c656b0f3abad1.png",
+      "alt": "Altar Encounters",
+      "caption": "Altar Fire"
+    },
+    {
+      "id": "3",
+      "src": "/uploads/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png",
+      "alt": "Humanitarian Outreach and Fellowship",
+      "caption": "Community Love"
+    },
+    {
+      "id": "4",
+      "src": "/uploads/62c881e484a773c554732bdd3a21d7feea1dd996.png",
+      "alt": "Youth Fellowship",
+      "caption": "Unashamed Faith"
+    }
+  ]
+}
