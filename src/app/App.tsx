@@ -658,36 +658,41 @@ export default function App() {
           inset: 0 !important;
         }
 
-        /* ─── Fixed Header Bar (Frame32) ─── */
-        [data-name="Hero"] > div[class*="justify-between"] {
+        /* ─── Global Reusable Sticky Header Navigation ─── */
+        .gz-header-nav {
           position: fixed !important;
           top: 0 !important;
           left: 0 !important;
           right: 0 !important;
           width: 100% !important;
           max-width: 100% !important;
+          height: 8rem !important;
           display: flex !important;
+          flex-direction: row !important;
           align-items: center !important;
           justify-content: space-between !important;
-          padding: 16px clamp(20px, 6.6vw, 100px) !important;
+          padding: 0 clamp(2rem, 6.5vw, 6.25rem) !important;
           box-sizing: border-box !important;
-          z-index: 900 !important;
+          z-index: 100 !important;
           background: transparent;
           transition: background 0.35s ease;
+          margin: 0 !important;
         }
 
-        /* Hamburger button (Frame1) - remove animation, just shadow on hover */
-        [data-name="Hero"] > div[class*="justify-between"] [class*="size-[56px]"],
-        .gz-header-nav [class*="size-[56px]"] {
+        /* Hamburger button inside header - pinned to the far right */
+        .gz-header-nav [class*="size-[56px]"],
+        .gz-header-nav [data-name="button"] {
           cursor: pointer !important;
           display: flex !important;
           align-items: center !important;
           justify-content: center !important;
           transition: filter 0.15s ease !important;
           transform: none !important;
+          margin: 0 0 0 auto !important;
+          flex-shrink: 0 !important;
         }
-        [data-name="Hero"] > div[class*="justify-between"] [class*="size-[56px]"]:hover,
-        .gz-header-nav [class*="size-[56px]"]:hover {
+        .gz-header-nav [class*="size-[56px]"]:hover,
+        .gz-header-nav [data-name="button"]:hover {
           filter: drop-shadow(0 0 0 transparent) !important;
           transform: none !important;
         }
@@ -757,12 +762,12 @@ export default function App() {
         }
 
         /* Hero CTA Button: "Join the Community" (Desktop) */
-        [data-name="Hero"] [data-name="button"] {
+        [data-name="Hero"] [data-name="button"]:not([class*="size-[56px]"]) {
           cursor: pointer !important;
           transition: filter 0.15s ease, transform 0.15s ease;
           border: none !important;
         }
-        [data-name="Hero"] [data-name="button"]:hover {
+        [data-name="Hero"] [data-name="button"]:not([class*="size-[56px]"]):hover {
           filter: drop-shadow(0 0 0 transparent) !important;
           transform: translate(2px, 2px);
         }
@@ -1000,7 +1005,7 @@ export default function App() {
           width: 100% !important;
           gap: 1.125rem !important;
         }
-        [data-name="Hero"] [data-name="button"] {
+        [data-name="Hero"] [data-name="button"]:not([class*="size-[56px]"]) {
           margin: 0 auto !important;
           align-self: center !important;
         }
@@ -1191,13 +1196,18 @@ export default function App() {
            BREAKPOINTS
         ═══════════════════════════════════════════════════════════════ */
         @media (max-width: 900px) {
-          /* Hero Header on Tablet */
-          [data-name="Hero"] > div[class*="justify-between"] {
+          /* Header on Tablet */
+          [data-name="Hero"] > div[class*="justify-between"],
+          .gz-header-nav {
             padding: 1rem 2rem !important;
+            height: 6rem !important;
           }
-          [data-name="Hero"] > div[class*="justify-between"] [class*="size-[56px]"] {
+          [data-name="Hero"] > div[class*="justify-between"] [class*="size-[56px]"],
+          .gz-header-nav [class*="size-[56px]"],
+          .gz-header-nav [data-name="button"] {
             width: 3.125rem !important;
             height: 3.125rem !important;
+            margin: 0 0 0 auto !important;
           }
 
           /* Hero Content on Tablet */
@@ -1244,7 +1254,7 @@ export default function App() {
           }
 
           /* Hero CTA Button on Tablet */
-          [data-name="Hero"] [data-name="button"] {
+          [data-name="Hero"] [data-name="button"]:not([class*="size-[56px]"]) {
             min-height: 3.25rem !important;
             padding: 0.875rem 2rem !important;
           }
@@ -1404,10 +1414,12 @@ export default function App() {
             transition: background 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease !important;
           }
           [data-name="Hero"] > div[class*="justify-between"] [class*="size-[56px]"],
-          .gz-header-nav [class*="size-[56px]"] {
+          .gz-header-nav [class*="size-[56px]"],
+          .gz-header-nav [data-name="button"] {
             width: 2.75rem !important;
             height: 2.75rem !important;
             filter: drop-shadow(3px 3px 0px #fbb222) !important;
+            margin: 0 0 0 auto !important;
           }
           [data-name="Hero"] > div[class*="justify-between"] [class*="w-[151.938px]"],
           .gz-header-nav [class*="w-[151.938px]"] {
@@ -1602,7 +1614,7 @@ export default function App() {
           }
 
           /* Hero CTA Button on Mobile */
-          [data-name="Hero"] [data-name="button"] {
+          [data-name="Hero"] [data-name="button"]:not([class*="size-[56px]"]) {
             min-height: 3.125rem !important;
             padding: 0.875rem 1.75rem !important;
             filter: drop-shadow(3px 3px 0px #fbb222) !important;
@@ -2701,78 +2713,36 @@ export default function App() {
         </div>
       </div>
 
+      {/* ── Persistent Floating Sticky Navbar across all pages (Single Source of Truth) ── */}
+      <SiteNavbar
+        onNavigateHome={() => navigateTo("home")}
+        onOpenMenu={() => setMenuOpen(true)}
+      />
+
       {currentPage === "about" ? (
-        <>
-          {/* ── Persistent Floating Sticky Navbar for About Page ── */}
-          <SiteNavbar
-            onNavigateHome={() => navigateTo("home")}
-            onOpenMenu={() => setMenuOpen(true)}
-          />
-
-          <AboutPage onNavigateContact={() => navigateTo("contact")} />
-        </>
+        <AboutPage onNavigateContact={() => navigateTo("contact")} />
       ) : currentPage === "events" ? (
-        <>
-          {/* ── Persistent Floating Sticky Navbar for Events Page ── */}
-          <SiteNavbar
-            onNavigateHome={() => navigateTo("home")}
-            onOpenMenu={() => setMenuOpen(true)}
-          />
-
-          <EventsPage
-            onNavigateContact={() => navigateTo("contact")}
-            selectedEventId={getEventIdFromUrl()}
-          />
-        </>
+        <EventsPage
+          onNavigateContact={() => navigateTo("contact")}
+          selectedEventId={getEventIdFromUrl()}
+        />
       ) : currentPage === "foundation" ? (
-        <>
-          {/* ── Persistent Floating Sticky Navbar for Foundation Page ── */}
-          <SiteNavbar
-            onNavigateHome={() => navigateTo("home")}
-            onOpenMenu={() => setMenuOpen(true)}
-          />
-
-          <FoundationPage onNavigateContact={() => navigateTo("contact")} />
-        </>
+        <FoundationPage onNavigateContact={() => navigateTo("contact")} />
       ) : currentPage === "blog" ? (
-        <>
-          {/* ── Persistent Floating Sticky Navbar for Blog Page ── */}
-          <SiteNavbar
-            onNavigateHome={() => navigateTo("home")}
-            onOpenMenu={() => setMenuOpen(true)}
-          />
-
-          <BlogPage
-            onNavigateContact={() => navigateTo("contact")}
-            selectedSlug={getBlogSlugFromUrl()}
-          />
-        </>
+        <BlogPage
+          onNavigateContact={() => navigateTo("contact")}
+          selectedSlug={getBlogSlugFromUrl()}
+        />
       ) : currentPage === "contact" ? (
-        <>
-          {/* ── Persistent Floating Sticky Navbar for Contact Page ── */}
-          <SiteNavbar
-            onNavigateHome={() => navigateTo("home")}
-            onOpenMenu={() => setMenuOpen(true)}
-          />
-
-          <ContactPage />
-        </>
+        <ContactPage />
       ) : currentPage === "404" ? (
-        <>
-          {/* ── Persistent Floating Sticky Navbar for 404 Page ── */}
-          <SiteNavbar
-            onNavigateHome={() => navigateTo("home")}
-            onOpenMenu={() => setMenuOpen(true)}
-          />
-
-          <NotFoundPage
-            onNavigateHome={() => navigateTo("home")}
-            onNavigateEvents={() => navigateTo("events")}
-            onNavigateBlog={() => navigateTo("blog")}
-            onNavigateAbout={() => navigateTo("about")}
-            onNavigateContact={() => navigateTo("contact")}
-          />
-        </>
+        <NotFoundPage
+          onNavigateHome={() => navigateTo("home")}
+          onNavigateEvents={() => navigateTo("events")}
+          onNavigateBlog={() => navigateTo("blog")}
+          onNavigateAbout={() => navigateTo("about")}
+          onNavigateContact={() => navigateTo("contact")}
+        />
       ) : (
         <div ref={rootRef} className="gz-grid-bg" style={{ minHeight: "100svh" }}>
           <Homepage />

@@ -81,7 +81,7 @@ export default function SiteNavbar({
   onOpenMenu?: () => void;
 }) {
   return (
-    <header className="gz-header-nav">
+    <header className="gz-header-nav fixed top-0 left-0 right-0 w-full max-w-full flex items-center justify-between z-[100] box-border">
       <div
         className="h-[60px] relative shrink-0 w-[151.938px] flex items-center cursor-pointer"
         onClick={onNavigateHome}
