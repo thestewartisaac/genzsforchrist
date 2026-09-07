@@ -59,7 +59,8 @@ export function MenuToggleBtn({ onClick }: { onClick?: () => void }) {
   return (
     <div
       onClick={onClick}
-      className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex items-center justify-center p-[8px] relative rounded-[16px] shrink-0 size-[56px] cursor-pointer hover:translate-x-[-2px] hover:translate-y-[-2px] hover:drop-shadow-[6px_6px_0px_#fbb222] active:translate-x-0 active:translate-y-0 active:drop-shadow-[2px_2px_0px_#fbb222] transition-all"
+      data-name="button"
+      className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex items-center justify-center p-[8px] relative rounded-[16px] shrink-0 size-[56px] cursor-pointer"
       aria-label="Open Menu"
       role="button"
     >

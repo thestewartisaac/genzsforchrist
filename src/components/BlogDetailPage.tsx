@@ -16,6 +16,7 @@ import {
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
 import CtaSection from "@/app/components/CtaSection";
+import NotFoundPage from "@/components/NotFoundPage";
 import {
   BlogPost,
   getBlogPostBySlug,
@@ -116,7 +117,34 @@ export default function BlogDetailPage({
   onSelectPost?: (slug: string) => void;
 }) {
   const [copied, setCopied] = useState(false);
-  const post = getBlogPostBySlug(slug) || getBlogPosts()[0];
+  const post = getBlogPostBySlug(slug);
+
+  if (!post) {
+    return (
+      <NotFoundPage
+        title="Story Not Found"
+        subtitle="The article or testimony you're looking for doesn't exist."
+        description="This story may have been relocated, archived, or is being drafted by our editorial team. You can explore all our other published stories below."
+        backLabel="Browse All Stories"
+        onBack={onBack}
+        onNavigateHome={() => {
+          window.history.pushState(null, "", "/");
+          window.dispatchEvent(new PopStateEvent("popstate"));
+        }}
+        onNavigateEvents={() => {
+          window.history.pushState(null, "", "/events");
+          window.dispatchEvent(new PopStateEvent("popstate"));
+        }}
+        onNavigateBlog={onBack}
+        onNavigateAbout={() => {
+          window.history.pushState(null, "", "/about");
+          window.dispatchEvent(new PopStateEvent("popstate"));
+        }}
+        onNavigateContact={onNavigateContact}
+      />
+    );
+  }
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

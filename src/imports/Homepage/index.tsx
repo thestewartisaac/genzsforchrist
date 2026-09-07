@@ -587,7 +587,10 @@ function Menu2SvgrepoCom() {
 
 function Frame1() {
   return (
-    <div className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex items-center justify-center p-[8px] relative rounded-[16px] shrink-0 size-[56px]">
+    <div
+      data-name="button"
+      className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex items-center justify-center p-[8px] relative rounded-[16px] shrink-0 size-[56px] cursor-pointer"
+    >
       <div
         aria-hidden
         className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[16px]"

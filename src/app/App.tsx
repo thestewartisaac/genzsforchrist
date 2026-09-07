@@ -11,6 +11,7 @@ import EventsPage from "../components/EventsPage";
 import FoundationPage from "../components/FoundationPage";
 import BlogPage from "../components/BlogPage";
 import SiteNavbar from "../components/Navbar";
+import NotFoundPage from "../components/NotFoundPage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,7 +31,6 @@ const NAV_LINKS = [
   "Events",
   "Foundation",
   "Blog",
-  "Contact",
 ];
 
 function TikTokIcon({ size = 24 }: { size?: number }) {
@@ -47,10 +47,31 @@ function TikTokIcon({ size = 24 }: { size?: number }) {
   );
 }
 
-function getInitialPage(): "home" | "contact" | "about" | "events" | "foundation" | "blog" {
+export type AppPage = "home" | "contact" | "about" | "events" | "foundation" | "blog" | "404";
+
+function getInitialPage(): AppPage {
   if (typeof window === "undefined") return "home";
   const path = window.location.pathname.toLowerCase().replace(/\/+$/, "") || "/";
   const hash = window.location.hash.toLowerCase();
+
+  // Root or empty path
+  if (path === "/" || path === "") {
+    // Legacy hash fallback
+    if (hash === "#/about" || hash === "#about") return "about";
+    if (hash.startsWith("#/events") || hash.startsWith("#events")) return "events";
+    if (hash.startsWith("#/blog") || hash.startsWith("#blog")) return "blog";
+    if (
+      hash === "#/foundation" ||
+      hash === "#foundation" ||
+      hash === "#/give" ||
+      hash === "#give"
+    )
+      return "foundation";
+    if (hash === "#/contact" || hash === "#contact") return "contact";
+    if (hash === "#/404" || hash === "#404") return "404";
+    if (hash === "" || hash === "#" || hash === "#/" || hash === "#home") return "home";
+    return "404";
+  }
 
   // Standard path checks
   if (path === "/about") return "about";
@@ -58,21 +79,10 @@ function getInitialPage(): "home" | "contact" | "about" | "events" | "foundation
   if (path === "/blog" || path.startsWith("/blog/")) return "blog";
   if (path === "/foundation" || path === "/give") return "foundation";
   if (path === "/contact") return "contact";
+  if (path === "/404") return "404";
 
-  // Legacy hash fallback
-  if (hash === "#/about" || hash === "#about") return "about";
-  if (hash.startsWith("#/events") || hash.startsWith("#events")) return "events";
-  if (hash.startsWith("#/blog") || hash.startsWith("#blog")) return "blog";
-  if (
-    hash === "#/foundation" ||
-    hash === "#foundation" ||
-    hash === "#/give" ||
-    hash === "#give"
-  )
-    return "foundation";
-  if (hash === "#/contact" || hash === "#contact") return "contact";
-
-  return "home";
+  // Unindexed or non-existent path
+  return "404";
 }
 
 function getEventIdFromUrl(): string | undefined {
@@ -106,7 +116,7 @@ export default function App() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const didMount = useRef(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<"home" | "contact" | "about" | "events" | "foundation" | "blog">(getInitialPage);
+  const [currentPage, setCurrentPage] = useState<AppPage>(getInitialPage);
   const [, setNavKey] = useState(0);
 
   const triggerRouteUpdate = () => setNavKey((k) => k + 1);
@@ -119,7 +129,7 @@ export default function App() {
       window.history.replaceState(null, "", cleanPath);
     } else if (hash.startsWith("#") && hash.length > 1) {
       const cleanName = hash.slice(1).toLowerCase();
-      if (["about", "events", "foundation", "give", "blog", "contact"].includes(cleanName)) {
+      if (["about", "events", "foundation", "give", "blog", "contact", "404"].includes(cleanName)) {
         window.history.replaceState(null, "", `/${cleanName === "give" ? "foundation" : cleanName}`);
       }
     }
@@ -147,7 +157,7 @@ export default function App() {
   }, []);
 
   const navigateTo = (
-    page: "home" | "contact" | "about" | "events" | "foundation" | "blog",
+    page: AppPage,
     subPath?: string
   ) => {
     const targetPath = subPath
@@ -162,7 +172,9 @@ export default function App() {
               ? "/blog"
               : page === "contact"
                 ? "/contact"
-                : "/";
+                : page === "404"
+                  ? "/404"
+                  : "/";
 
     if (window.location.pathname !== targetPath || window.location.hash) {
       window.history.pushState(null, "", targetPath);
@@ -362,12 +374,14 @@ export default function App() {
       if (cleanPath.startsWith("/")) {
         e.preventDefault();
         const pathOnly = cleanPath.split("?")[0].split("#")[0] || "/";
-        let page: "home" | "contact" | "about" | "events" | "foundation" | "blog" = "home";
+        let page: AppPage = "home";
         if (pathOnly === "/about") page = "about";
         else if (pathOnly === "/events" || pathOnly.startsWith("/events/")) page = "events";
         else if (pathOnly === "/foundation" || pathOnly === "/give") page = "foundation";
         else if (pathOnly === "/blog" || pathOnly.startsWith("/blog/")) page = "blog";
         else if (pathOnly === "/contact") page = "contact";
+        else if (pathOnly === "/" || pathOnly === "") page = "home";
+        else page = "404";
 
         navigateTo(page, cleanPath);
       }
@@ -662,17 +676,20 @@ export default function App() {
           transition: background 0.35s ease;
         }
 
-        /* Hamburger button (Frame1) - remove inner double border */
-        [data-name="Hero"] > div[class*="justify-between"] [class*="size-[56px]"] {
+        /* Hamburger button (Frame1) - remove animation, just shadow on hover */
+        [data-name="Hero"] > div[class*="justify-between"] [class*="size-[56px]"],
+        .gz-header-nav [class*="size-[56px]"] {
           cursor: pointer !important;
           display: flex !important;
           align-items: center !important;
           justify-content: center !important;
-          transition: filter 0.15s ease, transform 0.15s ease;
+          transition: filter 0.15s ease !important;
+          transform: none !important;
         }
-        [data-name="Hero"] > div[class*="justify-between"] [class*="size-[56px]"]:hover {
+        [data-name="Hero"] > div[class*="justify-between"] [class*="size-[56px]"]:hover,
+        .gz-header-nav [class*="size-[56px]"]:hover {
           filter: drop-shadow(0 0 0 transparent) !important;
-          transform: scale(1.04);
+          transform: none !important;
         }
 
         /* ─── Hero Content Wrapper (Frame25) ─── */
@@ -2739,6 +2756,22 @@ export default function App() {
           />
 
           <ContactPage />
+        </>
+      ) : currentPage === "404" ? (
+        <>
+          {/* ── Persistent Floating Sticky Navbar for 404 Page ── */}
+          <SiteNavbar
+            onNavigateHome={() => navigateTo("home")}
+            onOpenMenu={() => setMenuOpen(true)}
+          />
+
+          <NotFoundPage
+            onNavigateHome={() => navigateTo("home")}
+            onNavigateEvents={() => navigateTo("events")}
+            onNavigateBlog={() => navigateTo("blog")}
+            onNavigateAbout={() => navigateTo("about")}
+            onNavigateContact={() => navigateTo("contact")}
+          />
         </>
       ) : (
         <div ref={rootRef} className="gz-grid-bg" style={{ minHeight: "100svh" }}>
