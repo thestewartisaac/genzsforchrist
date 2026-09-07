@@ -224,42 +224,42 @@ function Frame4() {
     <div className="[word-break:break-word] content-stretch flex flex-col font-['Instrument_Sans:Medium',sans-serif] font-medium gap-[5px] items-start leading-[1.143] relative shrink-0 text-[#210901] text-[24px]">
       <a
         href="/"
-        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
+        className="relative shrink-0 w-full text-[#210901] hover:opacity-75 transition-opacity cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         Home
       </a>
       <a
         href="/about"
-        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
+        className="relative shrink-0 w-full text-[#210901] hover:opacity-75 transition-opacity cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         About
       </a>
       <a
         href="/events"
-        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
+        className="relative shrink-0 w-full text-[#210901] hover:opacity-75 transition-opacity cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         Events
       </a>
       <a
         href="/foundation"
-        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
+        className="relative shrink-0 w-full text-[#210901] hover:opacity-75 transition-opacity cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         Foundation
       </a>
       <a
         href="/blog"
-        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
+        className="relative shrink-0 w-full text-[#210901] hover:opacity-75 transition-opacity cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         Blog
       </a>
       <a
         href="/contact"
-        className="relative shrink-0 w-full hover:text-[#fbb222] transition-colors cursor-pointer"
+        className="relative shrink-0 w-full text-[#210901] hover:opacity-75 transition-opacity cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         Contact
@@ -281,15 +281,18 @@ function FooterNav() {
 
 function FaInstagram() {
   return (
-    <div
-      className="relative shrink-0 size-[32px]"
+    <a
+      href="https://instagram.com/genzsforchrist"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative shrink-0 size-[32px] hover:opacity-75 transition-opacity"
+      aria-label="Instagram"
       data-name="faInstagram"
     >
       <svg
-        className="absolute block inset-0 size-full"
+        className="block size-full"
         fill="none"
         height="32"
-        preserveAspectRatio="none"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -301,21 +304,24 @@ function FaInstagram() {
           />
         </g>
       </svg>
-    </div>
+    </a>
   );
 }
 
 function FaTiktok() {
   return (
-    <div
-      className="relative shrink-0 size-[32px]"
+    <a
+      href="https://tiktok.com/@genzsforchrist"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative shrink-0 size-[32px] hover:opacity-75 transition-opacity"
+      aria-label="TikTok"
       data-name="faTiktok"
     >
       <svg
-        className="absolute block inset-0 size-full"
+        className="block size-full"
         fill="none"
         height="32"
-        preserveAspectRatio="none"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -327,25 +333,28 @@ function FaTiktok() {
           />
         </g>
       </svg>
-    </div>
+    </a>
   );
 }
 
 function FaFacebookF() {
   return (
-    <div
-      className="relative shrink-0 size-[32px]"
+    <a
+      href="https://facebook.com/genzsforchrist"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative shrink-0 size-[32px] hover:opacity-75 transition-opacity"
+      aria-label="Facebook"
       data-name="faFacebookF"
     >
       <svg
-        className="absolute block inset-0 size-full"
+        className="block size-full"
         fill="none"
         height="32"
-        preserveAspectRatio="none"
         viewBox="0 0 32 32"
         width="32"
       >
-        <g clipPath="url(#clip0_0_10)" id="faFacebookF">
+        <g clipPath="url(#clip_footer_fb)" id="faFacebookF">
           <path
             d={svgPaths.p2edc6ef0}
             fill="#210901"
@@ -353,26 +362,29 @@ function FaFacebookF() {
           />
         </g>
         <defs>
-          <clipPath id="clip0_0_10">
+          <clipPath id="clip_footer_fb">
             <rect fill="white" height="32" width="32" />
           </clipPath>
         </defs>
       </svg>
-    </div>
+    </a>
   );
 }
 
 function FaYoutube() {
   return (
-    <div
-      className="relative shrink-0 size-[32px]"
+    <a
+      href="https://youtube.com/@genzsforchrist"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative shrink-0 size-[32px] hover:opacity-75 transition-opacity"
+      aria-label="YouTube"
       data-name="faYoutube"
     >
       <svg
-        className="absolute block inset-0 size-full"
+        className="block size-full"
         fill="none"
         height="32"
-        preserveAspectRatio="none"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -384,7 +396,7 @@ function FaYoutube() {
           />
         </g>
       </svg>
-    </div>
+    </a>
   );
 }
 
@@ -429,12 +441,13 @@ function Frame1() {
       >
         © GenZs for Christ, 2026
       </p>
-      <p
-        className="relative shrink-0"
+      <a
+        href="#"
+        className="relative shrink-0 text-[#210901] hover:opacity-75 transition-opacity cursor-pointer"
         style={{ fontVariationSettings: '"wdth" 100' }}
       >
         Privacy Policy
-      </p>
+      </a>
     </div>
   );
 }

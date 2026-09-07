@@ -58,7 +58,7 @@ export default function CtaSection({
                             href={instagramUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-[#fff] content-stretch drop-shadow-[4px_4px_0px_red] flex gap-[8px] h-[56px] items-center justify-center px-[32px] py-[16px] relative rounded-[16px] shrink-0 cursor-pointer"
+                            className="bg-[#fff] content-stretch drop-shadow-[4px_4px_0px_#D7F741] flex gap-[8px] h-[56px] items-center justify-center px-[32px] py-[16px] relative rounded-[16px] shrink-0 cursor-pointer"
                             data-name="button"
                         >
                             <div
