@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tinacms dev -c \"vite\"",
     "dev:vite": "vite",
-    "build": "vite build",
+    "build": "tinacms build && vite build",
+    "build:vite": "vite build",
     "build:tina": "tinacms build && vite build",
     "tina:dev": "tinacms dev",
     "tina:build": "tinacms build"

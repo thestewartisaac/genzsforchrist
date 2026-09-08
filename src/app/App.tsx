@@ -81,7 +81,15 @@ function getInitialPage(): AppPage {
   if (path === "/blog" || path.startsWith("/blog/")) return "blog";
   if (path === "/foundation" || path === "/give") return "foundation";
   if (path === "/contact") return "contact";
-  if (path === "/admin") return "admin";
+  if (
+    path === "/admin" ||
+    path === "/admin/index.html" ||
+    path.startsWith("/admin/") ||
+    path === "/portal" ||
+    path === "/dashboard" ||
+    path === "/admin-portal"
+  )
+    return "admin";
   if (path === "/404") return "404";
 
   // Unindexed or non-existent path
