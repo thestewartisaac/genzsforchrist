@@ -12,6 +12,7 @@ import FoundationPage from "../components/FoundationPage";
 import BlogPage from "../components/BlogPage";
 import SiteNavbar from "../components/Navbar";
 import NotFoundPage from "../components/NotFoundPage";
+import AdminPortal from "../components/AdminPortal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,7 +48,7 @@ function TikTokIcon({ size = 24 }: { size?: number }) {
   );
 }
 
-export type AppPage = "home" | "contact" | "about" | "events" | "foundation" | "blog" | "404";
+export type AppPage = "home" | "contact" | "about" | "events" | "foundation" | "blog" | "admin" | "404";
 
 function getInitialPage(): AppPage {
   if (typeof window === "undefined") return "home";
@@ -68,6 +69,7 @@ function getInitialPage(): AppPage {
     )
       return "foundation";
     if (hash === "#/contact" || hash === "#contact") return "contact";
+    if (hash === "#/admin" || hash === "#admin") return "admin";
     if (hash === "#/404" || hash === "#404") return "404";
     if (hash === "" || hash === "#" || hash === "#/" || hash === "#home") return "home";
     return "404";
@@ -79,6 +81,7 @@ function getInitialPage(): AppPage {
   if (path === "/blog" || path.startsWith("/blog/")) return "blog";
   if (path === "/foundation" || path === "/give") return "foundation";
   if (path === "/contact") return "contact";
+  if (path === "/admin") return "admin";
   if (path === "/404") return "404";
 
   // Unindexed or non-existent path
@@ -129,7 +132,7 @@ export default function App() {
       window.history.replaceState(null, "", cleanPath);
     } else if (hash.startsWith("#") && hash.length > 1) {
       const cleanName = hash.slice(1).toLowerCase();
-      if (["about", "events", "foundation", "give", "blog", "contact", "404"].includes(cleanName)) {
+      if (["about", "events", "foundation", "give", "blog", "contact", "admin", "404"].includes(cleanName)) {
         window.history.replaceState(null, "", `/${cleanName === "give" ? "foundation" : cleanName}`);
       }
     }
@@ -172,9 +175,11 @@ export default function App() {
               ? "/blog"
               : page === "contact"
                 ? "/contact"
-                : page === "404"
-                  ? "/404"
-                  : "/";
+                : page === "admin"
+                  ? "/admin"
+                  : page === "404"
+                    ? "/404"
+                    : "/";
 
     if (window.location.pathname !== targetPath || window.location.hash) {
       window.history.pushState(null, "", targetPath);
@@ -380,6 +385,7 @@ export default function App() {
         else if (pathOnly === "/foundation" || pathOnly === "/give") page = "foundation";
         else if (pathOnly === "/blog" || pathOnly.startsWith("/blog/")) page = "blog";
         else if (pathOnly === "/contact") page = "contact";
+        else if (pathOnly === "/admin") page = "admin";
         else if (pathOnly === "/" || pathOnly === "") page = "home";
         else page = "404";
 
@@ -2713,11 +2719,13 @@ export default function App() {
         </div>
       </div>
 
-      {/* ── Persistent Floating Sticky Navbar across all pages (Single Source of Truth) ── */}
-      <SiteNavbar
-        onNavigateHome={() => navigateTo("home")}
-        onOpenMenu={() => setMenuOpen(true)}
-      />
+      {/* ── Persistent Floating Sticky Navbar across public pages ── */}
+      {currentPage !== "admin" && (
+        <SiteNavbar
+          onNavigateHome={() => navigateTo("home")}
+          onOpenMenu={() => setMenuOpen(true)}
+        />
+      )}
 
       {currentPage === "about" ? (
         <AboutPage onNavigateContact={() => navigateTo("contact")} />
@@ -2735,6 +2743,8 @@ export default function App() {
         />
       ) : currentPage === "contact" ? (
         <ContactPage />
+      ) : currentPage === "admin" ? (
+        <AdminPortal onNavigateHome={() => navigateTo("home")} />
       ) : currentPage === "404" ? (
         <NotFoundPage
           onNavigateHome={() => navigateTo("home")}

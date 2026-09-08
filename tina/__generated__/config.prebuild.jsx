@@ -4,8 +4,8 @@ var branch = process.env.GITHUB_BRANCH || process.env.VERCEL_GIT_COMMIT_REF || p
 var config_default = defineConfig({
   branch,
   // Get this from tina.io once you register your project
-  clientId: process.env.TINA_CLIENT_ID || process.env.NEXT_PUBLIC_TINA_CLIENT_ID || null,
-  token: process.env.TINA_TOKEN || null,
+  clientId: process.env.TINA_CLIENT_ID || process.env.NEXT_PUBLIC_TINA_CLIENT_ID || process.env.VITE_TINA_CLIENT_ID || typeof import.meta !== "undefined" && import.meta.env?.VITE_TINA_CLIENT_ID || "37dc3ba5-1d37-49ce-a046-bcb3ae4a98ba",
+  token: process.env.TINA_TOKEN || process.env.VITE_TINA_TOKEN || typeof import.meta !== "undefined" && import.meta.env?.VITE_TINA_TOKEN || "72bebcdc29641394171b225f1de0c76d8614a04c",
   build: {
     outputFolder: "admin",
     publicFolder: "public"

@@ -29,16 +29,7 @@ import imgOutreach2 from "@/imports/Homepage/62c881e484a773c554732bdd3a21d7feea1
 import imgOutreach3 from "@/imports/Homepage/3486655db75152df5483c1fb8bc7cc9bd4d5b749.png";
 import imgOutreach4 from "@/imports/Homepage/ee341b9f360edf170fcd9e64ea7bbdd2baed5316.png";
 
-// Declare Paystack inline global
-declare global {
-  interface Window {
-    PaystackPop?: {
-      setup: (options: any) => {
-        openIframe: () => void;
-      };
-    };
-  }
-}
+import { initiatePaystackDonation } from "@/lib/paystackService";
 
 export default function FoundationPage({
   onNavigateContact,
@@ -64,33 +55,6 @@ export default function FoundationPage({
   const [lastDonation, setLastDonation] = useState<{ amount: number; name: string } | null>(null);
   const [activePhoto, setActivePhoto] = useState<string | null>(null);
 
-  // Helper to ensure Paystack script is fully loaded
-  const ensurePaystackLoaded = (): Promise<boolean> => {
-    return new Promise((resolve) => {
-      if (typeof window === "undefined") {
-        resolve(false);
-        return;
-      }
-      if (window.PaystackPop) {
-        resolve(true);
-        return;
-      }
-      const existing = document.getElementById("paystack-script") as HTMLScriptElement | null;
-      if (existing) {
-        existing.addEventListener("load", () => resolve(!!window.PaystackPop));
-        setTimeout(() => resolve(!!window.PaystackPop), 1500);
-        return;
-      }
-      const script = document.createElement("script");
-      script.id = "paystack-script";
-      script.src = "https://js.paystack.co/v1/inline.js";
-      script.async = true;
-      script.onload = () => resolve(!!window.PaystackPop);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
-
   const handleCopyAccount = (e: React.MouseEvent) => {
     e.preventDefault();
     navigator.clipboard.writeText(BANK_DETAILS.accountNumber);
@@ -105,45 +69,40 @@ export default function FoundationPage({
     return selectedAmount;
   };
 
-  const triggerPaystackPopup = (keyToUse: string, amountToPay: number) => {
+  const triggerDonation = async (keyToUse?: string) => {
+    const finalAmount = getEffectiveAmount();
+    setIsProcessing(true);
+
     try {
-      const handler = window.PaystackPop?.setup({
-        key: keyToUse.trim(),
+      await initiatePaystackDonation({
         email: donorEmail.trim(),
-        amount: Math.round(amountToPay * 100), // in kobo
-        currency: "NGN",
-        ref: `GZC-${Date.now()}-${Math.floor(Math.random() * 1000000)}`,
-        metadata: {
-          custom_fields: [
-            {
-              display_name: "Donor Name",
-              variable_name: "donor_name",
-              value: donorName.trim() || "Kind Partner",
-            },
-          ],
-        },
-        callback: () => {
+        amount: finalAmount,
+        donorName: donorName.trim() || "Kind Partner",
+        publicKey: keyToUse,
+        onSuccess: (donation) => {
           setIsProcessing(false);
           setLastDonation({
-            amount: amountToPay,
-            name: donorName.trim() || "Kind Partner",
+            amount: donation.amount,
+            name: donation.name,
           });
           setShowSuccessModal(true);
         },
         onClose: () => {
           setIsProcessing(false);
         },
+        onError: (err) => {
+          setIsProcessing(false);
+          alert(err.message || "Payment could not be completed.");
+        },
       });
-
-      if (handler && typeof handler.openIframe === "function") {
-        handler.openIframe();
-      } else {
-        setIsProcessing(false);
-        alert("Unable to open Paystack payment window. Please check your internet connection.");
-      }
     } catch (err: any) {
       setIsProcessing(false);
-      alert(`Paystack Error: ${err?.message || "Invalid configuration"}. Please verify your Paystack Public Key.`);
+      const msg = err?.message || "";
+      if (msg.includes("Public Key is missing") || msg.includes("pk_")) {
+        setShowKeyModal(true);
+      } else {
+        alert(msg || "Could not launch Paystack checkout.");
+      }
     }
   };
 
@@ -161,30 +120,19 @@ export default function FoundationPage({
       return;
     }
 
-    setIsProcessing(true);
-
-    const isLoaded = await ensurePaystackLoaded();
-    if (!isLoaded) {
-      setIsProcessing(false);
-      alert("Paystack could not be loaded. Please ensure you are connected to the internet.");
-      return;
-    }
-
     const envKey = (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || "").trim();
     const localKey = (localStorage.getItem("paystack_public_key") || "").trim();
     const keyToUse = envKey || localKey;
 
-    // Notice: If key starts with sk_ (secret key), Paystack frontend will reject it
     if (!keyToUse || !keyToUse.startsWith("pk_")) {
-      setIsProcessing(false);
       setShowKeyModal(true);
       return;
     }
 
-    triggerPaystackPopup(keyToUse, finalAmount);
+    await triggerDonation(keyToUse);
   };
 
-  const handleSaveKeyAndPay = (e: React.FormEvent) => {
+  const handleSaveKeyAndPay = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = manualKeyInput.trim();
     if (!trimmed.startsWith("pk_")) {
@@ -193,8 +141,7 @@ export default function FoundationPage({
     }
     localStorage.setItem("paystack_public_key", trimmed);
     setShowKeyModal(false);
-    setIsProcessing(true);
-    triggerPaystackPopup(trimmed, getEffectiveAmount());
+    await triggerDonation(trimmed);
   };
 
   const scrollToGive = (e: React.MouseEvent) => {

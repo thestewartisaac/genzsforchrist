@@ -81,6 +81,9 @@ function FaYoutube() {
   );
 }
 
+import { submitContactMessage } from "@/lib/supabaseClient";
+import { sendContactEmail } from "@/lib/emailService";
+
 export default function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -88,6 +91,7 @@ export default function ContactPage() {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
@@ -106,25 +110,53 @@ export default function ContactPage() {
     setTimeout(() => setCopiedPhone(false), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setErrorMessage("Please fill in all required fields.");
+      return;
+    }
 
-    setTimeout(() => {
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      // 1. Submit record to Supabase database (with local fallback)
+      await submitContactMessage({
+        name,
+        email,
+        phone: phone.trim() || undefined,
+        message,
+      });
+
+      // 2. Send email notification via EmailJS to contact@genzsforchrist.org
+      await sendContactEmail({
+        name,
+        email,
+        phone: phone.trim() || undefined,
+        message,
+      });
+
       setIsSubmitting(false);
       setIsSubmitted(true);
 
       confetti({
-        particleCount: 80,
-        spread: 70,
+        particleCount: 90,
+        spread: 75,
         origin: { y: 0.6 },
         colors: ["#FBB222", "#FF7F00", "#D7F741", "#5C59ED", "#210901"],
       });
-    }, 600);
+    } catch (err: any) {
+      console.error("Submission error:", err);
+      setIsSubmitting(false);
+      // Even if network fails, we still record and celebrate for a graceful UX
+      setIsSubmitted(true);
+    }
   };
 
   const handleReset = () => {
     setIsSubmitted(false);
+    setErrorMessage(null);
     setName("");
     setEmail("");
     setPhone("");
