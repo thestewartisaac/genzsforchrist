@@ -61,6 +61,8 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
   const [messageSearch, setMessageSearch] = useState<string>("");
   const [messageStatusFilter, setMessageStatusFilter] = useState<"all" | "new" | "read" | "replied">("all");
   const [selectedMessage, setSelectedMessage] = useState<ContactMessage | null>(null);
+  const [messageToDelete, setMessageToDelete] = useState<ContactMessage | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [donationSearch, setDonationSearch] = useState<string>("");
 
   // ── Check Auth on Mount ────────────────────────────────────────────────────
@@ -182,17 +184,22 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
     }
   };
 
-  const handleDeleteMessage = async (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this message?")) return;
-    const success = await deleteContactMessage(id);
+  const handleConfirmDelete = async () => {
+    if (!messageToDelete) return;
+    setIsDeleting(true);
+    const success = await deleteContactMessage(messageToDelete.id);
     if (success) {
-      setMessages((prev) => prev.filter((msg) => msg.id !== id));
-      if (selectedMessage?.id === id) {
+      setMessages((prev) => prev.filter((msg) => msg.id !== messageToDelete.id));
+      if (selectedMessage?.id === messageToDelete.id) {
         setSelectedMessage(null);
       }
       const updatedStats = await fetchAdminStats();
       setStats(updatedStats);
+      setMessageToDelete(null);
+    } else {
+      alert("Failed to delete the message. Please check your connection.");
     }
+    setIsDeleting(false);
   };
 
   // Filtered messages
@@ -326,10 +333,6 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
             </button>
           </form>
         </div>
-
-        <div className="text-center text-xs text-[#210901]/50 font-medium">
-          © GenZs for Christ, 2026
-        </div>
       </div>
     );
   }
@@ -341,14 +344,14 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
       <header className="w-full bg-[#210901] text-white border-b-2 border-[#210901] sticky top-0 z-30 px-6 sm:px-10 py-4 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="size-10 rounded-[10px] bg-[#d7f741] border border-white/20 flex items-center justify-center text-[#210901] font-black text-lg">
-            GZ
+            GC
           </div>
           <div>
             <h1
               className="text-lg sm:text-xl text-white leading-none m-0 uppercase tracking-tight"
               style={{ fontFamily: "'Gasoek One', sans-serif" }}
             >
-              GZC Admin
+              G4C Admin
             </h1>
             <span className="text-[11px] text-white/60 font-mono">
               {currentUserEmail}
@@ -613,7 +616,7 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
                                   <Send size={16} />
                                 </a>
                                 <button
-                                  onClick={() => handleDeleteMessage(msg.id)}
+                                  onClick={() => setMessageToDelete(msg)}
                                   title="Delete Message"
                                   className="p-2 rounded-[8px] bg-white hover:bg-[#ef4444] hover:text-white text-[#ef4444] border border-[#210901] shadow-sm cursor-pointer transition-colors"
                                 >
@@ -778,7 +781,7 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
 
             {/* Actions Bar */}
             <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-              {/* Status Toggles */}
+              {/* Status Toggles & Delete */}
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleStatusChange(selectedMessage.id, "read")}
@@ -793,6 +796,13 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
                     }`}
                 >
                   Mark Replied
+                </button>
+                <button
+                  onClick={() => setMessageToDelete(selectedMessage)}
+                  className="p-2 rounded-[10px] bg-white hover:bg-[#ef4444] hover:text-white text-[#ef4444] border border-[#210901] cursor-pointer transition-colors"
+                  title="Delete Message"
+                >
+                  <Trash2 size={14} />
                 </button>
               </div>
 
@@ -809,6 +819,76 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
                 <Send size={14} />
                 <span>Reply to Sender</span>
               </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Delete Confirmation Dialog Modal ── */}
+      {messageToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white rounded-[28px] border-2 border-[#210901] shadow-[10px_10px_0px_#210901] p-6 sm:p-8 max-w-md w-full text-center relative animate-in fade-in zoom-in duration-200">
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setMessageToDelete(null)}
+              disabled={isDeleting}
+              className="absolute top-4 right-4 p-2 text-[#210901]/60 hover:text-[#210901] cursor-pointer disabled:opacity-40"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Alert Icon Badge */}
+            <div className="size-16 rounded-[20px] bg-[#fee2e2] border-2 border-[#ef4444] text-[#ef4444] flex items-center justify-center mx-auto mb-4 shadow-[4px_4px_0px_#ef4444]">
+              <Trash2 size={28} />
+            </div>
+
+            <h3
+              className="text-2xl sm:text-[28px] text-[#210901] leading-tight mb-2 font-bold"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              Delete Inquiry?
+            </h3>
+
+            <p className="text-sm text-[#210901]/80 leading-relaxed mb-6">
+              Are you sure you want to permanently delete the inquiry from{" "}
+              <strong className="text-[#210901]">{messageToDelete.name}</strong>{" "}
+              (<span className="text-[#210901]/70 font-mono text-xs">{messageToDelete.email}</span>)?
+              <br />
+              <span className="text-xs text-[#ef4444] font-semibold mt-2 block">
+                This record will be permanently removed from your database.
+              </span>
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => setMessageToDelete(null)}
+                disabled={isDeleting}
+                className="flex-1 py-3 px-5 rounded-[12px] bg-white hover:bg-[#faf8f5] text-[#210901] font-bold text-sm border-2 border-[#210901] shadow-[3px_3px_0px_#210901] cursor-pointer transition-transform active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                disabled={isDeleting}
+                className="flex-1 py-3 px-5 rounded-[12px] bg-[#ef4444] hover:bg-[#dc2626] text-white font-bold text-sm border-2 border-[#210901] shadow-[3px_3px_0px_#210901] cursor-pointer transition-transform active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {isDeleting ? (
+                  <>
+                    <RefreshCw size={16} className="animate-spin" />
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 size={16} />
+                    <span>Yes, Delete</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>
