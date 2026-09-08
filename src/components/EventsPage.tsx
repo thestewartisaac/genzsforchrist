@@ -292,58 +292,6 @@ export default function EventsPage({
     return allEvents.filter((item) => item.status === "past");
   }, [allEvents]);
 
-  const handleReadMore = (event: ActivityItem) => {
-    setActiveEvent(event);
-    window.history.pushState(null, "", `/events/${event.id}`);
-    window.dispatchEvent(new PopStateEvent("popstate"));
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleBackToAllEvents = () => {
-    setActiveEvent(null);
-    window.history.pushState(null, "", "/events");
-    window.dispatchEvent(new PopStateEvent("popstate"));
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // If viewing a dedicated event detail page
-  if (activeEvent) {
-    return (
-      <EventDetailPage
-        event={activeEvent}
-        onBack={handleBackToAllEvents}
-        onNavigateContact={onNavigateContact}
-      />
-    );
-  }
-
-  // If an invalid event ID was passed in URL
-  if (selectedEventId && !activeEvent) {
-    return (
-      <NotFoundPage
-        title="Event Not Found"
-        subtitle="We couldn't locate the gathering or event you're searching for."
-        description="This event may have concluded, been rescheduled, or the link may have a typo. You can explore all our other active and upcoming gatherings below."
-        backLabel="Explore All Events"
-        onBack={handleBackToAllEvents}
-        onNavigateHome={() => {
-          window.history.pushState(null, "", "/");
-          window.dispatchEvent(new PopStateEvent("popstate"));
-        }}
-        onNavigateEvents={handleBackToAllEvents}
-        onNavigateBlog={() => {
-          window.history.pushState(null, "", "/blog");
-          window.dispatchEvent(new PopStateEvent("popstate"));
-        }}
-        onNavigateAbout={() => {
-          window.history.pushState(null, "", "/about");
-          window.dispatchEvent(new PopStateEvent("popstate"));
-        }}
-        onNavigateContact={onNavigateContact}
-      />
-    );
-  }
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   // ── GSAP Scroll & Entrance Animations ──────────────────────────────────────
@@ -422,6 +370,58 @@ export default function EventsPage({
 
     return () => ctx.revert();
   }, [activeEvent, allEvents]);
+
+  const handleReadMore = (event: ActivityItem) => {
+    setActiveEvent(event);
+    window.history.pushState(null, "", `/events/${event.id}`);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleBackToAllEvents = () => {
+    setActiveEvent(null);
+    window.history.pushState(null, "", "/events");
+    window.dispatchEvent(new PopStateEvent("popstate"));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // If viewing a dedicated event detail page
+  if (activeEvent) {
+    return (
+      <EventDetailPage
+        event={activeEvent}
+        onBack={handleBackToAllEvents}
+        onNavigateContact={onNavigateContact}
+      />
+    );
+  }
+
+  // If an invalid event ID was passed in URL
+  if (selectedEventId && !activeEvent) {
+    return (
+      <NotFoundPage
+        title="Event Not Found"
+        subtitle="We couldn't locate the gathering or event you're searching for."
+        description="This event may have concluded, been rescheduled, or the link may have a typo. You can explore all our other active and upcoming gatherings below."
+        backLabel="Explore All Events"
+        onBack={handleBackToAllEvents}
+        onNavigateHome={() => {
+          window.history.pushState(null, "", "/");
+          window.dispatchEvent(new PopStateEvent("popstate"));
+        }}
+        onNavigateEvents={handleBackToAllEvents}
+        onNavigateBlog={() => {
+          window.history.pushState(null, "", "/blog");
+          window.dispatchEvent(new PopStateEvent("popstate"));
+        }}
+        onNavigateAbout={() => {
+          window.history.pushState(null, "", "/about");
+          window.dispatchEvent(new PopStateEvent("popstate"));
+        }}
+        onNavigateContact={onNavigateContact}
+      />
+    );
+  }
 
   return (
     <div

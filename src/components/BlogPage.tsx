@@ -120,29 +120,6 @@ export default function BlogPage({
     setActivePostSlug(selectedSlug);
   }, [selectedSlug]);
 
-  // If a slug is provided via prop or state, show the full article reader
-  const currentSlug = selectedSlug || activePostSlug;
-  if (currentSlug) {
-    return (
-      <BlogDetailPage
-        slug={currentSlug}
-        onBack={() => {
-          setActivePostSlug(undefined);
-          window.history.pushState(null, "", "/blog");
-          window.dispatchEvent(new PopStateEvent("popstate"));
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-        onNavigateContact={onNavigateContact}
-        onSelectPost={(newSlug) => {
-          setActivePostSlug(newSlug);
-          window.history.pushState(null, "", `/blog/${newSlug}`);
-          window.dispatchEvent(new PopStateEvent("popstate"));
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      />
-    );
-  }
-
   const allPosts = getBlogPosts();
   const featuredPost = getFeaturedBlogPost();
 
@@ -163,18 +140,12 @@ export default function BlogPage({
     });
   }, [allPosts, activeCategory, searchQuery]);
 
-  const handleSelectPost = (slug: string) => {
-    setActivePostSlug(slug);
-    window.history.pushState(null, "", `/blog/${slug}`);
-    window.dispatchEvent(new PopStateEvent("popstate"));
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const currentSlug = selectedSlug || activePostSlug;
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || currentSlug) return;
 
     const ctx = gsap.context(() => {
       // 1. Hero Entrance
@@ -232,7 +203,37 @@ export default function BlogPage({
     }, container);
 
     return () => ctx.revert();
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, selectedSlug, activePostSlug]);
+
+  const handleSelectPost = (slug: string) => {
+    setActivePostSlug(slug);
+    window.history.pushState(null, "", `/blog/${slug}`);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // If a slug is provided via prop or state, show the full article reader
+  const currentSlug = selectedSlug || activePostSlug;
+  if (currentSlug) {
+    return (
+      <BlogDetailPage
+        slug={currentSlug}
+        onBack={() => {
+          setActivePostSlug(undefined);
+          window.history.pushState(null, "", "/blog");
+          window.dispatchEvent(new PopStateEvent("popstate"));
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        onNavigateContact={onNavigateContact}
+        onSelectPost={(newSlug) => {
+          setActivePostSlug(newSlug);
+          window.history.pushState(null, "", `/blog/${newSlug}`);
+          window.dispatchEvent(new PopStateEvent("popstate"));
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      />
+    );
+  }
 
   return (
     <div ref={containerRef} className="gz-grid-bg text-[#210901] min-h-screen w-full flex flex-col font-['Instrument_Sans',sans-serif] selection:bg-[#d7f741] selection:text-[#210901] overflow-x-hidden">

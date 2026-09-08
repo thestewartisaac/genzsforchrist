@@ -118,40 +118,13 @@ export default function BlogDetailPage({
 }) {
   const [copied, setCopied] = useState(false);
   const post = getBlogPostBySlug(slug);
-
-  if (!post) {
-    return (
-      <NotFoundPage
-        title="Story Not Found"
-        subtitle="The article or testimony you're looking for doesn't exist."
-        description="This story may have been relocated, archived, or is being drafted by our editorial team. You can explore all our other published stories below."
-        backLabel="Browse All Stories"
-        onBack={onBack}
-        onNavigateHome={() => {
-          window.history.pushState(null, "", "/");
-          window.dispatchEvent(new PopStateEvent("popstate"));
-        }}
-        onNavigateEvents={() => {
-          window.history.pushState(null, "", "/events");
-          window.dispatchEvent(new PopStateEvent("popstate"));
-        }}
-        onNavigateBlog={onBack}
-        onNavigateAbout={() => {
-          window.history.pushState(null, "", "/about");
-          window.dispatchEvent(new PopStateEvent("popstate"));
-        }}
-        onNavigateContact={onNavigateContact}
-      />
-    );
-  }
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || !post) return;
 
     const ctx = gsap.context(() => {
       // 1. Article Header Entrance
@@ -223,27 +196,31 @@ export default function BlogDetailPage({
     }, container);
 
     return () => ctx.revert();
-  }, [slug]);
+  }, [slug, post]);
 
   if (!post) {
     return (
-      <div className="min-h-screen gz-grid-bg flex flex-col items-center justify-center p-6 text-center">
-        <h2
-          className="text-3xl font-bold text-[#210901] mb-4"
-          style={{ fontFamily: "'Gasoek One', sans-serif" }}
-        >
-          Article Not Found
-        </h2>
-        <p className="text-gray-600 mb-6">
-          The article you are looking for does not exist or has been relocated.
-        </p>
-        <button
-          onClick={onBack}
-          className="px-6 py-3 bg-[#d7f741] text-[#210901] font-bold rounded-[14px] border-2 border-[#210901] shadow-[4px_4px_0px_#210901]"
-        >
-          Return to Blog
-        </button>
-      </div>
+      <NotFoundPage
+        title="Story Not Found"
+        subtitle="The article or testimony you're looking for doesn't exist."
+        description="This story may have been relocated, archived, or is being drafted by our editorial team. You can explore all our other published stories below."
+        backLabel="Browse All Stories"
+        onBack={onBack}
+        onNavigateHome={() => {
+          window.history.pushState(null, "", "/");
+          window.dispatchEvent(new PopStateEvent("popstate"));
+        }}
+        onNavigateEvents={() => {
+          window.history.pushState(null, "", "/events");
+          window.dispatchEvent(new PopStateEvent("popstate"));
+        }}
+        onNavigateBlog={onBack}
+        onNavigateAbout={() => {
+          window.history.pushState(null, "", "/about");
+          window.dispatchEvent(new PopStateEvent("popstate"));
+        }}
+        onNavigateContact={onNavigateContact}
+      />
     );
   }
 
