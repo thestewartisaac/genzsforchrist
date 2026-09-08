@@ -16,112 +16,13 @@ import {
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
 import CtaSection from "@/app/components/CtaSection";
+import NeoButton from "@/components/ui/NeoButton";
 import {
   ActivityItem,
   getEventStatusBadge,
 } from "@/lib/eventsContent";
 
 gsap.registerPlugin(ScrollTrigger);
-
-// NeoButton component matching the site design
-function NeoButton({
-  children,
-  onClick,
-  href,
-  target,
-  rel,
-  type = "button",
-  variant = "white-amber",
-  icon,
-  className = "",
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-  href?: string;
-  target?: string;
-  rel?: string;
-  type?: "button" | "submit";
-  variant?: "white-amber" | "white-black" | "lime-black" | "black-amber" | "red-black";
-  icon?: React.ReactNode;
-  className?: string;
-}) {
-  const getShadow = () => {
-    switch (variant) {
-      case "white-amber":
-        return "bg-white drop-shadow-[4px_4px_0px_#fbb222] text-[#210901]";
-      case "white-black":
-        return "bg-white drop-shadow-[4px_4px_0px_#210901] text-[#210901]";
-      case "lime-black":
-        return "bg-[#d7f741] drop-shadow-[4px_4px_0px_#210901] text-[#210901]";
-      case "black-amber":
-        return "bg-[#210901] drop-shadow-[4px_4px_0px_#fbb222] text-white";
-      case "red-black":
-        return "bg-white drop-shadow-[4px_4px_0px_red] text-[#210901]";
-      default:
-        return "bg-white drop-shadow-[4px_4px_0px_#fbb222] text-[#210901]";
-    }
-  };
-
-  const getBorderColor = () => {
-    switch (variant) {
-      case "black-amber":
-        return "border-[#fbb222] group-hover:border-white";
-      case "white-amber":
-        return "border-black group-hover:border-[#fbb222]";
-      case "lime-black":
-        return "border-black group-hover:border-[#210901]";
-      case "red-black":
-        return "border-black group-hover:border-[#e62129]";
-      default:
-        return "border-black group-hover:border-[#fbb222]";
-    }
-  };
-
-  const content = (
-    <>
-      <div
-        aria-hidden
-        className={`absolute border ${getBorderColor()} border-solid inset-0 pointer-events-none rounded-[16px] transition-colors duration-150`}
-      />
-      <div className="flex flex-col font-['Instrument_Sans:SemiBold',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-inherit text-[17px] sm:text-[20px] text-center whitespace-nowrap">
-        <p className="leading-[0.9]">{children}</p>
-      </div>
-      {icon && (
-        <div className="overflow-clip relative shrink-0 size-[20px] sm:size-[24px] flex items-center justify-center">
-          {icon}
-        </div>
-      )}
-    </>
-  );
-
-  const baseClasses = `group content-stretch flex gap-[8px] h-[52px] sm:h-[56px] items-center justify-center px-[24px] sm:px-[32px] py-[14px] sm:py-[16px] relative rounded-[16px] shrink-0 cursor-pointer ${getShadow()} ${className}`;
-
-  if (href) {
-    return (
-      <a
-        href={href}
-        target={target}
-        rel={rel}
-        className={baseClasses}
-        data-name="button"
-        onClick={onClick}
-      >
-        {content}
-      </a>
-    );
-  }
-
-  return (
-    <button
-      type={type}
-      onClick={onClick}
-      className={baseClasses}
-      data-name="button"
-    >
-      {content}
-    </button>
-  );
-}
 
 export default function EventDetailPage({
   event,
@@ -302,7 +203,7 @@ export default function EventDetailPage({
                     href={event.actionUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    variant="lime-black"
+                    variant="lime"
                     icon={
                       event.actionUrl.includes("youtube") ? (
                         <Video size={18} />
@@ -418,7 +319,7 @@ export default function EventDetailPage({
                   href={event.actionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  variant="lime-black"
+                  variant="lime"
                   icon={<ExternalLink size={18} />}
                 >
                   {event.actionText || "Connect to Event"}
@@ -427,7 +328,7 @@ export default function EventDetailPage({
 
               <NeoButton
                 onClick={onBack}
-                variant="white-black"
+                variant="secondary"
                 icon={<ArrowLeft size={18} />}
               >
                 Back to All Events

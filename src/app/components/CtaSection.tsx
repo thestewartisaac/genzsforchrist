@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
+import NeoButton from "@/components/ui/NeoButton";
 
 interface CtaSectionProps {
     onNavigateContact?: () => void;
@@ -36,39 +37,24 @@ export default function CtaSection({
                     </p>
 
                     <div className="flex flex-wrap gap-4 justify-center mt-4">
-                        <button
-                            type="button"
+                        <NeoButton
+                            variant="primary-inverted"
+                            size="lg"
                             onClick={onNavigateContact}
-                            className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex gap-[8px] h-[56px] items-center justify-center px-[32px] py-[16px] relative rounded-[16px] shrink-0 cursor-pointer"
-                            data-name="button"
+                            icon={<ArrowRight size={20} />}
                         >
-                            <div
-                                aria-hidden
-                                className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[16px]"
-                            />
-                            <div className="flex flex-col font-['Instrument_Sans:SemiBold',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-[#210901] text-[20px] text-center whitespace-nowrap">
-                                <p className="leading-[0.9]">{primaryButtonText}</p>
-                            </div>
-                            <div className="overflow-clip relative shrink-0 size-[24px]">
-                                <ArrowRight size={20} />
-                            </div>
-                        </button>
+                            {primaryButtonText}
+                        </NeoButton>
 
-                        <a
+                        <NeoButton
+                            variant="lime"
+                            size="lg"
                             href={instagramUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-[#fff] content-stretch drop-shadow-[4px_4px_0px_#D7F741] flex gap-[8px] h-[56px] items-center justify-center px-[32px] py-[16px] relative rounded-[16px] shrink-0 cursor-pointer"
-                            data-name="button"
                         >
-                            <div
-                                aria-hidden
-                                className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[16px]"
-                            />
-                            <div className="flex flex-col font-['Instrument_Sans:SemiBold',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-[#210901] text-[20px] text-center whitespace-nowrap">
-                                <p className="leading-[0.9]">{secondaryButtonText}</p>
-                            </div>
-                        </a>
+                            {secondaryButtonText}
+                        </NeoButton>
                     </div>
                 </div>
             </div>

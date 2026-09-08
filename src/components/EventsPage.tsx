@@ -17,6 +17,7 @@ import Footer from "@/imports/Footer/index";
 import CtaSection from "@/app/components/CtaSection";
 import EventDetailPage from "@/components/EventDetailPage";
 import NotFoundPage from "@/components/NotFoundPage";
+import NeoButton from "@/components/ui/NeoButton";
 import {
   ActivityItem,
   getEventsFromContent,
@@ -24,106 +25,6 @@ import {
   getEventStatusBadge,
   resolveCardColors,
 } from "@/lib/eventsContent";
-
-// ── Reusable Neo-Brutalist Button Component ──
-function NeoButton({
-  children,
-  onClick,
-  href,
-  target,
-  rel,
-  type = "button",
-  variant = "white-black",
-  icon,
-  className = "",
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-  href?: string;
-  target?: string;
-  rel?: string;
-  type?: "button" | "submit";
-  variant?: "white-amber" | "white-black" | "lime-black" | "black-amber" | "red-black";
-  icon?: React.ReactNode;
-  className?: string;
-}) {
-  const getShadow = () => {
-    switch (variant) {
-      case "white-amber":
-        return "bg-white drop-shadow-[4px_4px_0px_#fbb222] text-[#210901]";
-      case "white-black":
-        return "bg-white drop-shadow-[4px_4px_0px_#210901] text-[#210901]";
-      case "lime-black":
-        return "bg-[#d7f741] drop-shadow-[4px_4px_0px_#210901] text-[#210901]";
-      case "black-amber":
-        return "bg-[#210901] drop-shadow-[4px_4px_0px_#fbb222] text-white";
-      case "red-black":
-        return "bg-white drop-shadow-[4px_4px_0px_red] text-[#210901]";
-      default:
-        return "bg-white drop-shadow-[4px_4px_0px_#210901] text-[#210901]";
-    }
-  };
-
-  const getBorderColor = () => {
-    switch (variant) {
-      case "black-amber":
-        return "border-[#fbb222] group-hover:border-white";
-      case "white-amber":
-        return "border-black group-hover:border-[#fbb222]";
-      case "lime-black":
-        return "border-black group-hover:border-[#210901]";
-      case "red-black":
-        return "border-black group-hover:border-[#e62129]";
-      default:
-        return "border-black group-hover:border-[#fbb222]";
-    }
-  };
-
-  const content = (
-    <>
-      <div
-        aria-hidden
-        className={`absolute border ${getBorderColor()} border-solid inset-0 pointer-events-none rounded-[16px] transition-colors duration-150`}
-      />
-      <div className="flex flex-col font-['Instrument_Sans:SemiBold',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-inherit text-[16px] sm:text-[18px] text-center whitespace-nowrap">
-        <p className="leading-[0.9]">{children}</p>
-      </div>
-      {icon && (
-        <div className="overflow-clip relative shrink-0 size-[18px] sm:size-[20px] flex items-center justify-center">
-          {icon}
-        </div>
-      )}
-    </>
-  );
-
-  const baseClasses = `group content-stretch flex gap-[8px] h-[48px] sm:h-[52px] items-center justify-center px-[22px] sm:px-[28px] py-[12px] sm:py-[14px] relative rounded-[16px] shrink-0 cursor-pointer ${getShadow()} ${className}`;
-
-  if (href) {
-    return (
-      <a
-        href={href}
-        target={target}
-        rel={rel}
-        className={baseClasses}
-        data-name="button"
-        onClick={onClick}
-      >
-        {content}
-      </a>
-    );
-  }
-
-  return (
-    <button
-      type={type}
-      onClick={onClick}
-      className={baseClasses}
-      data-name="button"
-    >
-      {content}
-    </button>
-  );
-}
 
 // ── Horizontal Event Card (Row on Large Breakpoints, Column on Mobile) ──
 function BriefEventCard({
@@ -168,6 +69,17 @@ function BriefEventCard({
       {/* Right: Texts and Buttons in their own Container */}
       <div className="flex-1 flex flex-col justify-between gap-4">
         <div>
+          {/* Logo if present (e.g. The Secret Place) */}
+          {item.logo && (
+            <div className="h-[52px] sm:h-[64px] w-auto max-w-[220px] mb-2 flex items-center">
+              <img
+                src={item.logo}
+                alt={item.title}
+                className="h-full w-auto object-contain"
+              />
+            </div>
+          )}
+
           {/* Title */}
           <h3
             className={`text-[32px] sm:text-[38px] lg:text-[40px] leading-[1.05] mb-2 font-bold ${colors.titleColor}`}
@@ -235,10 +147,10 @@ function BriefEventCard({
             onClick={() => onReadMore(item)}
             variant={
               colors.cardBg.includes("#00434a")
-                ? "lime-black"
+                ? "lime"
                 : colors.cardBg.includes("#26103d")
-                  ? "white-amber"
-                  : "white-black"
+                  ? "secondary-amber"
+                  : "secondary"
             }
             icon={<ArrowRight size={18} />}
             className="w-full sm:w-auto"

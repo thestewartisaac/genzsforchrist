@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { Home, ArrowLeft } from "lucide-react";
 import Footer from "@/imports/Footer/index";
 import lostSvg from "@/imports/lost.svg";
+import NeoButton from "@/components/ui/NeoButton";
 
 export interface NotFoundPageProps {
   title?: string;
@@ -137,23 +138,23 @@ export default function NotFoundPage({
 
           {/* Action Buttons */}
           <div className="gz-notfound-actions flex flex-wrap items-center justify-center gap-4 pt-4 border-t border-[#210901]/15 w-full max-w-[480px]">
-            <button
-              type="button"
+            <NeoButton
               onClick={handleGoHome}
-              className="cursor-pointer bg-[#210901] text-white px-6 sm:px-8 py-3.5 rounded-[14px] font-semibold text-[15px] sm:text-[16px] flex items-center justify-center gap-2.5 border border-[#210901] shadow-[4px_4px_0px_0px_#fbb222] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_#fbb222] active:translate-x-0 active:translate-y-0 transition-all"
+              variant="primary"
+              icon={<Home size={18} className="text-[#fbb222]" />}
+              iconPosition="left"
             >
-              <Home size={18} className="text-[#fbb222]" />
-              <span>Return to Home</span>
-            </button>
+              Return to Home
+            </NeoButton>
 
-            <button
-              type="button"
+            <NeoButton
               onClick={handleDefaultBack}
-              className="cursor-pointer bg-white text-[#210901] px-5 sm:px-6 py-3.5 rounded-[14px] font-semibold text-[15px] sm:text-[16px] flex items-center justify-center gap-2 border border-[#210901] shadow-[4px_4px_0px_0px_#210901] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_#210901] active:translate-x-0 active:translate-y-0 transition-all"
+              variant="secondary"
+              icon={<ArrowLeft size={18} />}
+              iconPosition="left"
             >
-              <ArrowLeft size={18} />
-              <span>{backLabel}</span>
-            </button>
+              {backLabel}
+            </NeoButton>
           </div>
         </div>
       </main>

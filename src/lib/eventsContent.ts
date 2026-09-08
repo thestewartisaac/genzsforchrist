@@ -92,7 +92,7 @@ export function resolveCardColors(
 
   let cardText = customCardText;
   let titleColor = customTitleColor;
-  let shadowColor = customShadowColor;
+  let shadowColor = customShadowColor || "#210901";
 
   if (isDark) {
     if (!cardText || cardText === "text-[#210901]") {
@@ -105,12 +105,6 @@ export function resolveCardColors(
       else if (bg.includes("#1e1b4b")) titleColor = "text-[#ffade3]";
       else titleColor = "text-white";
     }
-    if (!shadowColor || shadowColor === "#210901") {
-      if (bg.includes("#00434a")) shadowColor = "#d7f741";
-      else if (bg.includes("#26103d")) shadowColor = "#fbb222";
-      else if (bg.includes("#1e1b4b")) shadowColor = "#ffade3";
-      else shadowColor = "#210901";
-    }
   } else {
     // Light backgrounds (bg-white, bg-[#d7f741], bg-[#fff4ef])
     if (!cardText || cardText === "text-white") {
@@ -118,9 +112,6 @@ export function resolveCardColors(
     }
     if (!titleColor || titleColor === "text-white" || titleColor === "text-inherit") {
       titleColor = "text-[#210901]";
-    }
-    if (!shadowColor) {
-      shadowColor = "#210901";
     }
   }
 
@@ -277,7 +268,7 @@ export function getEventsFromContent(): ActivityItem[] {
       cardBg: "bg-[#00434a]",
       cardText: "text-white",
       titleColor: "text-[#d7f741]",
-      shadowColor: "#d7f741",
+      shadowColor: "#210901",
       description:
         "Each city hosts a physical fellowship every month, an opportunity to show up, connect in person, and build a stronger community.",
       fullDescription:
@@ -293,7 +284,7 @@ export function getEventsFromContent(): ActivityItem[] {
     },
     {
       id: "daily-prayers",
-      title: "Daily Prayers (Nightly Altar)",
+      title: "Daily Prayers",
       subtitle: "Staying consistent and connected with God every single day.",
       status: "ongoing",
       date: "Every Night • 4 Timezones",
@@ -303,7 +294,7 @@ export function getEventsFromContent(): ActivityItem[] {
       cardBg: "bg-[#26103d]",
       cardText: "text-white",
       titleColor: "text-[#fbb222]",
-      shadowColor: "#fbb222",
+      shadowColor: "#210901",
       description:
         "We gather every day for prayer, staying consistent and connected with God across global timezones.",
       fullDescription:
@@ -336,7 +327,7 @@ export function getEventsFromContent(): ActivityItem[] {
       cardBg: "bg-[#00434a]",
       cardText: "text-white",
       titleColor: "text-[#d7f741]",
-      shadowColor: "#d7f741",
+      shadowColor: "#210901",
       description:
         "Every two weeks on Friday, we study the Word deeply, growing in knowledge, understanding, and faith.",
       fullDescription:
@@ -358,10 +349,10 @@ export function getEventsFromContent(): ActivityItem[] {
       date: "Every Other Sunday • 8:00 PM WAT",
       venue: "Online on Telegram",
       category: "weekly",
-      image: imgWhatWeDoSecretPlace,
-      cardBg: "bg-[#d7f741]",
-      cardText: "text-[#210901]",
-      titleColor: "text-[#210901]",
+      image: imgWhatWeDoDaily,
+      cardBg: "bg-[#e62129]",
+      cardText: "text-white",
+      titleColor: "text-white",
       shadowColor: "#210901",
       description:
         "A time to relax, connect, gist, and sometimes enjoy game nights as we refresh and prepare for the new week.",
@@ -388,7 +379,7 @@ export function getEventsFromContent(): ActivityItem[] {
       cardBg: "bg-[#1e1b4b]",
       cardText: "text-white",
       titleColor: "text-[#ffade3]",
-      shadowColor: "#ffade3",
+      shadowColor: "#210901",
       description:
         "Once every month at 7:00 PM, we host real and open discussions about faith, life, and deeper topics.",
       fullDescription:
@@ -405,7 +396,7 @@ export function getEventsFromContent(): ActivityItem[] {
     {
       id: "secret-place-2026",
       title: "The Secret Place 2026",
-      subtitle: "Flagship Annual Gathering & Youth Revival",
+      subtitle: "Our flagship annual gathering for deep encounters and spiritual awakening.",
       status: "past",
       date: "August 1st, 2026",
       venue: "Lagos, Nigeria & Worldwide Broadcast",
@@ -417,7 +408,7 @@ export function getEventsFromContent(): ActivityItem[] {
       titleColor: "text-[#210901]",
       shadowColor: "#210901",
       description:
-        "The flagship annual gathering of Gen Z’s for Christ, a life-transforming encounter designed to draw young people into a deeper relationship with God through worship, prayer, the Word, and the ministry of the Holy Spirit.",
+        "Our flagship annual gathering for deep encounters and spiritual awakening.",
       fullDescription:
         "The Secret Place is the flagship annual gathering of Gen Z’s for Christ, a life-transforming encounter designed to draw young people into a deeper relationship with God through worship, prayer, the Word, and the ministry of the Holy Spirit.\n\nMore than just an event, The Secret Place is a call to intimacy with God, spiritual awakening, and revival. It is a place where hearts are transformed, lives are surrendered, purpose is awakened, and a generation is equipped to live boldly for Christ and influence every sphere of society.\n\nHeld annually, The Secret Place brings together young people from different backgrounds for a powerful time of encounter, discipleship, and impartation, raising a generation that knows God, carries His presence, and advances His Kingdom.",
       highlights: [

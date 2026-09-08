@@ -21,6 +21,7 @@ import groceries from "@/imports/groceries.svg";
 import book from "@/imports/book.svg"
 import medical from "@/imports/medic.svg"
 import { PaystackSecurityBadge, AcceptedPaymentLogos } from "@/components/PaymentIcons";
+import NeoButton from "@/components/ui/NeoButton";
 
 // High-resolution field photos
 import imgHumanitarianHero from "@/imports/Homepage/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png";
@@ -372,26 +373,14 @@ export default function FoundationPage({
 
           {/* CTA Button: Partner With Us */}
           <div className="pt-4">
-            <button
-              type="button"
+            <NeoButton
               onClick={scrollToGive}
-              className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex gap-[8px] h-[56px] items-center justify-center px-[32px] py-[16px] relative rounded-[16px] shrink-0 cursor-pointer hover:-translate-y-0.5 active:translate-y-0 transition-transform"
-              data-name="button"
+              variant="primary-inverted"
+              size="lg"
+              icon={<ArrowRight size={20} />}
             >
-              <div
-                aria-hidden
-                className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[16px]"
-              />
-              <div
-                className="flex flex-col font-['Instrument_Sans',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-[#210901] text-[20px] text-center whitespace-nowrap"
-                style={{ fontVariationSettings: '"wdth" 100' }}
-              >
-                <p className="leading-[0.9] m-0">Partner With Us</p>
-              </div>
-              <div className="overflow-clip relative shrink-0 size-[24px] flex items-center justify-center text-[#210901]">
-                <ArrowRight size={20} />
-              </div>
-            </button>
+              Partner With Us
+            </NeoButton>
           </div>
         </div>
       </section>
@@ -654,8 +643,9 @@ export default function FoundationPage({
                             setSelectedAmount(amt);
                             setCustomAmount("");
                           }}
-                          className={`py-3 px-1.5 rounded-[12px] border-2 border-[#210901] text-xs sm:text-sm font-bold transition-all cursor-pointer text-center ${isSelected
-                            ? "bg-[#d7f741] text-[#210901] shadow-[2px_2px_0px_#210901]"
+                          data-name="button"
+                          className={`py-3 px-1.5 rounded-[12px] border-2 border-[#210901] text-xs sm:text-sm font-bold cursor-pointer text-center transition-[filter] duration-150 ${isSelected
+                            ? "bg-[#d7f741] text-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none"
                             : "bg-[#fff4ef] text-[#210901] hover:bg-[#fce5d9]"
                             }`}
                         >
@@ -718,20 +708,18 @@ export default function FoundationPage({
 
                 {/* Primary CTA Button: Donate Now */}
                 <div className="pt-2">
-                  <button
+                  <NeoButton
                     type="submit"
-                    disabled={isProcessing}
-                    className="w-full py-4 px-6 rounded-[16px] bg-[#210901] hover:bg-[#341205] text-white border-2 border-[#210901] font-bold text-lg sm:text-xl shadow-[4px_4px_0px_#fbb222] transition-transform active:translate-x-0.5 active:translate-y-0.5 cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    loading={isProcessing}
+                    icon={<ArrowRight size={20} />}
                   >
-                    {isProcessing ? (
-                      <span>Opening Paystack...</span>
-                    ) : (
-                      <>
-                        <span>Donate Now (₦{getEffectiveAmount().toLocaleString()})</span>
-                        <ArrowRight size={20} />
-                      </>
-                    )}
-                  </button>
+                    {isProcessing
+                      ? "Opening Paystack..."
+                      : `Donate Now (₦${getEffectiveAmount().toLocaleString()})`}
+                  </NeoButton>
                 </div>
 
                 {/* Paystack Security Badge & Accepted Payment Cards */}
@@ -797,7 +785,8 @@ export default function FoundationPage({
                       <button
                         type="button"
                         onClick={handleCopyAccount}
-                        className="p-2 sm:px-3 sm:py-1.5 rounded-lg bg-white hover:bg-[#fbb222] transition-all text-[#210901] border border-[#210901] cursor-pointer shrink-0 shadow-sm flex items-center gap-1.5"
+                        data-name="button"
+                        className="p-2 sm:px-3 sm:py-1.5 rounded-lg bg-white hover:bg-[#fbb222] text-[#210901] border border-[#210901] cursor-pointer shrink-0 drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none transition-[filter] duration-150 flex items-center gap-1.5"
                         title="Copy Account Number"
                         aria-label="Copy Account Number"
                       >
@@ -903,27 +892,16 @@ export default function FoundationPage({
 
           {/* Primary CTA Button: Join the Outreach Team */}
           <div className="pt-3">
-            <a
+            <NeoButton
               href="https://t.me/genzsforchrist"
               target="_blank"
               rel="noopener noreferrer"
-              data-name="button"
-              className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex gap-[8px] h-[56px] items-center justify-center px-[32px] py-[16px] relative rounded-[16px] shrink-0 cursor-pointer"
+              variant="lime"
+              size="lg"
+              icon={<ExternalLink size={20} />}
             >
-              <div
-                aria-hidden
-                className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[16px]"
-              />
-              <div
-                className="flex flex-col font-['Instrument_Sans',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-[#210901] text-[20px] text-center whitespace-nowrap"
-                style={{ fontVariationSettings: '"wdth" 100' }}
-              >
-                <p className="leading-[0.9] m-0">Join the Outreach Team</p>
-              </div>
-              <div className="overflow-clip relative shrink-0 size-[24px] flex items-center justify-center text-[#210901]">
-                <ExternalLink size={20} />
-              </div>
-            </a>
+              Join the Outreach Team
+            </NeoButton>
           </div>
         </div>
       </section>
@@ -1009,12 +987,14 @@ export default function FoundationPage({
               </div>
 
               <div className="pt-2 flex flex-col gap-2.5">
-                <button
+                <NeoButton
                   type="submit"
-                  className="w-full py-3.5 px-6 rounded-[14px] bg-[#210901] text-white border-2 border-[#210901] font-bold text-base shadow-[3px_3px_0px_#fbb222] cursor-pointer hover:bg-[#341205]"
+                  variant="primary"
+                  size="md"
+                  fullWidth
                 >
                   Save & Launch Paystack
-                </button>
+                </NeoButton>
 
                 <a
                   href="https://dashboard.paystack.com/#/settings/developer"
@@ -1060,13 +1040,14 @@ export default function FoundationPage({
               recurring gifts.
             </div>
 
-            <button
-              type="button"
+            <NeoButton
               onClick={() => setShowSuccessModal(false)}
-              className="w-full py-3.5 px-6 rounded-[14px] bg-[#d7f741] text-[#210901] border-2 border-[#210901] font-bold text-base shadow-[3px_3px_0px_#210901] cursor-pointer hover:bg-[#c9eb34]"
+              variant="lime"
+              size="md"
+              fullWidth
             >
               Done & Return
-            </button>
+            </NeoButton>
           </div>
         </div>
       )}

@@ -19,6 +19,7 @@ import {
   LogOut,
   Search,
   Eye,
+  EyeOff,
   Trash2,
   ExternalLink,
   ArrowLeft,
@@ -30,6 +31,7 @@ import {
   Send,
   X,
 } from "lucide-react";
+import NeoButton from "@/components/ui/NeoButton";
 
 interface AdminPortalProps {
   onNavigateHome: () => void;
@@ -42,6 +44,7 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
   const [authLoading, setAuthLoading] = useState<boolean>(true);
   const [loginEmail, setLoginEmail] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string | null>(null);
   const [isSubmittingAuth, setIsSubmittingAuth] = useState<boolean>(false);
 
@@ -247,13 +250,15 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
       <div className="min-h-screen gz-grid-bg flex flex-col justify-between py-12 px-6 font-['Instrument_Sans',sans-serif] text-[#210901]">
         {/* Top bar */}
         <div className="max-w-md w-full mx-auto flex items-center justify-between mb-8">
-          <button
+          <NeoButton
             onClick={onNavigateHome}
-            className="flex items-center gap-2 font-bold text-sm bg-white px-4 py-2 rounded-[12px] border-2 border-[#210901] shadow-[2px_2px_0px_#210901] hover:bg-[#fff4ef] transition-colors cursor-pointer"
+            variant="secondary"
+            size="sm"
+            icon={<ArrowLeft size={16} />}
+            iconPosition="left"
           >
-            <ArrowLeft size={16} />
-            <span>Back to Main Website</span>
-          </button>
+            Back to Main Website
+          </NeoButton>
         </div>
 
         {/* Login Card */}
@@ -302,35 +307,39 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
                 Password
               </label>
               <div className="relative">
-                <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#210901]/50" />
+                <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#210901]/50 pointer-events-none" />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   placeholder="••••••••••••"
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-[12px] bg-[#faf8f5] border-2 border-[#210901] text-sm text-[#210901] focus:outline-none focus:bg-white"
+                  className="w-full pl-10 pr-12 py-3 rounded-[12px] bg-[#faf8f5] border-2 border-[#210901] text-sm text-[#210901] focus:outline-none focus:bg-white"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#210901]/60 hover:text-[#210901] cursor-pointer p-1 transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  title={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
             </div>
 
-            <button
+            <NeoButton
               type="submit"
               disabled={isSubmittingAuth}
-              className="w-full mt-4 py-3.5 px-6 rounded-[14px] bg-[#210901] hover:bg-[#341205] text-white font-bold text-base shadow-[4px_4px_0px_#fbb222] transition-transform active:translate-x-0.5 active:translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+              loading={isSubmittingAuth}
+              variant="primary"
+              size="lg"
+              fullWidth
+              icon={<KeyRound size={18} />}
+              className="mt-4"
             >
-              {isSubmittingAuth ? (
-                <>
-                  <RefreshCw size={18} className="animate-spin" />
-                  <span>Signing In...</span>
-                </>
-              ) : (
-                <>
-                  <KeyRound size={18} />
-                  <span>Sign In to Admin</span>
-                </>
-              )}
-            </button>
+              {isSubmittingAuth ? "Signing In..." : "Sign In to Admin"}
+            </NeoButton>
           </form>
         </div>
       </div>
@@ -362,34 +371,39 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
         {/* Action Controls */}
         <div className="flex items-center gap-3">
           {/* Direct Link to Tina CMS */}
-          <a
+          <NeoButton
             href="/admin/index.html"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] bg-[#fbb222] text-[#210901] font-bold text-xs border border-black shadow-[2px_2px_0px_#fff] hover:bg-[#faaa0e] transition-colors"
+            variant="primary-inverted"
+            size="sm"
+            icon={<ExternalLink size={12} />}
+            className="hidden sm:inline-flex"
           >
-            <FileEdit size={14} />
-            <span>Open Tina CMS</span>
-            <ExternalLink size={12} />
-          </a>
+            Open Tina CMS
+          </NeoButton>
 
           {/* Return to Site */}
-          <button
+          <NeoButton
             onClick={onNavigateHome}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer"
+            variant="secondary"
+            size="sm"
+            icon={<ArrowLeft size={14} />}
+            iconPosition="left"
           >
-            <ArrowLeft size={14} />
             <span className="hidden sm:inline">Website</span>
-          </button>
+          </NeoButton>
 
           {/* Sign Out */}
-          <button
+          <NeoButton
             onClick={handleLogout}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] bg-[#ef4444] hover:bg-[#dc2626] text-white font-bold text-xs shadow-sm transition-colors cursor-pointer"
+            variant="destructive"
+            size="sm"
+            icon={<LogOut size={14} />}
+            iconPosition="left"
           >
-            <LogOut size={14} />
             <span className="hidden sm:inline">Logout</span>
-          </button>
+          </NeoButton>
         </div>
       </header>
 
@@ -481,8 +495,9 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setActiveTab("inquiries")}
-              className={`px-5 py-2.5 rounded-[14px] font-bold text-sm border-2 border-[#210901] transition-all cursor-pointer ${activeTab === "inquiries"
-                ? "bg-[#d7f741] text-[#210901] shadow-[3px_3px_0px_#210901]"
+              data-name="button"
+              className={`px-5 py-2.5 rounded-[14px] font-bold text-sm border-2 border-[#210901] cursor-pointer transition-[filter] duration-150 ${activeTab === "inquiries"
+                ? "bg-[#d7f741] text-[#210901] drop-shadow-[3px_3px_0px_#210901] hover:drop-shadow-none"
                 : "bg-white text-[#210901]/70 hover:bg-[#fff4ef]"
                 }`}
             >
@@ -490,8 +505,9 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
             </button>
             <button
               onClick={() => setActiveTab("donations")}
-              className={`px-5 py-2.5 rounded-[14px] font-bold text-sm border-2 border-[#210901] transition-all cursor-pointer ${activeTab === "donations"
-                ? "bg-[#d7f741] text-[#210901] shadow-[3px_3px_0px_#210901]"
+              data-name="button"
+              className={`px-5 py-2.5 rounded-[14px] font-bold text-sm border-2 border-[#210901] cursor-pointer transition-[filter] duration-150 ${activeTab === "donations"
+                ? "bg-[#d7f741] text-[#210901] drop-shadow-[3px_3px_0px_#210901] hover:drop-shadow-none"
                 : "bg-white text-[#210901]/70 hover:bg-[#fff4ef]"
                 }`}
             >
@@ -499,14 +515,17 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
             </button>
           </div>
 
-          <button
+          <NeoButton
             onClick={loadDashboardData}
             disabled={loadingData}
-            className="flex items-center gap-2 px-4 py-2 rounded-[12px] bg-white hover:bg-[#faf8f5] text-[#210901] font-bold text-xs border border-[#210901] shadow-sm cursor-pointer disabled:opacity-50"
+            loading={loadingData}
+            variant="secondary"
+            size="sm"
+            icon={<RefreshCw size={14} />}
+            iconPosition="left"
           >
-            <RefreshCw size={14} className={loadingData ? "animate-spin" : ""} />
-            <span>Refresh Data</span>
-          </button>
+            Refresh Data
+          </NeoButton>
         </div>
 
         {/* ── TAB 1: CONTACT INQUIRIES ─────────────────────────────────────── */}
@@ -532,8 +551,9 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
                   <button
                     key={st}
                     onClick={() => setMessageStatusFilter(st)}
-                    className={`px-3 py-1.5 rounded-[10px] text-xs font-bold capitalize border border-[#210901] cursor-pointer transition-colors ${messageStatusFilter === st
-                      ? "bg-[#210901] text-white"
+                    data-name="button"
+                    className={`px-3 py-1.5 rounded-[10px] text-xs font-bold capitalize border border-[#210901] cursor-pointer transition-[filter] duration-150 ${messageStatusFilter === st
+                      ? "bg-[#210901] text-white drop-shadow-[2px_2px_0px_#fbb222] hover:drop-shadow-none"
                       : "bg-white text-[#210901] hover:bg-[#faf8f5]"
                       }`}
                   >
@@ -601,7 +621,8 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
                                 <button
                                   onClick={() => setSelectedMessage(msg)}
                                   title="View Message"
-                                  className="p-2 rounded-[8px] bg-white hover:bg-[#d7f741] text-[#210901] border border-[#210901] shadow-sm cursor-pointer transition-colors"
+                                  data-name="button"
+                                  className="p-2 rounded-[8px] bg-white hover:bg-[#d7f741] text-[#210901] border border-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none cursor-pointer transition-[filter] duration-150"
                                 >
                                   <Eye size={16} />
                                 </button>
@@ -611,14 +632,16 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
                                   )}&body=Hi ${encodeURIComponent(name)},%0D%0A%0D%0A`}
                                   onClick={() => handleStatusChange(msg.id, "replied")}
                                   title="Reply via Email"
-                                  className="p-2 rounded-[8px] bg-white hover:bg-[#fbb222] text-[#210901] border border-[#210901] shadow-sm cursor-pointer transition-colors"
+                                  data-name="button"
+                                  className="p-2 rounded-[8px] bg-white hover:bg-[#fbb222] text-[#210901] border border-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none cursor-pointer transition-[filter] duration-150 inline-flex items-center justify-center"
                                 >
                                   <Send size={16} />
                                 </a>
                                 <button
                                   onClick={() => setMessageToDelete(msg)}
                                   title="Delete Message"
-                                  className="p-2 rounded-[8px] bg-white hover:bg-[#ef4444] hover:text-white text-[#ef4444] border border-[#210901] shadow-sm cursor-pointer transition-colors"
+                                  data-name="button"
+                                  className="p-2 rounded-[8px] bg-white hover:bg-[#ef4444] hover:text-white text-[#ef4444] border border-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none cursor-pointer transition-[filter] duration-150"
                                 >
                                   <Trash2 size={16} />
                                 </button>
@@ -785,21 +808,24 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleStatusChange(selectedMessage.id, "read")}
-                  className={`px-3 py-1.5 rounded-[10px] text-xs font-bold border border-[#210901] cursor-pointer ${selectedMessage.status === "read" ? "bg-[#210901] text-white" : "bg-white text-[#210901]"
+                  data-name="button"
+                  className={`px-3 py-1.5 rounded-[10px] text-xs font-bold border border-[#210901] cursor-pointer transition-[filter] duration-150 ${selectedMessage.status === "read" ? "bg-[#210901] text-white drop-shadow-[2px_2px_0px_#fbb222] hover:drop-shadow-none" : "bg-white text-[#210901] hover:bg-[#faf8f5]"
                     }`}
                 >
                   Mark Read
                 </button>
                 <button
                   onClick={() => handleStatusChange(selectedMessage.id, "replied")}
-                  className={`px-3 py-1.5 rounded-[10px] text-xs font-bold border border-[#210901] cursor-pointer ${selectedMessage.status === "replied" ? "bg-[#210901] text-white" : "bg-white text-[#210901]"
+                  data-name="button"
+                  className={`px-3 py-1.5 rounded-[10px] text-xs font-bold border border-[#210901] cursor-pointer transition-[filter] duration-150 ${selectedMessage.status === "replied" ? "bg-[#210901] text-white drop-shadow-[2px_2px_0px_#fbb222] hover:drop-shadow-none" : "bg-white text-[#210901] hover:bg-[#faf8f5]"
                     }`}
                 >
                   Mark Replied
                 </button>
                 <button
                   onClick={() => setMessageToDelete(selectedMessage)}
-                  className="p-2 rounded-[10px] bg-white hover:bg-[#ef4444] hover:text-white text-[#ef4444] border border-[#210901] cursor-pointer transition-colors"
+                  data-name="button"
+                  className="p-2 rounded-[10px] bg-white hover:bg-[#ef4444] hover:text-white text-[#ef4444] border border-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none cursor-pointer transition-[filter] duration-150"
                   title="Delete Message"
                 >
                   <Trash2 size={14} />
@@ -807,18 +833,19 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
               </div>
 
               {/* Reply via mailto */}
-              <a
+              <NeoButton
                 href={`mailto:${selectedMessage.email}?subject=Re: Inquiry from ${encodeURIComponent(
                   selectedMessage.name
                 )}&body=Hi ${encodeURIComponent(
                   selectedMessage.name
                 )},%0D%0A%0D%0A`}
                 onClick={() => handleStatusChange(selectedMessage.id, "replied")}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-[12px] bg-[#210901] text-white font-bold text-xs shadow-[2px_2px_0px_#fbb222] hover:bg-[#341205] transition-colors"
+                variant="primary"
+                size="sm"
+                icon={<Send size={14} />}
               >
-                <Send size={14} />
-                <span>Reply to Sender</span>
-              </a>
+                Reply to Sender
+              </NeoButton>
             </div>
           </div>
         </div>
@@ -862,33 +889,27 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
 
             {/* Action Buttons */}
             <div className="flex items-center justify-center gap-3">
-              <button
-                type="button"
+              <NeoButton
                 onClick={() => setMessageToDelete(null)}
                 disabled={isDeleting}
-                className="flex-1 py-3 px-5 rounded-[12px] bg-white hover:bg-[#faf8f5] text-[#210901] font-bold text-sm border-2 border-[#210901] shadow-[3px_3px_0px_#210901] cursor-pointer transition-transform active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50"
+                variant="secondary"
+                size="md"
+                className="flex-1"
               >
                 Cancel
-              </button>
+              </NeoButton>
 
-              <button
-                type="button"
+              <NeoButton
                 onClick={handleConfirmDelete}
                 disabled={isDeleting}
-                className="flex-1 py-3 px-5 rounded-[12px] bg-[#ef4444] hover:bg-[#dc2626] text-white font-bold text-sm border-2 border-[#210901] shadow-[3px_3px_0px_#210901] cursor-pointer transition-transform active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50 flex items-center justify-center gap-2"
+                loading={isDeleting}
+                variant="destructive"
+                size="md"
+                icon={<Trash2 size={16} />}
+                className="flex-1"
               >
-                {isDeleting ? (
-                  <>
-                    <RefreshCw size={16} className="animate-spin" />
-                    <span>Deleting...</span>
-                  </>
-                ) : (
-                  <>
-                    <Trash2 size={16} />
-                    <span>Yes, Delete</span>
-                  </>
-                )}
-              </button>
+                {isDeleting ? "Deleting..." : "Yes, Delete"}
+              </NeoButton>
             </div>
           </div>
         </div>

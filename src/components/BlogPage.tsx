@@ -17,6 +17,7 @@ import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
 import CtaSection from "@/app/components/CtaSection";
 import BlogDetailPage from "@/components/BlogDetailPage";
+import NeoButton from "@/components/ui/NeoButton";
 import {
   BlogPost,
   BLOG_CATEGORIES,
@@ -24,85 +25,6 @@ import {
   getFeaturedBlogPost,
   resolveBlogImage,
 } from "@/lib/blogContent";
-
-// ── Reusable Neo-Brutalist Button Component matching the site design ──
-function NeoButton({
-  children,
-  onClick,
-  variant = "white-black",
-  size = "md",
-  icon,
-  className = "",
-}: {
-  children: React.ReactNode;
-  onClick?: (e: React.MouseEvent) => void;
-  variant?: "white-amber" | "white-black" | "lime-black" | "black-amber";
-  size?: "sm" | "md" | "lg";
-  icon?: React.ReactNode;
-  className?: string;
-}) {
-  const getShadow = () => {
-    switch (variant) {
-      case "white-amber":
-        return "bg-white drop-shadow-[4px_4px_0px_#fbb222] text-[#210901]";
-      case "lime-black":
-        return "bg-[#d7f741] drop-shadow-[4px_4px_0px_#210901] text-[#210901]";
-      case "black-amber":
-        return "bg-[#210901] drop-shadow-[4px_4px_0px_#fbb222] text-white";
-      case "white-black":
-      default:
-        return "bg-white drop-shadow-[4px_4px_0px_#210901] text-[#210901]";
-    }
-  };
-
-  const getBorderColor = () => {
-    switch (variant) {
-      case "black-amber":
-        return "border-[#fbb222] group-hover:border-white";
-      case "white-amber":
-        return "border-black group-hover:border-[#fbb222]";
-      case "lime-black":
-        return "border-black group-hover:border-[#210901]";
-      case "white-black":
-      default:
-        return "border-black group-hover:border-[#fbb222]";
-    }
-  };
-
-  const getSizeClasses = () => {
-    switch (size) {
-      case "sm":
-        return "h-[42px] sm:h-[44px] px-[18px] sm:px-[20px] py-[8px] text-[14px] sm:text-[15px]";
-      case "lg":
-        return "h-[50px] sm:h-[54px] px-[26px] sm:px-[30px] py-[12px] sm:py-[14px] text-[16px] sm:text-[18px]";
-      case "md":
-      default:
-        return "h-[46px] sm:h-[48px] px-[22px] sm:px-[24px] py-[10px] sm:py-[12px] text-[15px] sm:text-[16px]";
-    }
-  };
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      data-name="button"
-      className={`group content-stretch flex gap-[8px] items-center justify-center relative rounded-[16px] shrink-0 cursor-pointer ${getSizeClasses()} ${getShadow()} ${className}`}
-    >
-      <div
-        aria-hidden
-        className={`absolute border ${getBorderColor()} border-solid inset-0 pointer-events-none rounded-[16px] transition-colors duration-150`}
-      />
-      <div className="flex flex-col font-['Instrument_Sans',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-inherit text-center whitespace-nowrap">
-        <p className="leading-[0.9] m-0">{children}</p>
-      </div>
-      {icon && (
-        <div className="overflow-clip relative shrink-0 size-[18px] sm:size-[20px] flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1">
-          {icon}
-        </div>
-      )}
-    </button>
-  );
-}
 
 export default function BlogPage({
   selectedSlug,
@@ -275,9 +197,10 @@ export default function BlogPage({
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-4 py-2 rounded-[14px] text-xs sm:text-sm font-bold tracking-wide transition-all border-2 border-[#210901] cursor-pointer shrink-0 ${isActive
-                    ? "bg-[#210901] text-white shadow-[3px_3px_0px_#fbb222] scale-[1.02]"
-                    : "bg-white text-[#210901] hover:bg-[#fff4ef] shadow-[2px_2px_0px_#210901]"
+                  data-name="button"
+                  className={`px-4 py-2 rounded-[14px] text-xs sm:text-sm font-bold tracking-wide border-2 border-[#210901] cursor-pointer shrink-0 transition-[filter] duration-150 ${isActive
+                    ? "bg-[#210901] text-white drop-shadow-[3px_3px_0px_#fbb222] hover:drop-shadow-none"
+                    : "bg-white text-[#210901] hover:bg-[#fff4ef] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none"
                     }`}
                 >
                   {cat.label}
@@ -369,7 +292,7 @@ export default function BlogPage({
                   </div>
 
                   <NeoButton
-                    variant="white-amber"
+                    variant="primary-inverted"
                     size="lg"
                     icon={<ArrowRight size={20} />}
                     className="w-full sm:w-auto"
@@ -418,16 +341,17 @@ export default function BlogPage({
                 We couldn't find any articles matching your search query. Try searching with different
                 keywords or reset filters.
               </p>
-              <div className="pt-2">
-                <button
+              <div className="pt-2 flex justify-center">
+                <NeoButton
                   onClick={() => {
                     setActiveCategory("all");
                     setSearchQuery("");
                   }}
-                  className="px-5 py-2.5 rounded-[12px] bg-[#d7f741] text-[#210901] font-bold text-sm border-2 border-[#210901] shadow-[3px_3px_0px_#210901] cursor-pointer"
+                  variant="lime"
+                  size="sm"
                 >
                   Reset All Filters
-                </button>
+                </NeoButton>
               </div>
             </div>
           ) : (
@@ -491,7 +415,7 @@ export default function BlogPage({
                       </div>
 
                       <NeoButton
-                        variant="white-black"
+                        variant="secondary"
                         size="sm"
                         icon={<ArrowRight size={16} />}
                         onClick={(e) => {

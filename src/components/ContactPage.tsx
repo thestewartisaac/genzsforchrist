@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import confetti from "canvas-confetti";
-import { Mail, Phone, Copy, Check, CheckCircle2 } from "lucide-react";
+import { Mail, Phone, Copy, Check, CheckCircle2, ArrowRight } from "lucide-react";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
 import svgPaths from "@/imports/Footer/svg-n1pws9r301";
 import CtaSection from "@/app/components/CtaSection";
+import NeoButton from "@/components/ui/NeoButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -270,7 +271,8 @@ export default function ContactPage() {
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="p-2 rounded-lg bg-white hover:bg-[#fbb222] transition-all text-[#210901] cursor-pointer shrink-0 shadow-sm"
+                  data-name="button"
+                  className="p-2 rounded-lg bg-white hover:bg-[#fbb222] text-[#210901] border border-[#210901] cursor-pointer shrink-0 drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none transition-[filter] duration-150"
                   title="Copy Email"
                   aria-label="Copy Email"
                 >
@@ -300,7 +302,8 @@ export default function ContactPage() {
                 <button
                   type="button"
                   onClick={handleCopyPhone}
-                  className="p-2 rounded-lg bg-white hover:bg-[#d7f741] transition-all text-[#210901] cursor-pointer shrink-0 shadow-sm"
+                  data-name="button"
+                  className="p-2 rounded-lg bg-white hover:bg-[#d7f741] text-[#210901] border border-[#210901] cursor-pointer shrink-0 drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none transition-[filter] duration-150"
                   title="Copy Phone"
                   aria-label="Copy Phone"
                 >
@@ -346,19 +349,13 @@ export default function ContactPage() {
                   </p>
 
                   {/* Reset Button */}
-                  <div
+                  <NeoButton
                     onClick={handleReset}
-                    className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex gap-[8px] h-[56px] items-center justify-center px-[32px] py-[16px] relative rounded-[16px] shrink-0 cursor-pointer"
-                    data-name="button"
+                    variant="primary-inverted"
+                    size="lg"
                   >
-                    <div
-                      aria-hidden
-                      className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[16px]"
-                    />
-                    <div className="flex flex-col font-['Instrument_Sans:SemiBold',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-[#210901] text-[20px] text-center whitespace-nowrap">
-                      <p className="leading-[0.9]">Go back</p>
-                    </div>
-                  </div>
+                    Go back
+                  </NeoButton>
                 </div>
               ) : (
                 /* Contact Form */
@@ -432,40 +429,18 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  {/* Submit Button (Identical to Homepage Button) */}
-                  <button
+                  {/* Submit Button */}
+                  <NeoButton
                     type="submit"
-                    disabled={isSubmitting}
-                    className="w-full mt-2 bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex gap-[8px] h-[56px] items-center justify-center px-[32px] py-[16px] relative rounded-[16px] shrink-0 cursor-pointer disabled:opacity-50"
-                    data-name="button"
+                    variant="primary-inverted"
+                    size="lg"
+                    fullWidth
+                    loading={isSubmitting}
+                    icon={<ArrowRight size={20} />}
+                    className="mt-2"
                   >
-                    <div
-                      aria-hidden
-                      className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[16px]"
-                    />
-                    <div className="flex flex-col font-['Instrument_Sans:SemiBold',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-[#210901] text-[20px] text-center whitespace-nowrap">
-                      <p className="leading-[0.9]">
-                        {isSubmitting ? "Sending..." : "Send Message"}
-                      </p>
-                    </div>
-                    <div
-                      className="overflow-clip relative shrink-0 size-[24px]"
-                      data-name="icon"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#210901"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </button>
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </NeoButton>
                 </form>
               )}
             </div>

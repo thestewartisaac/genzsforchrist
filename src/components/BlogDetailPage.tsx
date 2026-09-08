@@ -16,7 +16,7 @@ import {
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
 import CtaSection from "@/app/components/CtaSection";
-import NotFoundPage from "@/components/NotFoundPage";
+import NeoButton from "@/components/ui/NeoButton";
 import {
   BlogPost,
   getBlogPostBySlug,
@@ -25,85 +25,6 @@ import {
 } from "@/lib/blogContent";
 
 gsap.registerPlugin(ScrollTrigger);
-
-// ── Reusable Neo-Brutalist Button Component matching the site design ──
-function NeoButton({
-  children,
-  onClick,
-  variant = "white-black",
-  size = "md",
-  icon,
-  className = "",
-}: {
-  children: React.ReactNode;
-  onClick?: (e: React.MouseEvent) => void;
-  variant?: "white-amber" | "white-black" | "lime-black" | "black-amber";
-  size?: "sm" | "md" | "lg";
-  icon?: React.ReactNode;
-  className?: string;
-}) {
-  const getShadow = () => {
-    switch (variant) {
-      case "white-amber":
-        return "bg-white drop-shadow-[4px_4px_0px_#fbb222] text-[#210901]";
-      case "lime-black":
-        return "bg-[#d7f741] drop-shadow-[4px_4px_0px_#210901] text-[#210901]";
-      case "black-amber":
-        return "bg-[#210901] drop-shadow-[4px_4px_0px_#fbb222] text-white";
-      case "white-black":
-      default:
-        return "bg-white drop-shadow-[4px_4px_0px_#210901] text-[#210901]";
-    }
-  };
-
-  const getBorderColor = () => {
-    switch (variant) {
-      case "black-amber":
-        return "border-[#fbb222] group-hover:border-white";
-      case "white-amber":
-        return "border-black group-hover:border-[#fbb222]";
-      case "lime-black":
-        return "border-black group-hover:border-[#210901]";
-      case "white-black":
-      default:
-        return "border-black group-hover:border-[#fbb222]";
-    }
-  };
-
-  const getSizeClasses = () => {
-    switch (size) {
-      case "sm":
-        return "h-[42px] sm:h-[44px] px-[18px] sm:px-[20px] py-[8px] text-[14px] sm:text-[15px]";
-      case "lg":
-        return "h-[50px] sm:h-[54px] px-[26px] sm:px-[30px] py-[12px] sm:py-[14px] text-[16px] sm:text-[18px]";
-      case "md":
-      default:
-        return "h-[46px] sm:h-[48px] px-[22px] sm:px-[24px] py-[10px] sm:py-[12px] text-[15px] sm:text-[16px]";
-    }
-  };
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      data-name="button"
-      className={`group content-stretch flex gap-[8px] items-center justify-center relative rounded-[16px] shrink-0 cursor-pointer ${getSizeClasses()} ${getShadow()} ${className}`}
-    >
-      <div
-        aria-hidden
-        className={`absolute border ${getBorderColor()} border-solid inset-0 pointer-events-none rounded-[16px] transition-colors duration-150`}
-      />
-      <div className="flex flex-col font-['Instrument_Sans',sans-serif] font-semibold justify-center leading-[0] relative shrink-0 text-inherit text-center whitespace-nowrap">
-        <p className="leading-[0.9] m-0">{children}</p>
-      </div>
-      {icon && (
-        <div className="overflow-clip relative shrink-0 size-[16px] sm:size-[18px] flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1">
-          {icon}
-        </div>
-      )}
-    </button>
-  );
-}
 
 export default function BlogDetailPage({
   slug,
@@ -471,28 +392,32 @@ export default function BlogDetailPage({
               <button
                 onClick={handleShareTelegram}
                 title="Share on Telegram"
-                className="size-9 rounded-[10px] bg-white border border-[#210901] shadow-[2px_2px_0px_#210901] hover:bg-[#faf8f5] flex items-center justify-center text-[#210901] cursor-pointer active:translate-y-0.5"
+                data-name="button"
+                className="size-9 rounded-[10px] bg-white border border-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none hover:bg-[#faf8f5] flex items-center justify-center text-[#210901] cursor-pointer transition-[filter] duration-150"
               >
                 <Send size={15} />
               </button>
               <button
                 onClick={handleShareWhatsApp}
                 title="Share on WhatsApp"
-                className="size-9 rounded-[10px] bg-white border border-[#210901] shadow-[2px_2px_0px_#210901] hover:bg-[#faf8f5] flex items-center justify-center text-[#210901] cursor-pointer active:translate-y-0.5"
+                data-name="button"
+                className="size-9 rounded-[10px] bg-white border border-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none hover:bg-[#faf8f5] flex items-center justify-center text-[#210901] cursor-pointer transition-[filter] duration-150"
               >
                 <Share2 size={15} />
               </button>
               <button
                 onClick={handleShareTwitter}
                 title="Share on X / Twitter"
-                className="size-9 rounded-[10px] bg-white border border-[#210901] shadow-[2px_2px_0px_#210901] hover:bg-[#faf8f5] flex items-center justify-center text-[#210901] cursor-pointer active:translate-y-0.5"
+                data-name="button"
+                className="size-9 rounded-[10px] bg-white border border-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none hover:bg-[#faf8f5] flex items-center justify-center text-[#210901] cursor-pointer transition-[filter] duration-150"
               >
                 <span className="font-bold text-xs">𝕏</span>
               </button>
               <button
                 onClick={handleCopy}
                 title="Copy Link"
-                className="px-3 h-9 rounded-[10px] bg-[#d7f741] border border-[#210901] shadow-[2px_2px_0px_#210901] hover:bg-[#cbe838] flex items-center gap-1.5 text-xs font-bold text-[#210901] cursor-pointer active:translate-y-0.5"
+                data-name="button"
+                className="px-3 h-9 rounded-[10px] bg-[#d7f741] border border-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none hover:bg-[#cbe838] flex items-center gap-1.5 text-xs font-bold text-[#210901] cursor-pointer transition-[filter] duration-150"
               >
                 {copied ? (
                   <>
@@ -563,15 +488,15 @@ export default function BlogDetailPage({
                 Don't just read about revival—step into it.
               </p>
               <div className="pt-2">
-                <a
+                <NeoButton
                   href="https://t.me/genzsforchrist"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-[14px] bg-[#d7f741] hover:bg-[#cbf128] text-[#210901] font-bold text-base border border-[#210901] shadow-[3px_3px_0px_#210901] transition-transform active:translate-y-0.5 cursor-pointer"
+                  variant="lime"
+                  icon={<Send size={16} />}
                 >
-                  <span>Join Our Telegram Altar</span>
-                  <Send size={16} />
-                </a>
+                  Join Our Telegram Altar
+                </NeoButton>
               </div>
             </div>
           </div>
@@ -595,13 +520,15 @@ export default function BlogDetailPage({
                 </p>
               </div>
 
-              <button
+              <NeoButton
                 onClick={onBack}
-                className="hidden sm:inline-flex items-center gap-1.5 text-sm font-bold text-[#210901] hover:underline cursor-pointer"
+                variant="secondary"
+                size="sm"
+                icon={<ArrowRight size={16} />}
+                className="hidden sm:inline-flex"
               >
-                <span>View All Articles</span>
-                <ArrowRight size={16} />
-              </button>
+                View All Articles
+              </NeoButton>
             </div>
 
             <div className="gz-detail-related-grid grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
@@ -655,7 +582,7 @@ export default function BlogDetailPage({
                         {rPost.authorName}
                       </span>
                       <NeoButton
-                        variant="white-black"
+                        variant="secondary"
                         size="sm"
                         icon={<ArrowRight size={14} />}
                         onClick={(e) => {
