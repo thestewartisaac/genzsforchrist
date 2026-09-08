@@ -71,16 +71,10 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         setIsAuthenticated(true);
-        setCurrentUserEmail(session.user.email || "admin@genzsforchrist.org");
+        setCurrentUserEmail(session.user.email || "");
       } else {
-        const localAuth = localStorage.getItem("gzc_admin_auth");
-        if (localAuth === "true") {
-          setIsAuthenticated(true);
-          setCurrentUserEmail("local-admin@genzsforchrist.org");
-        } else {
-          setIsAuthenticated(false);
-          setCurrentUserEmail("");
-        }
+        setIsAuthenticated(false);
+        setCurrentUserEmail("");
       }
       setAuthLoading(false);
     });
@@ -100,26 +94,18 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
   const checkCurrentAuth = async () => {
     setAuthLoading(true);
     try {
-      if (isSupabaseConfigured) {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-          setIsAuthenticated(true);
-          setCurrentUserEmail(session.user.email || "admin@genzsforchrist.org");
-          setAuthLoading(false);
-          return;
-        }
-      }
-
-      // Check local session fallback
-      const localAuth = localStorage.getItem("gzc_admin_auth");
-      if (localAuth === "true") {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
         setIsAuthenticated(true);
-        setCurrentUserEmail("local-admin@genzsforchrist.org");
+        setCurrentUserEmail(session.user.email || "");
       } else {
         setIsAuthenticated(false);
+        setCurrentUserEmail("");
       }
     } catch (err) {
-      console.warn("Auth check error:", err);
+      console.error("Auth check error:", err);
+      setIsAuthenticated(false);
+      setCurrentUserEmail("");
     } finally {
       setAuthLoading(false);
     }
@@ -131,37 +117,23 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
     setIsSubmittingAuth(true);
 
     try {
-      if (isSupabaseConfigured) {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: loginEmail.trim(),
-          password: loginPassword,
-        });
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: loginEmail.trim(),
+        password: loginPassword,
+      });
 
-        if (error) {
-          throw error;
-        }
-
-        if (data.session) {
-          setIsAuthenticated(true);
-          setCurrentUserEmail(data.session.user.email || loginEmail);
-          setIsSubmittingAuth(false);
-          return;
-        }
+      if (error) {
+        throw error;
       }
 
-      // Local / Offline fallback mode credentials check
-      if (
-        (loginEmail.trim().toLowerCase() === "admin@genzsforchrist.org" || loginEmail.trim().toLowerCase() === "contact@genzsforchrist.org") &&
-        loginPassword.length >= 6
-      ) {
-        localStorage.setItem("gzc_admin_auth", "true");
+      if (data.session) {
         setIsAuthenticated(true);
-        setCurrentUserEmail(loginEmail);
-      } else {
-        throw new Error("Invalid email or password. Try again.");
+        setCurrentUserEmail(data.session.user.email || loginEmail);
+        setIsSubmittingAuth(false);
+        return;
       }
     } catch (err: any) {
-      setLoginError(err.message || "Failed to log in.");
+      setLoginError(err.message || "Invalid email or password. Try again.");
     } finally {
       setIsSubmittingAuth(false);
     }
@@ -169,13 +141,10 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
 
   const handleLogout = async () => {
     try {
-      if (isSupabaseConfigured) {
-        await supabase.auth.signOut();
-      }
+      await supabase.auth.signOut();
     } catch (err) {
-      console.warn("Error signing out:", err);
+      console.error("Error signing out:", err);
     }
-    localStorage.removeItem("gzc_admin_auth");
     setIsAuthenticated(false);
     setCurrentUserEmail("");
   };
