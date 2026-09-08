@@ -1,19 +1,15 @@
 {
   "rewrites": [
     {
-      "source": "/admin",
+      "source": "/admin/index.html",
       "destination": "/admin/index.html"
     },
     {
-      "source": "/admin/",
-      "destination": "/admin/index.html"
+      "source": "/admin/assets/:match*",
+      "destination": "/admin/assets/:match*"
     },
     {
-      "source": "/admin/:match*",
-      "destination": "/admin/:match*"
-    },
-    {
-      "source": "/((?!admin|uploads|assets).*)",
+      "source": "/((?!uploads|assets).*)",
       "destination": "/index.html"
     }
   ]

@@ -10,17 +10,11 @@
   RewriteCond %{HTTPS} off
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # Allow direct access to existing physical files or directories (e.g. assets, images)
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
+  # Allow direct access to existing physical files or directories (e.g. assets, Tina admin/index.html)
+  RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
-  # Allow direct access to Tina CMS admin panel
-  RewriteRule ^admin/?$ admin/index.html [L]
-  RewriteCond %{REQUEST_URI} ^/admin/
-  RewriteRule ^ - [L]
-
-  # Route all other URLs to the Vite Single Page Application root index.html
+  # Route all other URLs (including /admin, /about, /events, /contact, etc.) to the React SPA index.html
   RewriteRule ^ index.html [L]
 </IfModule>
 
