@@ -213,26 +213,29 @@ export default function EventsPage({
       const heroContent = container.querySelector('[data-name="EventsHero"] > div');
       if (heroContent) {
         gsap.from(heroContent.children, {
-          y: 44,
+          y: 28,
           opacity: 0,
-          duration: 1.0,
-          ease: "power3.out",
-          stagger: 0.14,
-          delay: 0.1,
+          duration: 0.6,
+          ease: "power2.out",
+          stagger: 0.08,
+          delay: 0.05,
+          clearProps: "all",
         });
       }
 
       // 2. Section Headers
       container.querySelectorAll<HTMLElement>("section > div > div.text-center").forEach((header) => {
         gsap.from(header, {
-          y: 40,
+          y: 24,
           opacity: 0,
-          duration: 0.85,
-          ease: "power3.out",
+          duration: 0.5,
+          ease: "power2.out",
+          clearProps: "all",
           scrollTrigger: {
             trigger: header,
-            start: "top 85%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       });
@@ -243,15 +246,16 @@ export default function EventsPage({
         if (cards.length > 0) {
           gsap.from(cards, {
             opacity: 0,
-            y: 36,
-            duration: 0.85,
-            ease: "power3.out",
-            stagger: 0.14,
-            clearProps: "transform",
+            y: 24,
+            duration: 0.5,
+            ease: "power2.out",
+            stagger: 0.08,
+            clearProps: "all",
             scrollTrigger: {
               trigger: cards[0].parentElement || sec,
-              start: "top 82%",
-              toggleActions: "play none none none",
+              start: "top 95%",
+              once: true,
+              fastScrollEnd: true,
             },
           });
         }
@@ -262,16 +266,17 @@ export default function EventsPage({
       if (galleryItems.length > 0) {
         gsap.from(galleryItems, {
           opacity: 0,
-          scale: 0.92,
-          y: 28,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.08,
-          clearProps: "transform",
+          scale: 0.94,
+          y: 20,
+          duration: 0.5,
+          ease: "power2.out",
+          stagger: 0.04,
+          clearProps: "all",
           scrollTrigger: {
             trigger: galleryItems[0].parentElement,
-            start: "top 85%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       }
@@ -284,14 +289,18 @@ export default function EventsPage({
     setActiveEvent(event);
     window.history.pushState(null, "", `/events/${event.id}`);
     window.dispatchEvent(new PopStateEvent("popstate"));
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   const handleBackToAllEvents = () => {
     setActiveEvent(null);
     window.history.pushState(null, "", "/events");
     window.dispatchEvent(new PopStateEvent("popstate"));
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   // If viewing a dedicated event detail page

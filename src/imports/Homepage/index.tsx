@@ -990,14 +990,12 @@ function Humanitarian() {
       className="bg-transparent content-stretch flex flex-col gap-[10px] h-[873px] items-start overflow-x-hidden px-[100px] py-[140px] relative shrink-0 w-full"
       data-name="Humanitarian"
     >
-      <div className="-translate-x-1/2 absolute h-[873px] left-1/2 top-0 w-[1512px]">
+      <div className="gz-humanitarian-bg-wrapper absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <svg
-          className="absolute block inset-0 size-full"
+          className="gz-humanitarian-bg-svg absolute block inset-0 size-full w-full h-full"
           fill="none"
-          height="873"
           preserveAspectRatio="none"
           viewBox="0 0 1512 873"
-          width="1512"
         >
           <path
             d={svgPaths.p30358500}

@@ -174,35 +174,38 @@ export default function ContactPage() {
       // 1. Hero Headline Entrance
       gsap.from(".gz-contact-hero-title", {
         opacity: 0,
-        y: 36,
-        duration: 0.9,
-        ease: "power3.out",
+        y: 28,
+        duration: 0.6,
+        ease: "power2.out",
+        clearProps: "all",
       });
 
       // 2. Split-Screen Layout: Left Column (Channels) and Right Column (Form)
       gsap.from(".gz-contact-left-col", {
         opacity: 0,
-        x: -40,
-        duration: 0.85,
-        ease: "power3.out",
-        clearProps: "transform",
+        x: -24,
+        duration: 0.55,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-contact-body",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
       gsap.from(".gz-contact-right-col", {
         opacity: 0,
-        x: 40,
-        duration: 0.85,
-        ease: "power3.out",
-        clearProps: "transform",
+        x: 24,
+        duration: 0.55,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-contact-body",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
     }, container);

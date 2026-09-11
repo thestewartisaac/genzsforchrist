@@ -83,6 +83,8 @@ export default function BlogDetailPage({
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
 
     const container = containerRef.current;
     if (!container || !post) return;
@@ -91,19 +93,19 @@ export default function BlogDetailPage({
       // 1. Article Header Entrance
       gsap.from(".gz-detail-article-header", {
         opacity: 0,
-        y: 28,
-        duration: 0.8,
-        ease: "power3.out",
+        y: 20,
+        duration: 0.5,
+        ease: "power2.out",
         clearProps: "all",
       });
 
       // 2. Main Article Card Entrance (Cover Image + Body in one container)
       gsap.from(".gz-detail-article-card", {
         opacity: 0,
-        y: 32,
-        duration: 0.85,
-        delay: 0.1,
-        ease: "power3.out",
+        y: 24,
+        duration: 0.55,
+        delay: 0.05,
+        ease: "power2.out",
         clearProps: "all",
       });
 
@@ -112,15 +114,16 @@ export default function BlogDetailPage({
       if (relatedGrid) {
         gsap.from(".gz-detail-related-card", {
           opacity: 0,
-          y: 32,
-          duration: 0.75,
-          stagger: 0.12,
-          ease: "power3.out",
+          y: 24,
+          duration: 0.5,
+          stagger: 0.08,
+          ease: "power2.out",
           clearProps: "all",
           scrollTrigger: {
             trigger: ".gz-detail-related-grid",
-            start: "top 88%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       }
@@ -576,6 +579,9 @@ export default function BlogDetailPage({
                 <div
                   key={rPost.slug}
                   onClick={() => {
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
                     if (onSelectPost) onSelectPost(rPost.slug);
                     else {
                       window.history.pushState(null, "", `/blog/${rPost.slug}`);
@@ -618,15 +624,25 @@ export default function BlogDetailPage({
                     </div>
 
                     <div className="pt-4 border-t border-[#210901]/10 flex items-center justify-between gap-3">
-                      <span className="text-xs font-bold text-[#210901]/70">
-                        {rPost.authorName}
-                      </span>
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <img
+                          src={rPost.authorAvatar || resolveBlogImage()}
+                          alt={rPost.authorName}
+                          className="size-7 sm:size-8 rounded-full border border-[#210901] object-cover bg-[#fbb222] shrink-0"
+                        />
+                        <span className="text-xs font-bold text-[#210901] truncate">
+                          {rPost.authorName}
+                        </span>
+                      </div>
                       <NeoButton
                         variant="secondary"
                         size="sm"
                         icon={<ArrowRight size={14} />}
                         onClick={(e) => {
                           e.stopPropagation();
+                          window.scrollTo(0, 0);
+                          document.documentElement.scrollTop = 0;
+                          document.body.scrollTop = 0;
                           if (onSelectPost) onSelectPost(rPost.slug);
                           else {
                             window.history.pushState(null, "", `/blog/${rPost.slug}`);

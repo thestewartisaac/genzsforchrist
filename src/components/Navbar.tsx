@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import logoColorLight from "@/imports/logo_color-light_transparent.svg";
 import svgPaths from "@/imports/Homepage/svg-ylshnye6o6";
 
@@ -60,7 +60,7 @@ export function MenuToggleBtn({ onClick }: { onClick?: () => void }) {
     <div
       onClick={onClick}
       data-name="button"
-      className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex items-center justify-center p-[8px] relative rounded-[16px] shrink-0 size-[56px] cursor-pointer"
+      className="bg-white content-stretch drop-shadow-[4px_4px_0px_#fbb222] flex items-center justify-center p-[8px] relative rounded-[16px] shrink-0 size-[56px] cursor-pointer hover:drop-shadow-none transition-[filter] duration-150"
       aria-label="Open Menu"
       role="button"
     >
@@ -80,10 +80,52 @@ export default function SiteNavbar({
   onNavigateHome?: () => void;
   onOpenMenu?: () => void;
 }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos =
+        window.pageYOffset ||
+        window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+      setIsScrolled(scrollPos > 10);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true, capture: true });
+    document.addEventListener("scroll", handleScroll, { passive: true, capture: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="gz-header-nav fixed top-0 left-0 right-0 w-full max-w-full flex items-center justify-between z-[100] box-border">
+    <header
+      className={`gz-header-nav fixed top-0 left-0 right-0 w-full max-w-full flex items-center justify-between z-[100] box-border ${
+        isScrolled ? "gz-header-scrolled" : "gz-header-top"
+      }`}
+      style={{
+        backgroundColor: isScrolled ? "rgba(38, 16, 61, 0.96)" : "transparent",
+        backdropFilter: isScrolled ? "blur(16px)" : "none",
+        WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
+        boxShadow: isScrolled
+          ? "0 4px 24px rgba(0, 0, 0, 0.45)"
+          : "none",
+        borderBottom: isScrolled
+          ? "1px solid rgba(215, 247, 65, 0.15)"
+          : "1px solid transparent",
+        transition:
+          "background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease",
+      }}
+    >
       <div
-        className="h-[60px] relative shrink-0 w-[151.938px] flex items-center cursor-pointer"
+        className="h-[60px] relative shrink-0 w-[151.938px] flex items-center cursor-pointer select-none"
         onClick={onNavigateHome}
       >
         <img

@@ -188,128 +188,143 @@ export default function FoundationPage({
       // 1. Hero Content Entrance
       gsap.from(".gz-foundation-hero-content", {
         opacity: 0,
-        y: 36,
-        duration: 0.9,
-        ease: "power3.out",
+        y: 28,
+        duration: 0.6,
+        ease: "power2.out",
+        clearProps: "all",
       });
 
       // 2. The Core Mandate
       gsap.from(".gz-mandate-header", {
         opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: "power3.out",
+        y: 24,
+        duration: 0.5,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-mandate-header",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
       gsap.from(".gz-mandate-pillar", {
         opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
+        y: 24,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-mandate-pillars",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
       // 3. Impact Areas Cards
       gsap.from(".gz-impact-header", {
         opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: "power3.out",
+        y: 24,
+        duration: 0.5,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-impact-header",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
       gsap.from(".gz-impact-card", {
         opacity: 0,
-        y: 40,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
-        clearProps: "transform",
+        y: 24,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-impact-cards",
-          start: "top 82%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
       // 4. Impact Gallery Header
       gsap.from(".gz-gallery-header", {
         opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: "power3.out",
+        y: 24,
+        duration: 0.5,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-gallery-header",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
       // 5. Partner (Give Block) Split Reveal
       gsap.from(".gz-partner-header", {
         opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: "power3.out",
+        y: 24,
+        duration: 0.5,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-partner-header",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
       gsap.from(".gz-partner-paystack", {
         opacity: 0,
-        x: -36,
-        duration: 0.85,
-        ease: "power3.out",
-        clearProps: "transform",
+        x: -24,
+        duration: 0.55,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-partner-grid",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
       gsap.from(".gz-partner-bank", {
         opacity: 0,
-        x: 36,
-        duration: 0.85,
-        ease: "power3.out",
-        clearProps: "transform",
+        x: 24,
+        duration: 0.55,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-partner-grid",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
       // 6. Volunteer Call to Action
       gsap.from(".gz-volunteer-box", {
         opacity: 0,
-        scale: 0.95,
-        y: 36,
-        duration: 0.9,
-        ease: "back.out(1.4)",
-        clearProps: "transform",
+        scale: 0.96,
+        y: 24,
+        duration: 0.55,
+        ease: "back.out(1.3)",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-volunteer-box",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
     }, container);
@@ -606,227 +621,225 @@ export default function FoundationPage({
       {/* ── 5. Partner With the Vision (Give Block) ──────────────────────────── */}
       <section
         id="partner-section"
-        className="w-full py-20 sm:py-28 px-6 sm:px-12 lg:px-20 bg-transparent scroll-mt-12"
+        className="w-full py-20 max-w-[1240px] mx-auto bg-[#F3D9FF] sm:py-28 px-6 sm:px-12 lg:px-20 scroll-mt-12"
       >
-        <div className="max-w-[1240px] mx-auto bg-[#F3D9FF] border-2 border-[#210901] rounded-[32px] p-8 sm:p-12 md:p-16 shadow-[10px_10px_0px_0px_#210901]">
-          {/* Header */}
-          <div className="gz-partner-header text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <h2
-              className="text-[38px] sm:text-[54px] text-[#210901] leading-tight m-0"
-              style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
-            >
-              Build the Legacy. Partner With Us.
-            </h2>
-            <p
-              className="text-[18px] sm:text-[22px] text-[#210901]/85 mt-4 leading-relaxed font-normal m-0"
-              style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
-            >
-              Your generosity helps make this mission possible. Every donation directly supports our
-              charitable initiatives, outreach programs, and evangelism efforts. Together, we are
-              raising a generation for Christ and changing the narrative—one life at a time.
-            </p>
+        {/* Header */}
+        <div className="gz-partner-header text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <h2
+            className="text-[38px] sm:text-[54px] text-[#210901] leading-tight m-0"
+            style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
+          >
+            Build the Legacy. Partner With Us.
+          </h2>
+          <p
+            className="text-[18px] sm:text-[22px] text-[#210901]/85 mt-4 leading-relaxed font-normal m-0"
+            style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
+          >
+            Your generosity helps make this mission possible. Every donation directly supports our
+            charitable initiatives, outreach programs, and evangelism efforts. Together, we are
+            raising a generation for Christ and changing the narrative—one life at a time.
+          </p>
+        </div>
+
+        {/* Split-Screen Payment Layout */}
+        <div className="gz-partner-grid grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Option A: Instant Secure Payment (Powered by Paystack) — 7 Columns */}
+          <div className="gz-partner-paystack lg:col-span-7 bg-white rounded-[24px] border-2 border-[#210901] p-6 sm:p-8 md:p-10 shadow-[6px_6px_0px_#210901] flex flex-col justify-between">
+            <form onSubmit={handleDonateNow} className="flex flex-col gap-6">
+              <div>
+                <h3
+                  className="text-[30px] sm:text-[36px] text-[#210901] leading-tight mb-1 font-bold"
+                  style={{ fontFamily: "'Instrument Serif', serif" }}
+                >
+                  Instant Secure Payment
+                </h3>
+                <p className="text-sm sm:text-base text-[#210901]/75 m-0">
+                  Give securely via card, USSD, or direct bank debit.
+                </p>
+              </div>
+
+              {/* Amount Tiers */}
+              <div>
+                <label className="text-xs font-bold uppercase text-[#210901]/70 tracking-wider block mb-2.5">
+                  Select Donation Amount (NGN)
+                </label>
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                  {[2000, 5000, 10000, 25000, 50000, 100000].map((amt) => {
+                    const isSelected = selectedAmount === amt && !customAmount;
+                    return (
+                      <button
+                        key={amt}
+                        type="button"
+                        onClick={() => {
+                          setSelectedAmount(amt);
+                          setCustomAmount("");
+                        }}
+                        data-name="button"
+                        className={`py-3 px-1.5 rounded-[12px] border-2 border-[#210901] text-xs sm:text-sm font-bold cursor-pointer text-center transition-[filter] duration-150 ${isSelected
+                          ? "bg-[#d7f741] text-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none"
+                          : "bg-[#fff4ef] text-[#210901] hover:bg-[#fce5d9]"
+                          }`}
+                      >
+                        ₦{amt.toLocaleString()}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Custom Amount */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-bold uppercase text-[#210901]/70 tracking-wider block">
+                    Or Enter Custom Amount (₦)
+                  </label>
+                  {customAmount && Number(customAmount) > 0 && (
+                    <span className="text-[11px] font-extrabold text-[#00434a] bg-[#d7f741] px-2.5 py-0.5 rounded-full border border-[#210901] shadow-[1px_1px_0px_#210901] animate-in fade-in duration-150">
+                      Preview: ₦{Number(customAmount).toLocaleString()}
+                    </span>
+                  )}
+                </div>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-[#210901]/60">
+                    ₦
+                  </span>
+                  <input
+                    type="number"
+                    min="100"
+                    placeholder="e.g. 15000"
+                    value={customAmount}
+                    onChange={(e) => setCustomAmount(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-[12px] bg-[#faf8f5] border-2 border-[#210901] text-[#210901] font-bold text-lg focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#fbb222]"
+                  />
+                </div>
+              </div>
+
+              {/* Donor Fields */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-bold uppercase text-[#210901]/70 tracking-wider block mb-1.5">
+                    Your Name (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    value={donorName}
+                    onChange={(e) => setDonorName(e.target.value)}
+                    className="w-full px-4 py-3 rounded-[12px] bg-[#faf8f5] border-2 border-[#210901] text-[#210901] text-base focus:outline-none focus:bg-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold uppercase text-[#210901]/70 tracking-wider block mb-1.5">
+                    Your Email (For Receipt) *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="youremail@example.com"
+                    value={donorEmail}
+                    onChange={(e) => setDonorEmail(e.target.value)}
+                    className="w-full px-4 py-3 rounded-[12px] bg-[#faf8f5] border-2 border-[#210901] text-[#210901] text-base focus:outline-none focus:bg-white"
+                  />
+                </div>
+              </div>
+
+              {/* Primary CTA Button: Donate Now */}
+              <div className="pt-2">
+                <NeoButton
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  fullWidth
+                  loading={isProcessing}
+                  icon={<ArrowRight size={20} />}
+                >
+                  {isProcessing
+                    ? "Opening Paystack..."
+                    : `Donate Now (₦${getEffectiveAmount().toLocaleString()})`}
+                </NeoButton>
+              </div>
+
+              {/* Paystack Security Badge & Accepted Payment Cards */}
+              <div className="pt-3 border-t border-[#210901]/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="flex flex-col items-start gap-1">
+                  <PaystackSecurityBadge />
+                  <span className="text-[11px] text-[#210901]/60 font-medium pl-1">
+                    SSL encrypted
+                  </span>
+                </div>
+
+                <AcceptedPaymentLogos className="mb-auto" />
+              </div>
+            </form>
           </div>
 
-          {/* Split-Screen Payment Layout */}
-          <div className="gz-partner-grid grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            {/* Option A: Instant Secure Payment (Powered by Paystack) — 7 Columns */}
-            <div className="gz-partner-paystack lg:col-span-7 bg-white rounded-[24px] border-2 border-[#210901] p-6 sm:p-8 md:p-10 shadow-[6px_6px_0px_#210901] flex flex-col justify-between">
-              <form onSubmit={handleDonateNow} className="flex flex-col gap-6">
+          {/* Option B: Manual Bank Transfer — 5 Columns */}
+          <div className="gz-partner-bank lg:col-span-5 bg-white rounded-[24px] border-2 border-[#210901] p-6 sm:p-8 shadow-[6px_6px_0px_#210901] flex flex-col justify-between h-[max-content]">
+            <div className="space-y-6">
+              <div>
+                <h3
+                  className="text-[28px] sm:text-[34px] text-[#210901] leading-tight mb-1 font-bold"
+                  style={{ fontFamily: "'Instrument Serif', serif" }}
+                >
+                  Bank Transfer
+                </h3>
+                <p className="text-sm text-[#210901]/75 m-0">
+                  Prefer to do a transfer? Use the account details below.
+                </p>
+              </div>
+
+              {/* Account Details Box */}
+              <div className="bg-[#faf8f5] rounded-[20px] border-2 border-[#210901] p-5 sm:p-6 space-y-4">
                 <div>
-                  <h3
-                    className="text-[30px] sm:text-[36px] text-[#210901] leading-tight mb-1 font-bold"
-                    style={{ fontFamily: "'Instrument Serif', serif" }}
-                  >
-                    Instant Secure Payment
-                  </h3>
-                  <p className="text-sm sm:text-base text-[#210901]/75 m-0">
-                    Give securely via card, USSD, or direct bank debit.
-                  </p>
+                  <span className="text-[11px] font-bold uppercase text-[#210901]/60 tracking-wider block mb-1">
+                    Bank
+                  </span>
+                  <div className="text-lg sm:text-xl font-bold text-[#210901] flex items-center gap-2">
+                    <img src={ZenithLogo} alt="Zenith Bank Logo" className="w-8 h-8" />{BANK_DETAILS.bankName}
+                  </div>
                 </div>
 
-                {/* Amount Tiers */}
                 <div>
-                  <label className="text-xs font-bold uppercase text-[#210901]/70 tracking-wider block mb-2.5">
-                    Select Donation Amount (NGN)
-                  </label>
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                    {[2000, 5000, 10000, 25000, 50000, 100000].map((amt) => {
-                      const isSelected = selectedAmount === amt && !customAmount;
-                      return (
-                        <button
-                          key={amt}
-                          type="button"
-                          onClick={() => {
-                            setSelectedAmount(amt);
-                            setCustomAmount("");
-                          }}
-                          data-name="button"
-                          className={`py-3 px-1.5 rounded-[12px] border-2 border-[#210901] text-xs sm:text-sm font-bold cursor-pointer text-center transition-[filter] duration-150 ${isSelected
-                            ? "bg-[#d7f741] text-[#210901] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none"
-                            : "bg-[#fff4ef] text-[#210901] hover:bg-[#fce5d9]"
-                            }`}
-                        >
-                          ₦{amt.toLocaleString()}
-                        </button>
-                      );
-                    })}
+                  <span className="text-[11px] font-bold uppercase text-[#210901]/60 tracking-wider block mb-1">
+                    Account Name
+                  </span>
+                  <div className="text-lg sm:text-xl font-bold text-[#210901] leading-snug">
+                    {BANK_DETAILS.accountName}
                   </div>
                 </div>
 
-                {/* Custom Amount */}
+                {/* Account Number with Exact Copy Design from ContactPage */}
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-bold uppercase text-[#210901]/70 tracking-wider block">
-                      Or Enter Custom Amount (₦)
-                    </label>
-                    {customAmount && Number(customAmount) > 0 && (
-                      <span className="text-[11px] font-extrabold text-[#00434a] bg-[#d7f741] px-2.5 py-0.5 rounded-full border border-[#210901] shadow-[1px_1px_0px_#210901] animate-in fade-in duration-150">
-                        Preview: ₦{Number(customAmount).toLocaleString()}
-                      </span>
-                    )}
-                  </div>
-                  <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-[#210901]/60">
-                      ₦
+                  <span className="text-[11px] font-bold uppercase text-[#210901]/60 tracking-wider block mb-1">
+                    Account Number
+                  </span>
+                  <div className="bg-white rounded-[16px] p-3.5 sm:p-4 flex items-center justify-between gap-3 border border-[#210901]/30">
+                    <span className="text-xl sm:text-2xl font-mono font-bold tracking-wider text-[#210901]">
+                      {BANK_DETAILS.accountNumber}
                     </span>
-                    <input
-                      type="number"
-                      min="100"
-                      placeholder="e.g. 15000"
-                      value={customAmount}
-                      onChange={(e) => setCustomAmount(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-[12px] bg-[#faf8f5] border-2 border-[#210901] text-[#210901] font-bold text-lg focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#fbb222]"
-                    />
-                  </div>
-                </div>
 
-                {/* Donor Fields */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-bold uppercase text-[#210901]/70 tracking-wider block mb-1.5">
-                      Your Name (Optional)
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Full Name"
-                      value={donorName}
-                      onChange={(e) => setDonorName(e.target.value)}
-                      className="w-full px-4 py-3 rounded-[12px] bg-[#faf8f5] border-2 border-[#210901] text-[#210901] text-base focus:outline-none focus:bg-white"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-bold uppercase text-[#210901]/70 tracking-wider block mb-1.5">
-                      Your Email (For Receipt) *
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="youremail@example.com"
-                      value={donorEmail}
-                      onChange={(e) => setDonorEmail(e.target.value)}
-                      className="w-full px-4 py-3 rounded-[12px] bg-[#faf8f5] border-2 border-[#210901] text-[#210901] text-base focus:outline-none focus:bg-white"
-                    />
-                  </div>
-                </div>
-
-                {/* Primary CTA Button: Donate Now */}
-                <div className="pt-2">
-                  <NeoButton
-                    type="submit"
-                    variant="primary"
-                    size="lg"
-                    fullWidth
-                    loading={isProcessing}
-                    icon={<ArrowRight size={20} />}
-                  >
-                    {isProcessing
-                      ? "Opening Paystack..."
-                      : `Donate Now (₦${getEffectiveAmount().toLocaleString()})`}
-                  </NeoButton>
-                </div>
-
-                {/* Paystack Security Badge & Accepted Payment Cards */}
-                <div className="pt-3 border-t border-[#210901]/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <div className="flex flex-col items-start gap-1">
-                    <PaystackSecurityBadge />
-                    <span className="text-[11px] text-[#210901]/60 font-medium pl-1">
-                      SSL encrypted
-                    </span>
-                  </div>
-
-                  <AcceptedPaymentLogos className="mb-auto" />
-                </div>
-              </form>
-            </div>
-
-            {/* Option B: Manual Bank Transfer — 5 Columns */}
-            <div className="gz-partner-bank lg:col-span-5 bg-white rounded-[24px] border-2 border-[#210901] p-6 sm:p-8 shadow-[6px_6px_0px_#210901] flex flex-col justify-between h-[max-content]">
-              <div className="space-y-6">
-                <div>
-                  <h3
-                    className="text-[28px] sm:text-[34px] text-[#210901] leading-tight mb-1 font-bold"
-                    style={{ fontFamily: "'Instrument Serif', serif" }}
-                  >
-                    Bank Transfer
-                  </h3>
-                  <p className="text-sm text-[#210901]/75 m-0">
-                    Prefer to do a transfer? Use the account details below.
-                  </p>
-                </div>
-
-                {/* Account Details Box */}
-                <div className="bg-[#faf8f5] rounded-[20px] border-2 border-[#210901] p-5 sm:p-6 space-y-4">
-                  <div>
-                    <span className="text-[11px] font-bold uppercase text-[#210901]/60 tracking-wider block mb-1">
-                      Bank
-                    </span>
-                    <div className="text-lg sm:text-xl font-bold text-[#210901] flex items-center gap-2">
-                      <img src={ZenithLogo} alt="Zenith Bank Logo" className="w-8 h-8" />{BANK_DETAILS.bankName}
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="text-[11px] font-bold uppercase text-[#210901]/60 tracking-wider block mb-1">
-                      Account Name
-                    </span>
-                    <div className="text-lg sm:text-xl font-bold text-[#210901] leading-snug">
-                      {BANK_DETAILS.accountName}
-                    </div>
-                  </div>
-
-                  {/* Account Number with Exact Copy Design from ContactPage */}
-                  <div>
-                    <span className="text-[11px] font-bold uppercase text-[#210901]/60 tracking-wider block mb-1">
-                      Account Number
-                    </span>
-                    <div className="bg-white rounded-[16px] p-3.5 sm:p-4 flex items-center justify-between gap-3 border border-[#210901]/30">
-                      <span className="text-xl sm:text-2xl font-mono font-bold tracking-wider text-[#210901]">
-                        {BANK_DETAILS.accountNumber}
-                      </span>
-
-                      {/* Copy Button matching ContactPage */}
-                      <button
-                        type="button"
-                        onClick={handleCopyAccount}
-                        data-name="button"
-                        className="p-2 sm:px-3 sm:py-1.5 rounded-lg bg-white hover:bg-[#fbb222] text-[#210901] border border-[#210901] cursor-pointer shrink-0 drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none transition-[filter] duration-150 flex items-center gap-1.5"
-                        title="Copy Account Number"
-                        aria-label="Copy Account Number"
-                      >
-                        {copiedAccount ? (
-                          <>
-                            <Check size={16} className="text-green-600" />
-                            <span className="text-xs font-bold uppercase">Copied</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy size={16} />
-                            <span className="text-xs font-bold uppercase">Copy</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+                    {/* Copy Button matching ContactPage */}
+                    <button
+                      type="button"
+                      onClick={handleCopyAccount}
+                      data-name="button"
+                      className="p-2 sm:px-3 sm:py-1.5 rounded-lg bg-white hover:bg-[#fbb222] text-[#210901] border border-[#210901] cursor-pointer shrink-0 drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none transition-[filter] duration-150 flex items-center gap-1.5"
+                      title="Copy Account Number"
+                      aria-label="Copy Account Number"
+                    >
+                      {copiedAccount ? (
+                        <>
+                          <Check size={16} className="text-green-600" />
+                          <span className="text-xs font-bold uppercase">Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy size={16} />
+                          <span className="text-xs font-bold uppercase">Copy</span>
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>

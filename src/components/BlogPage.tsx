@@ -85,18 +85,20 @@ export default function BlogPage({
       // 1. Hero Entrance
       gsap.from(".gz-blog-hero-content", {
         opacity: 0,
-        y: 36,
-        duration: 0.9,
-        ease: "power3.out",
+        y: 28,
+        duration: 0.6,
+        ease: "power2.out",
+        clearProps: "all",
       });
 
       // 2. Filter Nav Bar Entrance
       gsap.from(".gz-blog-filter-bar", {
         opacity: 0,
-        y: -16,
-        duration: 0.7,
-        ease: "power3.out",
-        delay: 0.2,
+        y: -12,
+        duration: 0.5,
+        ease: "power2.out",
+        delay: 0.1,
+        clearProps: "all",
       });
 
       // 3. Featured Card Reveal
@@ -105,14 +107,15 @@ export default function BlogPage({
         gsap.from(featuredCard, {
           opacity: 0,
           scale: 0.96,
-          y: 36,
-          duration: 0.85,
-          ease: "power3.out",
-          clearProps: "transform",
+          y: 24,
+          duration: 0.55,
+          ease: "power2.out",
+          clearProps: "all",
           scrollTrigger: {
             trigger: featuredCard,
-            start: "top 85%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       }
@@ -122,15 +125,16 @@ export default function BlogPage({
       if (articleCards.length > 0) {
         gsap.from(articleCards, {
           opacity: 0,
-          y: 36,
-          duration: 0.75,
-          stagger: 0.1,
-          ease: "power3.out",
-          clearProps: "transform",
+          y: 24,
+          duration: 0.5,
+          stagger: 0.06,
+          ease: "power2.out",
+          clearProps: "all",
           scrollTrigger: {
             trigger: ".gz-blog-articles-grid",
-            start: "top 85%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       }
@@ -143,7 +147,9 @@ export default function BlogPage({
     setActivePostSlug(slug);
     window.history.pushState(null, "", `/blog/${slug}`);
     window.dispatchEvent(new PopStateEvent("popstate"));
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   // If a slug is provided via prop or state, show the full article reader
@@ -156,14 +162,18 @@ export default function BlogPage({
           setActivePostSlug(undefined);
           window.history.pushState(null, "", "/blog");
           window.dispatchEvent(new PopStateEvent("popstate"));
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
         }}
         onNavigateContact={onNavigateContact}
         onSelectPost={(newSlug) => {
           setActivePostSlug(newSlug);
           window.history.pushState(null, "", `/blog/${newSlug}`);
           window.dispatchEvent(new PopStateEvent("popstate"));
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
         }}
       />
     );
@@ -269,7 +279,7 @@ export default function BlogPage({
               className="gz-blog-featured-card bg-[#26103d] text-white rounded-[32px] border-2 border-[#210901] shadow-[8px_8px_0px_0px_#210901] hover:-translate-y-1.5 transition-transform duration-300 ease-out overflow-hidden grid grid-cols-1 lg:grid-cols-12 cursor-pointer group"
             >
               {/* Featured Cover Photo */}
-              <div className="lg:col-span-7 h-[300px] sm:h-[420px] lg:h-full overflow-hidden relative border-b-2 lg:border-b-0 lg:border-r-2 border-[#210901]">
+              <div className="lg:col-span-4 h-[300px] sm:h-[420px] lg:h-full overflow-hidden relative border-b-2 lg:border-b-0 lg:border-r-2 border-[#210901]">
                 <img
                   src={featuredPost.coverImage}
                   alt={featuredPost.title}

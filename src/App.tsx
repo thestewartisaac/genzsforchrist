@@ -16,6 +16,10 @@ import AdminPortal from "@/components/AdminPortal";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Global performance and scroll optimizations
+ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
+gsap.config({ autoSleep: 60 });
+
 const CAROUSEL_LOOP_PX = 1554;
 
 const HERO_GRADIENT = [
@@ -58,79 +62,70 @@ function getInitialPage(): AppPage {
   // Root or empty path
   if (path === "/" || path === "") {
     // Legacy hash fallback
-    if (hash === "#/about" || hash === "#about") return "about";
-    if (hash.startsWith("#/events") || hash.startsWith("#events")) return "events";
-    if (hash.startsWith("#/blog") || hash.startsWith("#blog")) return "blog";
-    if (
-      hash === "#/foundation" ||
-      hash === "#foundation" ||
-      hash === "#/give" ||
-      hash === "#give"
-    )
-      return "foundation";
-    if (hash === "#/contact" || hash === "#contact") return "contact";
-    if (hash === "#/admin" || hash === "#admin") return "admin";
-    if (hash === "#/404" || hash === "#404") return "404";
-    if (hash === "" || hash === "#" || hash === "#/" || hash === "#home") return "home";
-    return "404";
+    if (hash.startsWith("#/about") || hash === "#about") return "about";
+    if (hash.startsWith("#/events") || hash === "#events") return "events";
+    if (hash.startsWith("#/foundation") || hash === "#foundation" || hash === "#give") return "foundation";
+    if (hash.startsWith("#/blog") || hash === "#blog") return "blog";
+    if (hash.startsWith("#/contact") || hash === "#contact") return "contact";
+    if (hash.startsWith("#/admin") || hash === "#admin") return "admin";
+    return "home";
   }
 
-  // Standard path checks
+  // Direct pathname matching
   if (path === "/about") return "about";
   if (path === "/events" || path.startsWith("/events/")) return "events";
-  if (path === "/blog" || path.startsWith("/blog/")) return "blog";
   if (path === "/foundation" || path === "/give") return "foundation";
+  if (path === "/blog" || path.startsWith("/blog/")) return "blog";
   if (path === "/contact") return "contact";
-  if (
-    path === "/admin" ||
-    path === "/admin/index.html" ||
-    path.startsWith("/admin/") ||
-    path === "/portal" ||
-    path === "/dashboard" ||
-    path === "/admin-portal"
-  )
-    return "admin";
-  if (path === "/404") return "404";
+  if (path === "/admin") return "admin";
 
-  // Unindexed or non-existent path
   return "404";
 }
 
-function getEventIdFromUrl(): string | undefined {
+export function getEventIdFromUrl(): string | undefined {
   if (typeof window === "undefined") return undefined;
-  // Standard path: /events/:id
-  const pathMatch = window.location.pathname.match(/^\/events\/([a-zA-Z0-9_-]+)/i);
-  if (pathMatch) return pathMatch[1];
+  const path = window.location.pathname;
+  const match = path.match(/^\/events\/([^\/?#]+)/i);
+  if (match && match[1]) return decodeURIComponent(match[1]);
 
-  // Fallback hash: #/events/:id
-  const hashMatch = window.location.hash.match(/^#\/events\/([a-zA-Z0-9_-]+)/i) ||
-    window.location.hash.match(/^#(?:events\/)([a-zA-Z0-9_-]+)/i);
-  if (hashMatch) return hashMatch[1];
+  const hash = window.location.hash;
+  const hashMatch = hash.match(/^#\/?events\/([^\/?#]+)/i);
+  if (hashMatch && hashMatch[1]) return decodeURIComponent(hashMatch[1]);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const qId = urlParams.get("id");
+  if (qId) return qId;
+
   return undefined;
 }
 
-function getBlogSlugFromUrl(): string | undefined {
+export function getBlogSlugFromUrl(): string | undefined {
   if (typeof window === "undefined") return undefined;
-  // Standard path: /blog/:slug
-  const pathMatch = window.location.pathname.match(/^\/blog\/([a-zA-Z0-9_-]+)/i);
-  if (pathMatch) return pathMatch[1];
+  const path = window.location.pathname;
+  const match = path.match(/^\/blog\/([^\/?#]+)/i);
+  if (match && match[1]) return decodeURIComponent(match[1]);
 
-  // Fallback hash: #/blog/:slug
-  const hashMatch = window.location.hash.match(/^#\/blog\/([a-zA-Z0-9_-]+)/i);
-  if (hashMatch) return hashMatch[1];
+  const hash = window.location.hash;
+  const hashMatch = hash.match(/^#\/?blog\/([^\/?#]+)/i);
+  if (hashMatch && hashMatch[1]) return decodeURIComponent(hashMatch[1]);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const qSlug = urlParams.get("slug") || urlParams.get("post");
+  if (qSlug) return qSlug;
+
   return undefined;
 }
 
 export default function App() {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const drawerRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const didMount = useRef(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<AppPage>(getInitialPage);
-  const [, setNavKey] = useState(0);
+  const [, setRouteTick] = useState(0);
+  const triggerRouteUpdate = () => setRouteTick((t) => t + 1);
 
-  const triggerRouteUpdate = () => setNavKey((k) => k + 1);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const didMount = useRef(false);
 
   // ── Normalize legacy hash URLs to standard clean paths ─────────────────
   useEffect(() => {
@@ -157,7 +152,9 @@ export default function App() {
       const page = getInitialPage();
       setCurrentPage(page);
       triggerRouteUpdate();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     };
     window.addEventListener("popstate", handleNavigation);
     window.addEventListener("hashchange", handleNavigation);
@@ -167,10 +164,10 @@ export default function App() {
     };
   }, []);
 
-  // ── Dynamic SEO Document Title on Page Transition ───────────────────────
+  // Sync document.title to currentPage
   useEffect(() => {
     const titles: Record<AppPage, string> = {
-      home: "Gen Zs for Christ | God's Own Generation",
+      home: "Gen Zs for Christ — Official Website",
       about: "About Us | Gen Zs for Christ",
       events: "Events & Gatherings | Gen Zs for Christ",
       foundation: "Humanitarian Foundation & Giving | Gen Zs for Christ",
@@ -180,6 +177,21 @@ export default function App() {
       "404": "Page Not Found | Gen Zs for Christ",
     };
     document.title = titles[currentPage] || "Gen Zs for Christ";
+  }, [currentPage]);
+
+  // ── Always reset scroll position immediately on page navigation ──────────
+  useEffect(() => {
+    if (typeof window !== "undefined" && "scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    const t = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 120);
+    return () => clearTimeout(t);
   }, [currentPage]);
 
   const navigateTo = (
@@ -210,7 +222,9 @@ export default function App() {
     setCurrentPage(page);
     triggerRouteUpdate();
     setMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   // ── Drawer open / close animation ────────────────────────────────────────
@@ -422,33 +436,44 @@ export default function App() {
 
   // ── Scroll-aware sticky nav background ────────────────────────────────────
   useEffect(() => {
-    const navs = document.querySelectorAll<HTMLElement>(
-      '[data-name="Hero"] > div[class*="justify-between"], .gz-header-nav',
-    );
-    if (!navs.length) return;
-    const tick = () => {
-      const past = window.scrollY > 40;
+    const handleNavScroll = () => {
+      const scrollPos =
+        window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+      const isPast = scrollPos > 20;
+      const navs = document.querySelectorAll<HTMLElement>(
+        '[data-name="Hero"] > div[class*="justify-between"], .gz-header-nav',
+      );
       navs.forEach((nav) => {
-        nav.style.background = past
-          ? "rgba(22, 5, 43, 0.95)"
-          : "transparent";
-        nav.style.backdropFilter = past
-          ? "blur(14px)"
-          : "none";
-        (nav.style as any).webkitBackdropFilter = past
-          ? "blur(14px)"
-          : "none";
-        nav.style.boxShadow = past
-          ? "0 4px 20px rgba(0, 0, 0, 0.35)"
-          : "none";
-        nav.style.borderBottom = past
-          ? "1px solid rgba(215, 247, 65, 0.1)"
-          : "none";
+        if (isPast) {
+          nav.classList.add("gz-header-scrolled");
+          nav.classList.remove("gz-header-top");
+          nav.style.backgroundColor = "rgba(22, 5, 43, 0.95)";
+          nav.style.backdropFilter = "blur(14px)";
+          (nav.style as any).webkitBackdropFilter = "blur(14px)";
+          nav.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.35)";
+          nav.style.borderBottom = "1px solid rgba(215, 247, 65, 0.12)";
+        } else {
+          nav.classList.add("gz-header-top");
+          nav.classList.remove("gz-header-scrolled");
+          nav.style.backgroundColor = "transparent";
+          nav.style.backdropFilter = "none";
+          (nav.style as any).webkitBackdropFilter = "none";
+          nav.style.boxShadow = "none";
+          nav.style.borderBottom = "1px solid transparent";
+        }
       });
     };
-    tick();
-    window.addEventListener("scroll", tick, { passive: true });
-    return () => window.removeEventListener("scroll", tick);
+
+    handleNavScroll();
+    window.addEventListener("scroll", handleNavScroll, { passive: true });
+    window.addEventListener("resize", handleNavScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleNavScroll);
+      window.removeEventListener("resize", handleNavScroll);
+    };
   }, [currentPage]);
 
   // ── Main GSAP context ─────────────────────────────────────────────────────
@@ -457,8 +482,7 @@ export default function App() {
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      // Hero entrance — animate Frame24's three content blocks as single units,
-      // then the CTA button. Never touches the logo (Frame3/Group1).
+      // Hero entrance — animate Frame24's content blocks with fast, clean entrance
       const heroContent = root.querySelector<HTMLElement>(
         '[data-name="Hero"] > div[class*="gap-[74px]"]',
       );
@@ -468,12 +492,13 @@ export default function App() {
         );
         if (frame24) {
           gsap.from(Array.from(frame24.children), {
-            y: 56,
+            y: 36,
             opacity: 0,
-            duration: 1.05,
-            ease: "power4.out",
-            stagger: 0.16,
-            delay: 0.15,
+            duration: 0.65,
+            ease: "power2.out",
+            stagger: 0.08,
+            delay: 0.05,
+            clearProps: "all",
           });
         }
         const btn = heroContent.querySelector(
@@ -481,12 +506,13 @@ export default function App() {
         );
         if (btn) {
           gsap.from(btn, {
-            y: 22,
+            y: 18,
             opacity: 0,
-            scale: 0.92,
-            duration: 0.8,
-            ease: "back.out(1.6)",
-            delay: 0.75,
+            scale: 0.94,
+            duration: 0.5,
+            ease: "back.out(1.4)",
+            delay: 0.35,
+            clearProps: "all",
           });
         }
       }
@@ -511,47 +537,35 @@ export default function App() {
         }
       }
 
-      // Section reveals
-      (
-        [
-          {
-            sel: '[data-name="Welcome section"]',
-            from: { opacity: 0, y: 48 },
-          },
-          {
-            sel: '[data-name="Humanitarian"]',
-            from: { opacity: 0, y: 48 },
-          },
-          {
-            sel: '[data-name^="MacBook Pro 14"]',
-            from: { opacity: 0, y: 56 },
-          },
-          {
-            sel: '[data-name="what we do"]',
-            from: { opacity: 0, y: 48 },
-          },
-          {
-            sel: '[data-name="Footer"]',
-            from: { opacity: 0, y: 48 },
-          },
-        ] as Array<{ sel: string; from: gsap.TweenVars }>
-      ).forEach(({ sel, from }) => {
-        const el = root.querySelector(sel);
+      // Section reveals: snappy 0.5s duration, triggers at 95% viewport, clears styles on complete
+      const sections = [
+        '[data-name="Welcome section"]',
+        '[data-name="Humanitarian"]',
+        '[data-name^="MacBook Pro 14"]',
+        '[data-name="what we do"]',
+        '[data-name="Footer"]',
+      ];
+
+      sections.forEach((sel) => {
+        const el = root.querySelector<HTMLElement>(sel);
         if (!el) return;
         gsap.from(el, {
-          ...from,
-          duration: 0.9,
-          ease: "power3.out",
+          opacity: 0,
+          y: 28,
+          duration: 0.5,
+          ease: "power2.out",
+          clearProps: "all",
           scrollTrigger: {
             trigger: el,
-            start: "top 85%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       });
 
-      // Humanitarian split
-      const humanSec = root.querySelector(
+      // Humanitarian split content
+      const humanSec = root.querySelector<HTMLElement>(
         '[data-name="Humanitarian"]',
       );
       if (humanSec) {
@@ -561,14 +575,16 @@ export default function App() {
         if (textCol) {
           gsap.from(textCol.querySelectorAll(":scope > *"), {
             opacity: 0,
-            x: -50,
-            duration: 0.85,
-            ease: "power3.out",
-            stagger: 0.14,
+            x: -30,
+            duration: 0.55,
+            ease: "power2.out",
+            stagger: 0.08,
+            clearProps: "all",
             scrollTrigger: {
               trigger: humanSec,
-              start: "top 80%",
-              toggleActions: "play none none none",
+              start: "top 95%",
+              once: true,
+              fastScrollEnd: true,
             },
           });
         }
@@ -578,20 +594,22 @@ export default function App() {
         if (photo) {
           gsap.from(photo, {
             opacity: 0,
-            x: 70,
-            duration: 0.95,
-            ease: "power3.out",
+            x: 40,
+            duration: 0.6,
+            ease: "power2.out",
+            clearProps: "all",
             scrollTrigger: {
               trigger: humanSec,
-              start: "top 80%",
-              toggleActions: "play none none none",
+              start: "top 95%",
+              once: true,
+              fastScrollEnd: true,
             },
           });
         }
       }
 
       // Vision / Mission cards
-      const storyEl = root.querySelector(
+      const storyEl = root.querySelector<HTMLElement>(
         '[data-name^="MacBook Pro 14\' - 4"]',
       );
       if (storyEl) {
@@ -599,22 +617,24 @@ export default function App() {
           storyEl.querySelectorAll('[class*="h-[464px]"]'),
           {
             opacity: 0,
-            scale: 0.9,
-            y: 36,
-            duration: 0.8,
-            ease: "back.out(1.5)",
-            stagger: 0.2,
+            scale: 0.94,
+            y: 24,
+            duration: 0.55,
+            ease: "back.out(1.3)",
+            stagger: 0.1,
+            clearProps: "all",
             scrollTrigger: {
               trigger: storyEl,
-              start: "top 80%",
-              toggleActions: "play none none none",
+              start: "top 95%",
+              once: true,
+              fastScrollEnd: true,
             },
           },
         );
       }
 
       // Activity cards
-      const whatEl = root.querySelector(
+      const whatEl = root.querySelector<HTMLElement>(
         '[data-name="what we do"]',
       );
       if (whatEl) {
@@ -622,15 +642,16 @@ export default function App() {
           whatEl.querySelectorAll('[class*="h-[597px]"]'),
           {
             opacity: 0,
-            y: 32,
-            duration: 0.85,
-            ease: "power3.out",
-            stagger: 0.15,
-            clearProps: "transform",
+            y: 24,
+            duration: 0.55,
+            ease: "power2.out",
+            stagger: 0.08,
+            clearProps: "all",
             scrollTrigger: {
               trigger: whatEl,
-              start: "top 85%",
-              toggleActions: "play none none none",
+              start: "top 95%",
+              once: true,
+              fastScrollEnd: true,
             },
           },
         );
@@ -703,8 +724,7 @@ export default function App() {
           padding: 0 clamp(2rem, 6.5vw, 6.25rem) !important;
           box-sizing: border-box !important;
           z-index: 100 !important;
-          background: transparent;
-          transition: background 0.35s ease;
+          transition: background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease !important;
           margin: 0 !important;
         }
 
@@ -1073,13 +1093,55 @@ export default function App() {
           padding: 0 clamp(2rem, 6.5vw, 6.25rem) !important;
           box-sizing: border-box !important;
           z-index: 100 !important;
-          transition: background 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease !important;
+          transition: background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease !important;
+        }
+
+        .gz-header-scrolled {
+          background-color: rgba(22, 5, 43, 0.95) !important;
+          backdrop-filter: blur(14px) !important;
+          -webkit-backdrop-filter: blur(14px) !important;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+          border-bottom: 1px solid rgba(215, 247, 65, 0.12) !important;
+        }
+
+        .gz-header-top {
+          background-color: transparent !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow: none !important;
+          border-bottom: 1px solid transparent !important;
         }
 
         /* ─── Humanitarian ─── */
-        [data-name="Humanitarian"] { height: auto !important; overflow-x: hidden !important; }
-        [data-name="Humanitarian"] > div[class*="absolute"][class*="left-1/2"] {
+        [data-name="Humanitarian"] { position: relative !important; height: auto !important; min-height: 873px !important; overflow-x: hidden !important; }
+        .gz-humanitarian-bg-wrapper,
+        [data-name="Humanitarian"] > div[class*="absolute"][class*="left-1/2"],
+        [data-name="Humanitarian"] > div:first-child {
+          position: absolute !important;
+          inset: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          top: 0 !important;
+          bottom: 0 !important;
+          width: 100% !important;
           height: 100% !important;
+          transform: none !important;
+          z-index: 0 !important;
+          pointer-events: none !important;
+          overflow: hidden !important;
+        }
+        .gz-humanitarian-bg-svg,
+        [data-name="Humanitarian"] > div[class*="absolute"][class*="left-1/2"] svg,
+        [data-name="Humanitarian"] > div:first-child svg {
+          position: absolute !important;
+          inset: 0 !important;
+          left: 0 !important;
+          top: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          display: block !important;
         }
         [data-name="Humanitarian"] [class*="gap-[93px]"][class*="items-center"] {
           width: 100% !important;
@@ -1781,6 +1843,7 @@ export default function App() {
           }
 
           /* Yellow background SVG container: spans 100% screen width & 100% section height */
+          .gz-humanitarian-bg-wrapper,
           [data-name="Humanitarian"] > div:first-child,
           [data-name="Humanitarian"] > div[class*="absolute"][class*="left-1/2"],
           [data-name="Humanitarian"] > div[class*="translate-x"] {
@@ -1800,10 +1863,11 @@ export default function App() {
             padding: 0 !important;
             z-index: 0 !important;
             pointer-events: none !important;
-            overflow-x: hidden !important;
+            overflow: hidden !important;
           }
 
           /* SVG spans full screen width edge-to-edge with natural wavy edges */
+          .gz-humanitarian-bg-svg,
           [data-name="Humanitarian"] > div:first-child svg,
           [data-name="Humanitarian"] > div[class*="absolute"][class*="left-1/2"] svg,
           [data-name="Humanitarian"] > div[class*="translate-x"] svg {
@@ -1813,12 +1877,12 @@ export default function App() {
             top: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
-            width: calc(100% + 300px) !important;
+            width: 100% !important;
             height: 100% !important;
             min-width: 100% !important;
             min-height: 100% !important;
-            max-width: none !important;
-            max-height: none !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
             display: block !important;
           }
 

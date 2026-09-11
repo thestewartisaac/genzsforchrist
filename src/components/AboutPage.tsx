@@ -301,25 +301,27 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       const heroTitle = container.querySelector(".gz-about-hero-title");
       if (heroTitle) {
         gsap.from(heroTitle, {
-          y: 36,
+          y: 28,
           opacity: 0,
-          duration: 0.9,
-          ease: "power3.out",
+          duration: 0.6,
+          ease: "power2.out",
+          clearProps: "all",
         });
       }
 
       // 2. Section Headings Reveal
       container.querySelectorAll<HTMLElement>(".gz-about-section-header").forEach((header) => {
         gsap.from(header, {
-          y: 30,
+          y: 24,
           opacity: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          clearProps: "transform",
+          duration: 0.5,
+          ease: "power2.out",
+          clearProps: "all",
           scrollTrigger: {
             trigger: header,
-            start: "top 85%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       });
@@ -329,16 +331,17 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       if (visionMissionCards.length > 0) {
         gsap.from(visionMissionCards, {
           opacity: 0,
-          scale: 0.94,
-          y: 36,
-          duration: 0.85,
-          ease: "back.out(1.4)",
-          stagger: 0.15,
+          scale: 0.96,
+          y: 24,
+          duration: 0.55,
+          ease: "back.out(1.3)",
+          stagger: 0.08,
           clearProps: "all",
           scrollTrigger: {
             trigger: ".gz-about-vision-grid",
-            start: "top 82%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       }
@@ -348,15 +351,16 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       if (valueCards.length > 0) {
         gsap.from(valueCards, {
           opacity: 0,
-          y: 36,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.1,
+          y: 24,
+          duration: 0.5,
+          ease: "power2.out",
+          stagger: 0.06,
           clearProps: "all",
           scrollTrigger: {
             trigger: ".gz-about-values-grid",
-            start: "top 82%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       }
@@ -367,7 +371,7 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       if (timeline && lineFill) {
         ScrollTrigger.create({
           trigger: timeline,
-          start: "top 60%",
+          start: "top 70%",
           end: "bottom 70%",
           scrub: 0.2,
           onUpdate: (self) => {
@@ -381,8 +385,8 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
         if (!el) return;
         ScrollTrigger.create({
           trigger: el,
-          start: "top 45%",
-          end: "bottom 45%",
+          start: "top 50%",
+          end: "bottom 50%",
           onEnter: () => setActiveIdx(index),
           onEnterBack: () => setActiveIdx(index),
         });
@@ -393,14 +397,15 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       if (founderCard) {
         gsap.from(founderCard, {
           opacity: 0,
-          y: 36,
-          duration: 0.85,
-          ease: "power3.out",
+          y: 24,
+          duration: 0.55,
+          ease: "power2.out",
           clearProps: "all",
           scrollTrigger: {
             trigger: founderCard,
-            start: "top 82%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       }
@@ -409,15 +414,16 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
       if (teamCards.length > 0) {
         gsap.from(teamCards, {
           opacity: 0,
-          y: 32,
-          duration: 0.85,
-          ease: "power3.out",
-          stagger: 0.15,
+          y: 24,
+          duration: 0.5,
+          ease: "power2.out",
+          stagger: 0.08,
           clearProps: "all",
           scrollTrigger: {
             trigger: ".gz-about-team-grid",
-            start: "top 85%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       }

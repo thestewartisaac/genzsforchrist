@@ -39,7 +39,9 @@ export default function EventDetailPage({
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
 
     const container = containerRef.current;
     if (!container) return;
@@ -48,35 +50,38 @@ export default function EventDetailPage({
       // 1. Hero Title reveal
       gsap.from(".gz-detail-hero-title", {
         opacity: 0,
-        y: 36,
-        duration: 0.8,
-        ease: "power3.out",
+        y: 24,
+        duration: 0.5,
+        ease: "power2.out",
+        clearProps: "all",
       });
 
       // 2. Main Event Content Split-Column Animation
       gsap.from(".gz-detail-left-col", {
         opacity: 0,
-        x: -40,
-        duration: 0.85,
-        ease: "power3.out",
-        clearProps: "transform",
+        x: -24,
+        duration: 0.5,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-detail-content",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
       gsap.from(".gz-detail-right-col", {
         opacity: 0,
-        x: 40,
-        duration: 0.85,
-        ease: "power3.out",
-        clearProps: "transform",
+        x: 24,
+        duration: 0.5,
+        ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: ".gz-detail-content",
-          start: "top 85%",
-          toggleActions: "play none none none",
+          start: "top 95%",
+          once: true,
+          fastScrollEnd: true,
         },
       });
 
@@ -85,14 +90,15 @@ export default function EventDetailPage({
       if (highlightBox) {
         gsap.from(highlightBox, {
           opacity: 0,
-          y: 30,
-          duration: 0.8,
-          ease: "power3.out",
-          clearProps: "transform",
+          y: 20,
+          duration: 0.5,
+          ease: "power2.out",
+          clearProps: "all",
           scrollTrigger: {
             trigger: highlightBox,
-            start: "top 85%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       }
@@ -101,14 +107,15 @@ export default function EventDetailPage({
       if (timezoneBox) {
         gsap.from(timezoneBox, {
           opacity: 0,
-          y: 30,
-          duration: 0.8,
-          ease: "power3.out",
-          clearProps: "transform",
+          y: 20,
+          duration: 0.5,
+          ease: "power2.out",
+          clearProps: "all",
           scrollTrigger: {
             trigger: timezoneBox,
-            start: "top 85%",
-            toggleActions: "play none none none",
+            start: "top 95%",
+            once: true,
+            fastScrollEnd: true,
           },
         });
       }
