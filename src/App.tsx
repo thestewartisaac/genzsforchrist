@@ -20,8 +20,6 @@ gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
 gsap.config({ autoSleep: 60 });
 
-const CAROUSEL_LOOP_PX = 1554;
-
 const HERO_GRADIENT = [
   "radial-gradient(ellipse at 18% 30%, rgba(251,178,34,0.22) 0%, transparent 45%)",
   "radial-gradient(ellipse at 78% 65%, rgba(215,247,65,0.07) 0%, transparent 40%)",
@@ -514,26 +512,6 @@ export default function App() {
             delay: 0.35,
             clearProps: "all",
           });
-        }
-      }
-
-      // Carousel auto-scroll
-      const welcomeSection = root.querySelector(
-        '[data-name="Welcome section"]',
-      );
-      if (welcomeSection) {
-        const track = welcomeSection.querySelector<HTMLElement>(
-          '[class*="flex"][class*="gap-[20px]"][class*="absolute"]',
-        );
-        if (track) {
-          gsap
-            .timeline({ repeat: -1 })
-            .to(track, {
-              x: -CAROUSEL_LOOP_PX,
-              duration: 32,
-              ease: "linear",
-            })
-            .set(track, { x: 0 });
         }
       }
 
@@ -1282,10 +1260,37 @@ export default function App() {
           margin-top: 8px !important;
         }
 
-        /* ─── Welcome section carousel ─── */
+        /* ─── Welcome section carousel marquee ─── */
+        @keyframes welcome-marquee-scroll {
+          0% {
+            transform: translateX(0%);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
         [data-name="Welcome section"] { overflow: hidden !important; }
-        [data-name="Welcome section"] [class*="h-[354px]"][class*="w-full"] {
-          width: 100vw !important; overflow: hidden;
+        [data-name="Welcome section"] [class*="h-[354px]"][class*="w-full"],
+        [data-name="Welcome section"] .gz-welcome-carousel-wrap {
+          width: 100vw !important;
+          max-width: 100vw !important;
+          overflow: hidden !important;
+          padding: 0 !important;
+        }
+        .animate-welcome-track {
+          display: flex;
+          width: max-content;
+          gap: 20px;
+          animation: welcome-marquee-scroll 35s linear infinite;
+          will-change: transform;
+        }
+        .animate-welcome-track:hover {
+          animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-welcome-track {
+            animation: none !important;
+          }
         }
 
         /* ═══════════════════════════════════════════════════════════════
@@ -2011,7 +2016,7 @@ export default function App() {
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
-            overflow: visible !important;
+            overflow: hidden !important;
           }
 
           /* Star & Rainbow Sticker (Stickers V14 / V54) — positioned bottom left of the photo (UNTOUCHED) */
@@ -2114,7 +2119,7 @@ export default function App() {
             display: flex !important;
             flex-direction: column !important;
             align-items: center !important;
-            overflow: visible !important;
+            overflow: hidden !important;
             box-sizing: border-box !important;
           }
 
@@ -2397,7 +2402,6 @@ export default function App() {
             align-items: center !important;
             text-align: center !important;
             gap: 2.5rem !important;
-            overflow: hidden !important;
             overflow-x: hidden !important;
             box-sizing: border-box !important;
           }
@@ -2543,7 +2547,7 @@ export default function App() {
             height: clamp(3.5rem, 14vw, 7rem) !important;
             width: 100% !important;
             max-width: 100vw !important;
-            overflow: visible !important;
+            overflow: hidden !important;
             margin: 0 auto !important;
             display: flex !important;
             align-items: flex-end !important;

@@ -14,112 +14,64 @@ import CtaSection from "@/components/CtaSection";
 import FooterSection from "@/imports/Footer/index";
 type CarouselImgCollectionProps = {
   className?: string;
-  property1?: "Default" | "Variant2";
 };
+
+const HOMEPAGE_CAROUSEL_IMAGES = [
+  {
+    name: "3834473a-2fc9-4d31-8eb0-b3fe25ed8f91",
+    src: img3834473A2Fc94D318Eb0B3Fe25Ed8F911,
+    widthClass: "w-[265px]",
+    imgClass: "absolute h-[109.73%] left-0 max-w-none top-[-9.73%] w-full",
+  },
+  {
+    name: "instasave.website_553069085",
+    src: imgInstasaveWebsite553069085180769107980404786386907074450728806N1,
+    widthClass: "w-[472px]",
+    imgClass: "absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full",
+  },
+  {
+    name: "CA7E7376-F8AB-4DE5-8458-003D71421C6F",
+    src: imgCa7E7376F8Ab4De58458003D71421C6F1,
+    widthClass: "w-[265px]",
+    imgClass: "absolute inset-0 max-w-none object-bottom pointer-events-none rounded-[16px] size-full",
+  },
+  {
+    name: "499923250_18064893692040478",
+    src: img499923250180648936920404785090646177652360232N1,
+    widthClass: "w-[472px]",
+    imgClass: "absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full",
+  },
+];
 
 function CarouselImgCollection({
   className,
-  property1 = "Default",
 }: CarouselImgCollectionProps) {
+  // Duplicate the 4 images evenly into 2 identical halves of 8 images each for a seamless 50% translation loop
+  const sequence = [
+    ...HOMEPAGE_CAROUSEL_IMAGES,
+    ...HOMEPAGE_CAROUSEL_IMAGES,
+    ...HOMEPAGE_CAROUSEL_IMAGES,
+    ...HOMEPAGE_CAROUSEL_IMAGES,
+  ];
+
   return (
-    <div
-      className={className || "h-[354px] relative w-[1534px]"}
-    >
-      <div
-        className={`absolute content-stretch flex gap-[20px] items-center top-0 ${property1 === "Variant2" ? "right-0" : "left-0"}`}
-      >
-        <div
-          className="h-[354px] relative rounded-[16px] shrink-0 w-[265px]"
-          data-name="3834473a-2fc9-4d31-8eb0-b3fe25ed8f91 1"
-        >
-          <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[16px]">
-            <img
-              alt=""
-              className="absolute h-[109.73%] left-0 max-w-none top-[-9.73%] w-full"
-              src={img3834473A2Fc94D318Eb0B3Fe25Ed8F911}
-            />
+    <div className={className || "w-full overflow-hidden"}>
+      <div className="animate-welcome-track flex gap-[20px] items-center">
+        {sequence.map((item, idx) => (
+          <div
+            key={idx}
+            className={`h-[354px] relative rounded-[16px] shrink-0 ${item.widthClass}`}
+            data-name={`${item.name} ${idx + 1}`}
+          >
+            <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[16px]">
+              <img
+                alt=""
+                className={item.imgClass}
+                src={item.src}
+              />
+            </div>
           </div>
-        </div>
-        <div
-          className="h-[354px] relative rounded-[16px] shrink-0 w-[472px]"
-          data-name="instasave.website_553069085_18076910798040478_6386907074450728806_n 1"
-        >
-          <img
-            alt=""
-            className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full"
-            src={
-              imgInstasaveWebsite553069085180769107980404786386907074450728806N1
-            }
-          />
-        </div>
-        <div
-          className="h-[354px] relative rounded-[16px] shrink-0 w-[265px]"
-          data-name="CA7E7376-F8AB-4DE5-8458-003D71421C6F 1"
-        >
-          <img
-            alt=""
-            className="absolute inset-0 max-w-none object-bottom pointer-events-none rounded-[16px] size-full"
-            src={imgCa7E7376F8Ab4De58458003D71421C6F1}
-          />
-        </div>
-        <div
-          className="h-[354px] relative rounded-[16px] shrink-0 w-[472px]"
-          data-name="499923250_18064893692040478_5090646177652360232_n 1"
-        >
-          <img
-            alt=""
-            className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full"
-            src={
-              img499923250180648936920404785090646177652360232N1
-            }
-          />
-        </div>
-        <div
-          className="h-[354px] relative rounded-[16px] shrink-0 w-[265px]"
-          data-name="3834473a-2fc9-4d31-8eb0-b3fe25ed8f91 2"
-        >
-          <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[16px]">
-            <img
-              alt=""
-              className="absolute h-[109.73%] left-0 max-w-none top-[-9.73%] w-full"
-              src={img3834473A2Fc94D318Eb0B3Fe25Ed8F911}
-            />
-          </div>
-        </div>
-        <div
-          className="h-[354px] relative rounded-[16px] shrink-0 w-[472px]"
-          data-name="instasave.website_553069085_18076910798040478_6386907074450728806_n 2"
-        >
-          <img
-            alt=""
-            className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full"
-            src={
-              imgInstasaveWebsite553069085180769107980404786386907074450728806N1
-            }
-          />
-        </div>
-        <div
-          className="h-[354px] relative rounded-[16px] shrink-0 w-[265px]"
-          data-name="CA7E7376-F8AB-4DE5-8458-003D71421C6F 2"
-        >
-          <img
-            alt=""
-            className="absolute inset-0 max-w-none object-bottom pointer-events-none rounded-[16px] size-full"
-            src={imgCa7E7376F8Ab4De58458003D71421C6F1}
-          />
-        </div>
-        <div
-          className="h-[354px] relative rounded-[16px] shrink-0 w-[472px]"
-          data-name="499923250_18064893692040478_5090646177652360232_n 2"
-        >
-          <img
-            alt=""
-            className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full"
-            src={
-              img499923250180648936920404785090646177652360232N1
-            }
-          />
-        </div>
+        ))}
       </div>
     </div>
   );
@@ -821,8 +773,8 @@ function Frame23() {
 
 function Frame30() {
   return (
-    <div className="h-[354px] relative shrink-0 w-full">
-      <CarouselImgCollection className="-translate-x-1/2 absolute h-[354px] left-1/2 top-0 w-[1534px]" />
+    <div className="gz-welcome-carousel-wrap h-[354px] relative shrink-0 w-full overflow-hidden">
+      <CarouselImgCollection />
     </div>
   );
 }
@@ -2477,7 +2429,7 @@ function Footer() {
 export default function Homepage() {
   return (
     <div
-      className="gz-grid-bg content-stretch flex flex-col items-start relative size-full overflow-x-hidden max-w-full"
+      className="gz-grid-bg content-stretch flex flex-col items-start relative w-full min-h-screen overflow-x-hidden max-w-full"
       data-name="Homepage"
     >
       <Hero />
