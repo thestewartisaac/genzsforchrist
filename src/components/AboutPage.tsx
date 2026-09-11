@@ -450,7 +450,7 @@ export default function AboutPage({ onNavigateContact }: AboutPageProps) {
 
         <div className="relative z-[3] max-w-3xl mx-auto flex flex-col items-center gap-4">
           <h1
-            className="gz-about-hero-title text-[40px] sm:text-[56px] md:text-[72px] text-white leading-[0.95] tracking-tight uppercase m-0"
+            className="gz-about-hero-title font-['Gasoek_One',sans-serif] text-[40px] sm:text-[56px] md:text-[72px] text-white leading-[0.95] tracking-tight uppercase m-0"
             style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
           >
             About Us
