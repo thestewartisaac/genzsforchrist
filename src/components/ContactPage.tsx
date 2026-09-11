@@ -6,7 +6,7 @@ import { Mail, Phone, Copy, Check, CheckCircle2, ArrowRight } from "lucide-react
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
 import svgPaths from "@/imports/Footer/svg-n1pws9r301";
-import CtaSection from "@/app/components/CtaSection";
+import CtaSection from "@/components/CtaSection";
 import NeoButton from "@/components/ui/NeoButton";
 
 gsap.registerPlugin(ScrollTrigger);

@@ -2,17 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { X, Instagram, Facebook, Youtube } from "lucide-react";
-import logoColorLight from "../imports/logo_color-light_transparent.svg";
-import logoColorDark from "../imports/logo_color-dark_transparent.svg";
-import Homepage from "../imports/Homepage/index";
-import ContactPage from "../components/ContactPage";
-import AboutPage from "../components/AboutPage";
-import EventsPage from "../components/EventsPage";
-import FoundationPage from "../components/FoundationPage";
-import BlogPage from "../components/BlogPage";
-import SiteNavbar from "../components/Navbar";
-import NotFoundPage from "../components/NotFoundPage";
-import AdminPortal from "../components/AdminPortal";
+import logoColorLight from "@/imports/logo_color-light_transparent.svg";
+import logoColorDark from "@/imports/logo_color-dark_transparent.svg";
+import Homepage from "@/imports/Homepage/index";
+import ContactPage from "@/components/ContactPage";
+import AboutPage from "@/components/AboutPage";
+import EventsPage from "@/components/EventsPage";
+import FoundationPage from "@/components/FoundationPage";
+import BlogPage from "@/components/BlogPage";
+import SiteNavbar from "@/components/Navbar";
+import NotFoundPage from "@/components/NotFoundPage";
+import AdminPortal from "@/components/AdminPortal";
 
 gsap.registerPlugin(ScrollTrigger);
 

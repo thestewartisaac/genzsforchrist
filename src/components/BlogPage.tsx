@@ -16,7 +16,7 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
-import CtaSection from "@/app/components/CtaSection";
+import CtaSection from "@/components/CtaSection";
 import BlogDetailPage from "@/components/BlogDetailPage";
 import NeoButton from "@/components/ui/NeoButton";
 import {

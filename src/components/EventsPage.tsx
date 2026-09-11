@@ -15,7 +15,7 @@ import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 
 gsap.registerPlugin(ScrollTrigger);
 import Footer from "@/imports/Footer/index";
-import CtaSection from "@/app/components/CtaSection";
+import CtaSection from "@/components/CtaSection";
 import EventDetailPage from "@/components/EventDetailPage";
 import NotFoundPage from "@/components/NotFoundPage";
 import NeoButton from "@/components/ui/NeoButton";
@@ -368,7 +368,7 @@ export default function EventsPage({
             {[
               { id: "all", label: "All Events", count: allEvents.length },
               { id: "upcoming", label: "Upcoming", count: upcomingEvents.length },
-              { id: "ongoing", label: "Ongoing Rhythms", count: ongoingEvents.length },
+              { id: "ongoing", label: "Activities", count: ongoingEvents.length },
               { id: "past", label: "Past Events", count: pastEvents.length },
             ].map((tab) => {
               const isActive = activeFilter === tab.id;
@@ -506,7 +506,7 @@ export default function EventsPage({
       )}
 
       {/* ── 6. SECTION 4: PHOTO GALLERY (No border rings) ─────────────────── */}
-      <section className="w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-[#FFEDE5]">
+      <section className="w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-[#FDE4FF]">
         <div className="max-w-[1312px] mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2
@@ -540,19 +540,19 @@ export default function EventsPage({
       {selectedPhoto && (
         <div
           onClick={() => setSelectedPhoto(null)}
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-pointer"
+          className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-pointer"
         >
           <button
             type="button"
             onClick={() => setSelectedPhoto(null)}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 size-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-md transition-colors border border-white/20 cursor-pointer"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 size-12 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center backdrop-blur-md transition-all duration-200 border border-white/30 cursor-pointer shadow-lg"
             aria-label="Close fullscreen view"
           >
             <X size={24} />
           </button>
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-[95vw] max-h-[92vh] flex items-center justify-center"
+            className="relative max-w-[95vw] max-h-[92vh] flex items-center justify-center animate-in fade-in zoom-in-95 duration-200"
           >
             <img
               src={selectedPhoto.src}

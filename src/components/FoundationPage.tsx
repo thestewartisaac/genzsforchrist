@@ -933,7 +933,7 @@ export default function FoundationPage({
       {activePhoto && (
         <div
           onClick={() => setActivePhoto(null)}
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
         >
           <div className="relative max-w-4xl max-h-[85vh] rounded-[20px] overflow-hidden border-2 border-white shadow-2xl">
             <button

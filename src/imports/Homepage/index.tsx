@@ -10,7 +10,7 @@ import imgFrame33 from "./8cfb78f68128e08761f1d331859ac14bf6168641.png";
 import { imgGroup, imgGroup1 } from "./svg-r6r8i";
 import logoColorLight from "@/imports/logo_color-light_transparent.svg";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
-import CtaSection from "@/app/components/CtaSection";
+import CtaSection from "@/components/CtaSection";
 import FooterSection from "@/imports/Footer/index";
 type CarouselImgCollectionProps = {
   className?: string;

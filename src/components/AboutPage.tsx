@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
-import CtaSection from "@/app/components/CtaSection";
+import CtaSection from "@/components/CtaSection";
 import efeImg from "@/people/efe.JPG";
 import ruthImg from "@/people/ruth.jpeg";
 import tochukwuImg from "@/people/tochukwu.jpg";

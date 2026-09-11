@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
-import CtaSection from "@/app/components/CtaSection";
+import CtaSection from "@/components/CtaSection";
 import NeoButton from "@/components/ui/NeoButton";
 import {
   ActivityItem,
