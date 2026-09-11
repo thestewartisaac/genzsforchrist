@@ -106,7 +106,7 @@ export default function ContactPage() {
 
   const handleCopyPhone = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigator.clipboard.writeText("+234 814 199 5003");
+    navigator.clipboard.writeText("+234 701 945 7875");
     setCopiedPhone(true);
     setTimeout(() => setCopiedPhone(false), 2000);
   };
@@ -294,7 +294,7 @@ export default function ContactPage() {
                       href="tel:+2348141995003"
                       className="text-[#210901] font-semibold text-[15px] sm:text-[16px] hover:text-[#ff7f00] transition-colors truncate block"
                     >
-                      +234 814 199 5003
+                      +234 701 945 7875
                     </a>
                   </div>
                 </div>
