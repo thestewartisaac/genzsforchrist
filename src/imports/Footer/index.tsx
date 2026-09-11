@@ -503,7 +503,7 @@ function Frame7() {
 export default function Footer() {
   return (
     <div
-      className="bg-white content-stretch flex flex-col gap-[45px] items-center overflow-clip pt-[140px] px-[100px] relative w-full bg-[#ffffff00]"
+      className="bg-white content-stretch flex flex-col gap-[45px] items-center overflow-clip overflow-x-hidden pt-[140px] px-[100px] relative w-full bg-[#ffffff00]"
       data-name="Footer"
     >
       <Frame6 />

@@ -525,7 +525,7 @@ function Group1() {
 function Hero() {
   return (
     <div
-      className="bg-[#07070f] h-[100svh] min-h-[100svh] overflow-clip relative shrink-0 w-full"
+      className="bg-[#07070f] h-[100svh] min-h-[100svh] overflow-clip overflow-x-hidden relative shrink-0 w-full"
       data-name="Hero"
     >
       <HeroAnimatedBackground />
@@ -839,7 +839,7 @@ function Frame31() {
 function WelcomeSection() {
   return (
     <div
-      className="bg-transparent content-stretch flex flex-col gap-[10px] items-start overflow-clip px-[100px] py-[140px] relative shrink-0 w-full"
+      className="bg-transparent content-stretch flex flex-col gap-[10px] items-start overflow-clip overflow-x-hidden px-[100px] py-[140px] relative shrink-0 w-full"
       data-name="Welcome section"
     >
       <Sparkles />
@@ -987,7 +987,7 @@ function StickersV7() {
 function Humanitarian() {
   return (
     <div
-      className="bg-transparent content-stretch flex flex-col gap-[10px] h-[873px] items-start px-[100px] py-[140px] relative shrink-0 w-full"
+      className="bg-transparent content-stretch flex flex-col gap-[10px] h-[873px] items-start overflow-x-hidden px-[100px] py-[140px] relative shrink-0 w-full"
       data-name="Humanitarian"
     >
       <div className="-translate-x-1/2 absolute h-[873px] left-1/2 top-0 w-[1512px]">
@@ -1669,7 +1669,7 @@ function Figure() {
 function OurStory() {
   return (
     <div
-      className="bg-transparent content-stretch flex flex-col gap-[10px] items-start overflow-clip px-[100px] py-[140px] relative shrink-0 w-full"
+      className="bg-transparent content-stretch flex flex-col gap-[10px] items-start overflow-clip overflow-x-hidden px-[100px] py-[140px] relative shrink-0 w-full"
       data-name="MacBook Pro 14' - 4"
     >
       <Frame28 />
@@ -1920,7 +1920,7 @@ function Frame29() {
 function WhatWeDo() {
   return (
     <div
-      className="bg-[#d7f741] content-stretch flex flex-col gap-[10px] items-start overflow-clip px-[100px] py-[140px] relative shrink-0 w-full"
+      className="bg-[#d7f741] content-stretch flex flex-col gap-[10px] items-start overflow-clip overflow-x-hidden px-[100px] py-[140px] relative shrink-0 w-full"
       data-name="what we do"
     >
       <div className="absolute flex h-[195.11px] items-center justify-center left-[-35px] top-[140px] w-[196.536px]">
@@ -2479,7 +2479,7 @@ function Footer() {
 export default function Homepage() {
   return (
     <div
-      className="gz-grid-bg content-stretch flex flex-col items-start relative size-full"
+      className="gz-grid-bg content-stretch flex flex-col items-start relative size-full overflow-x-hidden max-w-full"
       data-name="Homepage"
     >
       <Hero />

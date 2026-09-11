@@ -1,11 +1,10 @@
+import imgHandWithHeart from "@/imports/hand-with-heart.png";
+import imgManKneeling from "@/imports/man-kneeling.png";
+import imgManPraying from "@/imports/man-praying.png";
+import imgUniversityStudent from "@/imports/university-student.png";
 import imgSecretPlaceLogo from "@/imports/Homepage/2ce99f59ffd657ef0bb367464fc2ecb9136f1918.png";
-import imgWhatWeDoSecretPlace from "@/imports/Homepage/f5348df6f5df01c615d6da6ff80c656b0f3abad1.png";
-import imgWhatWeDoDaily from "@/imports/Homepage/8cfb78f68128e08761f1d331859ac14bf6168641.png";
-import imgHumanitarian from "@/imports/Homepage/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png";
-import imgCarousel1 from "@/imports/Homepage/62c881e484a773c554732bdd3a21d7feea1dd996.png";
-import imgCarousel2 from "@/imports/Homepage/ee341b9f360edf170fcd9e64ea7bbdd2baed5316.png";
-import imgCarousel3 from "@/imports/Homepage/3486655db75152df5483c1fb8bc7cc9bd4d5b749.png";
-import imgCarousel4 from "@/imports/Homepage/5a58b780d0d9b93164f071a91b87b98716d31737.png";
+import imgEfe from "@/people/efe.JPG";
+import imgGenzsIcon from "@/people/genzs_icon.png";
 
 export interface BlogPost {
   slug: string;
@@ -46,19 +45,35 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
 ];
 
 const IMAGE_MAP: Record<string, string> = {
+  "/uploads/man-praying.png": imgManPraying,
+  "/uploads/man-kneeling.png": imgManKneeling,
+  "/uploads/hand-with-heart.png": imgHandWithHeart,
+  "/uploads/university-student.png": imgUniversityStudent,
+  "/uploads/efe.JPG": imgEfe,
+  "/src/people/efe.JPG": imgEfe,
+  "efe.JPG": imgEfe,
+  "/uploads/genzs_icon.png": imgGenzsIcon,
+  "/src/people/genzs_icon.png": imgGenzsIcon,
+  "genzs_icon.png": imgGenzsIcon,
+  "man-praying.png": imgManPraying,
+  "man-kneeling.png": imgManKneeling,
+  "hand-with-heart.png": imgHandWithHeart,
+  "university-student.png": imgUniversityStudent,
+  "/uploads/f5348df6f5df01c615d6da6ff80c656b0f3abad1.png": imgManPraying,
+  "/uploads/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png": imgHandWithHeart,
+  "/uploads/62c881e484a773c554732bdd3a21d7feea1dd996.png": imgUniversityStudent,
   "/uploads/2ce99f59ffd657ef0bb367464fc2ecb9136f1918.png": imgSecretPlaceLogo,
-  "/uploads/f5348df6f5df01c615d6da6ff80c656b0f3abad1.png": imgWhatWeDoSecretPlace,
-  "/uploads/8cfb78f68128e08761f1d331859ac14bf6168641.png": imgWhatWeDoDaily,
-  "/uploads/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png": imgHumanitarian,
-  "/uploads/62c881e484a773c554732bdd3a21d7feea1dd996.png": imgCarousel1,
-  "/uploads/ee341b9f360edf170fcd9e64ea7bbdd2baed5316.png": imgCarousel2,
-  "/uploads/3486655db75152df5483c1fb8bc7cc9bd4d5b749.png": imgCarousel3,
-  "/uploads/5a58b780d0d9b93164f071a91b87b98716d31737.png": imgCarousel4,
 };
 
 export function resolveBlogImage(img?: string): string {
-  if (!img) return imgWhatWeDoSecretPlace;
+  if (!img) return imgManPraying;
   if (IMAGE_MAP[img]) return IMAGE_MAP[img];
+  if (img.toLowerCase().includes("efe")) return imgEfe;
+  if (img.toLowerCase().includes("genzs_icon") || img.toLowerCase().includes("genz")) return imgGenzsIcon;
+  if (img.includes("hand-with-heart")) return imgHandWithHeart;
+  if (img.includes("man-kneeling")) return imgManKneeling;
+  if (img.includes("man-praying")) return imgManPraying;
+  if (img.includes("university-student")) return imgUniversityStudent;
   return img;
 }
 
@@ -142,7 +157,7 @@ export function getBlogPosts(): BlogPost[] {
       categoryLabel: "Faith & Culture",
       categoryBadgeBg: "bg-[#fbb222]",
       categoryBadgeText: "text-[#210901]",
-      coverImage: imgWhatWeDoSecretPlace,
+      coverImage: imgManPraying,
       readTime: "5 min read",
       featured: true,
       tags: ["Revival", "Prayer", "Campus Ministry", "Gen Z"],
@@ -154,7 +169,13 @@ export function getBlogPosts(): BlogPost[] {
 
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
   const all = getBlogPosts();
-  return all.find((p) => p.slug === slug);
+  const normalized = (slug || "").trim().toLowerCase();
+  return all.find(
+    (p) =>
+      p.slug.toLowerCase() === normalized ||
+      p.slug.toLowerCase().replace(/[^a-z0-9]/g, "-") === normalized.replace(/[^a-z0-9]/g, "-") ||
+      p.slug.toLowerCase().replace(/-/g, "") === normalized.replace(/-/g, "")
+  );
 }
 
 export function getFeaturedBlogPost(): BlogPost | undefined {

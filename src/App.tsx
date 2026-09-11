@@ -1038,6 +1038,23 @@ export default function App() {
           margin: 0 auto !important;
           align-self: center !important;
         }
+
+        /* ─── Homepage Sections Strict Overflow Containment ─── */
+        [data-name="Homepage"],
+        [data-name="Homepage"] > div,
+        [data-name="Hero"],
+        [data-name="Welcome section"],
+        [data-name="Humanitarian"],
+        [data-name^="MacBook Pro 14' - 4"],
+        [data-name="our story"],
+        [data-name="what we do"],
+        [data-name="Footer"],
+        section {
+          overflow-x: hidden !important;
+          max-width: 100vw !important;
+          box-sizing: border-box !important;
+        }
+
         /* ─── Fixed Sticky Navbar (Desktop) ─── */
         [data-name="Hero"] > div[class*="justify-between"],
         [data-name="Hero"] [class*="left-[99.32px]"],
@@ -1060,7 +1077,7 @@ export default function App() {
         }
 
         /* ─── Humanitarian ─── */
-        [data-name="Humanitarian"] { height: auto !important; }
+        [data-name="Humanitarian"] { height: auto !important; overflow-x: hidden !important; }
         [data-name="Humanitarian"] > div[class*="absolute"][class*="left-1/2"] {
           height: 100% !important;
         }
@@ -1783,7 +1800,7 @@ export default function App() {
             padding: 0 !important;
             z-index: 0 !important;
             pointer-events: none !important;
-            overflow: visible !important;
+            overflow-x: hidden !important;
           }
 
           /* SVG spans full screen width edge-to-edge with natural wavy edges */

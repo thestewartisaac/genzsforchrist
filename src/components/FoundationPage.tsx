@@ -24,13 +24,14 @@ import { PaystackSecurityBadge, AcceptedPaymentLogos } from "@/components/Paymen
 import NeoButton from "@/components/ui/NeoButton";
 
 // High-resolution field photos
-import imgHumanitarianHero from "@/imports/Homepage/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png";
+import imgHumanitarianHero from "@/imports/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png";
 import imgImpact1 from "@/imports/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png";
 import imgImpact2 from "@/imports/IMG_9651.jpg";
 import imgImpact3 from "@/imports/IMG_9663.jpg";
 import imgImpact4 from "@/imports/IMG_9704.jpg";
 import imgImpact5 from "@/imports/IMG_9747.jpg";
 import imgImpact6 from "@/imports/IMG_9822.jpg";
+import medicalOutreach from "@/imports/medical-outreach.jpg";
 
 import { initiatePaystackDonation } from "@/lib/paystackService";
 
@@ -485,14 +486,14 @@ export default function FoundationPage({
             <div className="gz-impact-card bg-[#00434a] text-white rounded-[24px] border-2 border-[#210901] shadow-[8px_8px_0px_0px_#210901] overflow-hidden flex flex-col">
               <div className="h-[250px] w-full overflow-hidden border-b-2 border-[#210901] relative bg-[#26103d]">
                 <img
-                  src={imgHumanitarianHero}
+                  src={imgImpact1}
                   alt="Community Relief"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <div className="p-7 sm:p-8 flex-1 flex flex-col justify-between gap-4">
                 <div>
-                  <img src={groceries} alt="" width={60} height={60} className="mb-3" />
+                  <img src={groceries} alt="Community Relief" width={60} height={60} className="mb-3 drop-shadow-[2px_2px_0px_#210901]" />
                   <h3
                     className="text-[32px] sm:text-[36px] text-[#d7f741] leading-tight mb-2.5"
                     style={{ fontFamily: "'Instrument Serif', serif" }}
@@ -511,14 +512,14 @@ export default function FoundationPage({
             <div className="gz-impact-card bg-[#fbb222] text-[#210901] rounded-[24px] border-2 border-[#210901] shadow-[8px_8px_0px_0px_#210901] overflow-hidden flex flex-col md:translate-y-8">
               <div className="h-[250px] w-full overflow-hidden border-b-2 border-[#210901] relative bg-[#16052b]">
                 <img
-                  src={imgOutreach2}
+                  src={imgImpact4}
                   alt="Educational Outreach"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <div className="p-7 sm:p-8 flex-1 flex flex-col justify-between gap-4">
                 <div>
-                  <img src={book} alt="" width={60} height={60} className="mb-3" />
+                  <img src={book} alt="Educational Outreach" width={60} height={60} className="mb-3 drop-shadow-[2px_2px_0px_#210901]" />
                   <h3
                     className="text-[32px] sm:text-[36px] text-[#210901] leading-tight mb-2.5"
                     style={{ fontFamily: "'Instrument Serif', serif" }}
@@ -537,14 +538,14 @@ export default function FoundationPage({
             <div className="gz-impact-card bg-[#00CEE7] text-white rounded-[24px] border-2 border-[#210901] shadow-[8px_8px_0px_0px_#210901] overflow-hidden flex flex-col">
               <div className="h-[250px] w-full overflow-hidden border-b-2 border-[#210901] relative bg-[#26103d]">
                 <img
-                  src={imgOutreach3}
+                  src={medicalOutreach}
                   alt="Health & Wellness"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <div className="p-7 sm:p-8 flex-1 flex flex-col justify-between gap-4">
                 <div>
-                  <img src={medical} alt="" width={60} height={60} className="mb-3" />
+                  <img src={medical} alt="Health & Wellness" width={60} height={60} className="mb-3 drop-shadow-[2px_2px_0px_#210901]" />
                   <h3
                     className="text-[32px] sm:text-[36px] text-[#19154A] leading-tight mb-2.5"
                     style={{ fontFamily: "'Instrument Serif', serif" }}

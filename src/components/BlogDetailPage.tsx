@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -42,27 +42,47 @@ export default function BlogDetailPage({
   const [copied, setCopied] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const post = getBlogPostBySlug(slug);
+  const post = useMemo(() => getBlogPostBySlug(slug), [slug]);
   const containerRef = useRef<HTMLDivElement>(null);
+  const articleCardRef = useRef<HTMLDivElement>(null);
 
   // ── Track reading progress and back-to-top visibility ───────────────────
   useEffect(() => {
     const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        const currentScroll = window.scrollY;
-        const progress = Math.min(100, Math.max(0, (currentScroll / totalHeight) * 100));
+      const currentScroll = window.scrollY;
+      setShowScrollTop(currentScroll > 400);
+
+      const articleEl = articleCardRef.current;
+      if (articleEl) {
+        const rect = articleEl.getBoundingClientRect();
+        const articleTop = rect.top + window.scrollY;
+        const articleHeight = articleEl.offsetHeight;
+        const articleBottom = articleTop + articleHeight;
+
+        // Progress starts at 0 at the top of the article and reaches 100%
+        // when the user has scrolled to the bottom of the article card
+        const endScroll = Math.max(1, articleBottom - window.innerHeight);
+        const progress = Math.min(100, Math.max(0, (currentScroll / endScroll) * 100));
         setReadingProgress(progress);
-        setShowScrollTop(currentScroll > 400);
+      } else {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (totalHeight > 0) {
+          setReadingProgress(Math.min(100, Math.max(0, (currentScroll / totalHeight) * 100)));
+        }
       }
     };
 
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("resize", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [slug]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
 
     const container = containerRef.current;
     if (!container || !post) return;
@@ -71,65 +91,35 @@ export default function BlogDetailPage({
       // 1. Article Header Entrance
       gsap.from(".gz-detail-article-header", {
         opacity: 0,
-        y: 30,
+        y: 28,
         duration: 0.8,
         ease: "power3.out",
+        clearProps: "all",
       });
 
-      // 2. Cover image reveal
-      gsap.from(".gz-detail-cover-image", {
+      // 2. Main Article Card Entrance (Cover Image + Body in one container)
+      gsap.from(".gz-detail-article-card", {
         opacity: 0,
-        scale: 0.96,
+        y: 32,
         duration: 0.85,
+        delay: 0.1,
         ease: "power3.out",
-        clearProps: "transform",
+        clearProps: "all",
       });
 
-      // 3. Main article body reveal
-      gsap.from(".gz-detail-article-body", {
-        opacity: 0,
-        y: 36,
-        duration: 0.85,
-        ease: "power3.out",
-        clearProps: "transform",
-        scrollTrigger: {
-          trigger: ".gz-detail-article-body",
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-      });
-
-      // 4. Telegram callout pop-in
-      const callout = container.querySelector(".gz-detail-callout");
-      if (callout) {
-        gsap.from(callout, {
-          opacity: 0,
-          scale: 0.96,
-          y: 28,
-          duration: 0.8,
-          ease: "power3.out",
-          clearProps: "transform",
-          scrollTrigger: {
-            trigger: callout,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
-      }
-
-      // 5. Related articles grid cards stagger
-      const relatedCards = container.querySelectorAll(".gz-detail-related-card");
-      if (relatedCards.length > 0) {
-        gsap.from(relatedCards, {
+      // 3. Related articles grid cards stagger
+      const relatedGrid = container.querySelector(".gz-detail-related-grid");
+      if (relatedGrid) {
+        gsap.from(".gz-detail-related-card", {
           opacity: 0,
           y: 32,
           duration: 0.75,
           stagger: 0.12,
           ease: "power3.out",
-          clearProps: "transform",
+          clearProps: "all",
           scrollTrigger: {
             trigger: ".gz-detail-related-grid",
-            start: "top 85%",
+            start: "top 88%",
             toggleActions: "play none none none",
           },
         });
@@ -137,7 +127,14 @@ export default function BlogDetailPage({
     }, container);
 
     return () => ctx.revert();
-  }, [slug, post]);
+  }, [slug]);
+
+  const relatedPosts = useMemo(() => {
+    if (!post) return [];
+    return getBlogPosts()
+      .filter((p) => p.slug !== post.slug)
+      .slice(0, 3);
+  }, [post?.slug]);
 
   if (!post) {
     return (
@@ -165,12 +162,9 @@ export default function BlogDetailPage({
     );
   }
 
-  // Get 3 related articles (excluding the active one)
-  const relatedPosts = getBlogPosts()
-    .filter((p) => p.slug !== post.slug)
-    .slice(0, 3);
-
-  const articleUrl = typeof window !== "undefined" ? window.location.href : "";
+  const articleUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/blog/${post.slug}`
+    : `/blog/${post.slug}`;
 
   const handleCopy = () => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
@@ -230,13 +224,14 @@ export default function BlogDetailPage({
       // Section Headings: ###
       if (line.startsWith("### ")) {
         flushParagraph();
+        const headingText = line.replace("### ", "");
         elements.push(
           <h3
             key={`h3-${elements.length}`}
             className="text-[28px] sm:text-[36px] text-[#210901] leading-tight font-bold mt-10 mb-4"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
-            {line.replace("### ", "")}
+            {parseInlineMarkdown(headingText)}
           </h3>
         );
         continue;
@@ -245,13 +240,14 @@ export default function BlogDetailPage({
       // Subheadings: ##
       if (line.startsWith("## ")) {
         flushParagraph();
+        const headingText = line.replace("## ", "");
         elements.push(
           <h2
             key={`h2-${elements.length}`}
             className="text-[32px] sm:text-[42px] text-[#210901] leading-tight font-normal mt-12 mb-4"
             style={{ fontFamily: "'Gasoek One', sans-serif" }}
           >
-            {line.replace("## ", "")}
+            {parseInlineMarkdown(headingText)}
           </h2>
         );
         continue;
@@ -260,6 +256,7 @@ export default function BlogDetailPage({
       // Blockquotes: >
       if (line.startsWith("> ")) {
         flushParagraph();
+        const quoteText = line.replace(/^>\s*/, "").replace(/^["“”]|["“”]$/g, "");
         elements.push(
           <blockquote
             key={`quote-${elements.length}`}
@@ -269,7 +266,7 @@ export default function BlogDetailPage({
               className="text-[22px] sm:text-[26px] text-[#210901] italic font-medium leading-snug m-0"
               style={{ fontFamily: "'Instrument Serif', serif" }}
             >
-              {line.replace("> ", "").replace(/^"|"$/g, "")}
+              “{parseInlineMarkdown(quoteText)}”
             </p>
           </blockquote>
         );
@@ -343,8 +340,8 @@ export default function BlogDetailPage({
       </div>
 
       {/* ── 1. Breadcrumb & Back Bar ───────────────────────────────────────── */}
-      <div className="w-full bg-[#26103d] text-white py-4 px-6 sm:px-12 lg:px-20 border-b-2 border-[#210901] relative z-20">
-        <div className="max-w-[1000px] mx-auto flex items-center justify-between gap-4">
+      <div className="w-full bg-[#26103d] text-white pt-28 sm:pt-32 pb-4 px-6 sm:px-12 lg:px-20 border-b-2 border-[#210901] relative z-20">
+        <div className="max-w-[1240px] mx-auto flex items-center justify-between gap-4">
           <button
             onClick={onBack}
             className="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-white/90 hover:text-[#d7f741] transition-colors cursor-pointer"
@@ -363,7 +360,7 @@ export default function BlogDetailPage({
 
       {/* ── 2. Article Header ────────────────────────────────────────────────── */}
       <header className="gz-detail-article-header w-full pt-12 sm:pt-16 pb-10 px-6 sm:px-12 lg:px-20 bg-transparent border-b-2 border-[#210901]">
-        <div className="max-w-[1000px] mx-auto space-y-6">
+        <div className="max-w-[1240px] mx-auto space-y-6">
           {/* Category & Read Time Pills */}
           <div className="flex flex-wrap items-center gap-2.5">
             <span
@@ -392,7 +389,7 @@ export default function BlogDetailPage({
           {/* Subtitle / Excerpt Hook */}
           {post.subtitle && (
             <p
-              className="text-[19px] sm:text-[23px] text-[#210901]/80 leading-snug font-normal max-w-3xl m-0"
+              className="text-[19px] sm:text-[23px] text-[#210901]/80 leading-snug font-normal max-w-4xl m-0"
               style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
             >
               {post.subtitle}
@@ -470,77 +467,86 @@ export default function BlogDetailPage({
         </div>
       </header>
 
-      {/* ── 3. Featured Cover Image ────────────────────────────────────────── */}
-      <section className="w-full py-8 sm:py-12 px-6 sm:px-12 lg:px-20 bg-transparent">
-        <div className="max-w-[1000px] mx-auto">
-          <div className="gz-detail-cover-image w-full h-[320px] sm:h-[460px] md:h-[540px] rounded-[24px] sm:rounded-[32px] border-2 border-[#210901] shadow-[8px_8px_0px_0px_#210901] overflow-hidden bg-[#26103d] relative">
+      {/* ── 3. Main Article Container (Cover Image + Body in One Card) ─────── */}
+      <section className="w-full pt-8 sm:pt-12 pb-16 sm:pb-24 px-6 sm:px-12 lg:px-20 bg-transparent">
+        <div
+          ref={articleCardRef}
+          className="gz-detail-article-card max-w-[1240px] w-full mx-auto bg-white border-2 border-[#210901] rounded-[28px] sm:rounded-[36px] shadow-[10px_10px_0px_0px_#210901] overflow-hidden flex flex-col"
+        >
+          {/* Top Integrated Cover Image with border-b-2 */}
+          <div className="h-[340px] sm:h-[480px] md:h-[560px] lg:h-[620px] w-full overflow-hidden border-b-2 border-[#210901] bg-[#26103d] relative">
             <img
               src={post.coverImage}
               alt={post.title}
               className="w-full h-full object-cover"
             />
-          </div>
-        </div>
-      </section>
-
-      {/* ── 4. Main Article Body ────────────────────────────────────────────── */}
-      <article className="gz-detail-article-body w-full pb-16 sm:pb-24 px-6 sm:px-12 lg:px-20 bg-transparent">
-        <div className="max-w-[800px] mx-auto bg-white border-2 border-[#210901] rounded-[28px] p-8 sm:p-14 shadow-[8px_8px_0px_0px_#210901]">
-          {renderFormattedContent(post.content)}
-
-          {/* Topic Tags */}
-          {post.tags && post.tags.length > 0 && (
-            <div className="pt-8 mt-10 border-t border-[#210901]/10 flex flex-wrap items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#210901]/60 mr-1">
-                Topics:
-              </span>
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 rounded-full text-xs font-semibold bg-[#faf8f5] text-[#210901] border border-[#210901]/30"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* Invitation to Midnight Altar Callout */}
-          <div className="gz-detail-callout mt-12 bg-[#26103d] text-white rounded-[20px] border-2 border-[#210901] p-6 sm:p-8 relative overflow-hidden shadow-[6px_6px_0px_#fbb222]">
-            <div className="relative z-10 space-y-3">
-              <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#d7f741] text-[#210901] border border-[#210901] inline-block">
-                Join the Movement
-              </span>
-              <h3
-                className="text-[26px] sm:text-[32px] text-[#fbb222] font-bold leading-tight"
-                style={{ fontFamily: "'Instrument Serif', serif" }}
+            <div className="absolute top-4 left-4">
+              <span
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border border-[#210901] shadow-[2px_2px_0px_#210901] ${post.categoryBadgeBg} ${post.categoryBadgeText}`}
               >
-                Experience Revival For Yourself
-              </h3>
-              <p className="text-white/85 text-base sm:text-lg leading-relaxed m-0">
-                We meet every night at 9:00 PM WAT on Telegram for prayer, worship, and discipleship.
-                Don't just read about revival—step into it.
-              </p>
-              <div className="pt-2">
-                <NeoButton
-                  href="https://t.me/genzsforchrist"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="lime"
-                  icon={<Send size={16} />}
+                {post.categoryLabel}
+              </span>
+            </div>
+          </div>
+
+          {/* Article Body Inside Same Container */}
+          <div className="p-8 sm:p-12 md:p-16 lg:p-20">
+            {renderFormattedContent(post.content)}
+
+            {/* Topic Tags */}
+            {post.tags && post.tags.length > 0 && (
+              <div className="pt-8 mt-10 border-t border-[#210901]/10 flex flex-wrap items-center gap-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#210901]/60 mr-1">
+                  Topics:
+                </span>
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 rounded-full text-xs font-semibold bg-[#faf8f5] text-[#210901] border border-[#210901]/30"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Invitation to Midnight Altar Callout */}
+            <div className="gz-detail-callout mt-12 bg-[#26103d] text-white rounded-[20px] border-2 border-[#210901] p-6 sm:p-8 relative overflow-hidden shadow-[6px_6px_0px_#fbb222]">
+              <div className="relative z-10 space-y-3">
+                <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#d7f741] text-[#210901] border border-[#210901] inline-block">
+                  Join the Movement
+                </span>
+                <h3
+                  className="text-[26px] sm:text-[32px] text-[#fbb222] font-bold leading-tight"
+                  style={{ fontFamily: "'Instrument Serif', serif" }}
                 >
-                  Join Our Telegram Altar
-                </NeoButton>
+                  Experience Revival For Yourself
+                </h3>
+                <p className="text-white/85 text-base sm:text-lg leading-relaxed m-0">
+                  We meet every night at 9:00 PM WAT on Telegram for prayer, worship, and discipleship.
+                  Don't just read about revival—step into it.
+                </p>
+                <div className="pt-2">
+                  <NeoButton
+                    href="https://t.me/genzsforchrist"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="lime"
+                    icon={<Send size={16} />}
+                  >
+                    Join Our Telegram Altar
+                  </NeoButton>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </article>
+      </section>
 
       {/* ── 5. Related Articles ──────────────────────────────────────────────── */}
       {relatedPosts.length > 0 && (
         <section className="w-full py-16 sm:py-20 px-6 sm:px-12 lg:px-20 bg-transparent border-t-2 border-[#210901]">
-          <div className="max-w-[1200px] mx-auto space-y-10">
+          <div className="max-w-[1240px] mx-auto space-y-10">
             <div className="flex items-center justify-between">
               <div>
                 <h2
