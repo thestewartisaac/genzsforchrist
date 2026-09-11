@@ -25,10 +25,12 @@ import NeoButton from "@/components/ui/NeoButton";
 
 // High-resolution field photos
 import imgHumanitarianHero from "@/imports/Homepage/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png";
-import imgOutreach1 from "@/imports/Homepage/5a58b780d0d9b93164f071a91b87b98716d31737.png";
-import imgOutreach2 from "@/imports/Homepage/62c881e484a773c554732bdd3a21d7feea1dd996.png";
-import imgOutreach3 from "@/imports/Homepage/3486655db75152df5483c1fb8bc7cc9bd4d5b749.png";
-import imgOutreach4 from "@/imports/Homepage/ee341b9f360edf170fcd9e64ea7bbdd2baed5316.png";
+import imgImpact1 from "@/imports/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png";
+import imgImpact2 from "@/imports/IMG_9651.jpg";
+import imgImpact3 from "@/imports/IMG_9663.jpg";
+import imgImpact4 from "@/imports/IMG_9704.jpg";
+import imgImpact5 from "@/imports/IMG_9747.jpg";
+import imgImpact6 from "@/imports/IMG_9822.jpg";
 
 import { initiatePaystackDonation } from "@/lib/paystackService";
 
@@ -167,11 +169,12 @@ export default function FoundationPage({
   };
 
   const galleryImages = [
-    { src: imgHumanitarianHero, caption: "Community Food Drive & Prayer Altar" },
-    { src: imgOutreach1, caption: "Hands-on Relief Distribution to Families" },
-    { src: imgOutreach2, caption: "Youth Discipleship & Practical Fellowship" },
-    { src: imgOutreach3, caption: "City Gathering & Essential Welfare Care" },
-    { src: imgOutreach4, caption: "Joy and Hope Restored in Our Streets" },
+    { src: imgImpact1, caption: "Community Food Drive & Practical Outreach" },
+    { src: imgImpact2, caption: "Field Relief & Hands-on Love in Action" },
+    { src: imgImpact3, caption: "Youth Discipleship & Compassionate Service" },
+    { src: imgImpact4, caption: "Essential Welfare & Community Care" },
+    { src: imgImpact5, caption: "Empowering Lives & Spreading Hope" },
+    { src: imgImpact6, caption: "Joy and Transformation in Our Communities" },
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
