@@ -2,24 +2,23 @@
   "id": "city-gatherings",
   "title": "Monthly Physical City Gatherings",
   "subtitle": "Show up, connect in person, and build a stronger local community.",
-  "status": "upcoming",
-  "targetDate": "2026-09-12T15:00:00Z",
-  "date": "September 12, 2026 • 3:00 PM",
-  "venue": "Physical City Hubs (Lagos, Abuja, London, Ibadan)",
+  "status": "ongoing",
+  "date": "Once a Month • Announced on Telegram",
+  "venue": "Physical City Hubs (Locations Announced on Telegram)",
   "category": "city",
   "image": "/uploads/3486655db75152df5483c1fb8bc7cc9bd4d5b749.png",
   "cardBg": "bg-[#00434a]",
   "cardText": "text-white",
   "titleColor": "text-[#d7f741]",
   "shadowColor": "#210901",
-  "description": "Each city hosts a physical fellowship every month, an opportunity to show up, connect in person, and build a stronger community.",
-  "fullDescription": "Each city hosts a physical fellowship every month, an opportunity to show up, connect in person, break bread, and build a stronger community of passionate young believers who support each other in their walk with Christ.",
+  "description": "Each city hosts a physical fellowship every month, an opportunity to show up, connect in person, and build a stronger community. Locations are announced in our Telegram channel.",
+  "fullDescription": "Each city hosts a physical fellowship every month, an opportunity to show up, connect in person, break bread, and build a stronger community of passionate young believers who support each other in their walk with Christ. Specific venue locations for each city are announced in our official Telegram community.",
   "highlights": [
     "In-person meetups across major cities",
     "Worship, shared meals, and life-giving friendship",
     "Local campus and city community outreaches"
   ],
   "actionUrl": "https://t.me/genzsforchrist",
-  "actionText": "Find Your City Hub",
-  "order": 3
+  "actionText": "Join Telegram for City Updates",
+  "order": 2
 }

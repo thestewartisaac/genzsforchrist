@@ -10,6 +10,7 @@ import {
   BookOpen,
   Send,
   Filter,
+  X,
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -44,6 +45,17 @@ export default function BlogPage({
 
   const allPosts = getBlogPosts();
   const featuredPost = getFeaturedBlogPost();
+
+  // Category counts
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {
+      all: allPosts.length,
+    };
+    allPosts.forEach((p) => {
+      counts[p.category] = (counts[p.category] || 0) + 1;
+    });
+    return counts;
+  }, [allPosts]);
 
   // Filter posts by category and search query
   const filteredPosts = useMemo(() => {
@@ -193,23 +205,34 @@ export default function BlogPage({
           <div className="flex flex-wrap items-center gap-2 w-full md:w-auto overflow-x-auto pb-1">
             {BLOG_CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat.id;
+              const count = categoryCounts[cat.id];
               return (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
                   data-name="button"
-                  className={`px-4 py-2 rounded-[14px] text-xs sm:text-sm font-bold tracking-wide border-2 border-[#210901] cursor-pointer shrink-0 transition-[filter] duration-150 ${isActive
+                  className={`px-4 py-2 rounded-[14px] text-xs sm:text-sm font-bold tracking-wide border-2 border-[#210901] cursor-pointer shrink-0 inline-flex items-center gap-2 transition-[filter] duration-150 ${isActive
                     ? "bg-[#210901] text-white drop-shadow-[3px_3px_0px_#fbb222] hover:drop-shadow-none"
                     : "bg-white text-[#210901] hover:bg-[#fff4ef] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none"
                     }`}
                 >
-                  {cat.label}
+                  <span>{cat.label}</span>
+                  {count !== undefined && (
+                    <span
+                      className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded-full ${isActive
+                        ? "bg-[#d7f741] text-[#210901]"
+                        : "bg-[#210901]/10 text-[#210901]"
+                        }`}
+                    >
+                      {count}
+                    </span>
+                  )}
                 </button>
               );
             })}
           </div>
 
-          {/* Search Box */}
+          {/* Search Box with Instant Clear Button */}
           <div className="relative w-full md:w-72 mb-auto">
             <Search
               size={18}
@@ -220,8 +243,19 @@ export default function BlogPage({
               placeholder="Search articles or topics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-[14px] bg-white border-2 border-[#210901] text-sm text-[#210901] placeholder-[#210901]/40 font-medium focus:outline-none focus:ring-2 focus:ring-[#fbb222] shadow-[2px_2px_0px_#210901]"
+              className="w-full pl-10 pr-9 py-2.5 rounded-[14px] bg-white border-2 border-[#210901] text-sm text-[#210901] placeholder-[#210901]/40 font-medium focus:outline-none focus:ring-2 focus:ring-[#fbb222] shadow-[2px_2px_0px_#210901]"
             />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#210901]/60 hover:text-[#210901] p-1 rounded-full hover:bg-black/5 transition-colors cursor-pointer"
+                aria-label="Clear search"
+                title="Clear search"
+              >
+                <X size={15} />
+              </button>
+            )}
           </div>
         </div>
       </section>

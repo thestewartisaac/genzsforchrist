@@ -1,0 +1,27 @@
+{
+  "id": "lagos-anniversary-hangout",
+  "title": "Lagos 2026 Anniversary Hangout",
+  "subtitle": "Worship, Word, prayer, connections, and joyful fellowship.",
+  "status": "upcoming",
+  "targetDate": "2026-09-19T13:00:00Z",
+  "date": "Saturday 19 September 2026 • 1:00 PM",
+  "venue": "Ndubuisi Kanu Park, Ikeja, Lagos",
+  "category": "hangout",
+  "image": "/uploads/lagos-hangout-anniversity.jpeg",
+  "cardBg": "bg-[#00434a]",
+  "cardText": "text-white",
+  "titleColor": "text-[#d7f741]",
+  "shadowColor": "#210901",
+  "description": "Join us for our Lagos 2026 Anniversary Hangout! A power-packed day of worship, bible study, prayer, connections, open conversations, and games.",
+  "fullDescription": "Join us for our Lagos 2026 Anniversary Hangout at Ndubuisi Kanu Park, Ikeja, Lagos!\n\nA celebration of God's goodness, revival, and community. We are gathering for unhindered worship, deep bible study, earnest prayer, meaningful connections, open real conversations, and fun games.\n\nCome expectant, invite a friend, and let's make unforgettable memories together in Christ.",
+  "highlights": [
+    "Heartfelt acoustic worship & praise session",
+    "Interactive Bible Study & scripture discussions",
+    "United prayer & spiritual intercession",
+    "Open conversations & authentic networking",
+    "Fun group games, laughter & refreshments"
+  ],
+  "actionUrl": "https://chat.whatsapp.com/ELjOCqsqMuZLjG953nXWUQ?s=cl&p=i&mlu=4&ilr=4",
+  "actionText": "Join Lagos WhatsApp Group",
+  "order": 1
+}

@@ -25,6 +25,10 @@ export default function NotFoundPage({
   backLabel = "Go Back",
   onBack,
   onNavigateHome,
+  onNavigateEvents,
+  onNavigateBlog,
+  onNavigateAbout,
+  onNavigateContact,
 }: NotFoundPageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -149,12 +153,46 @@ export default function NotFoundPage({
 
             <NeoButton
               onClick={handleDefaultBack}
-              variant="secondary"
+              variant="primary"
               icon={<ArrowLeft size={18} />}
               iconPosition="left"
             >
               {backLabel}
             </NeoButton>
+          </div>
+
+          {/* Quick Destination Navigation Pills */}
+          <div className="mt-8 pt-6 border-t border-[#210901]/10 w-full max-w-[540px] flex flex-col items-center gap-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#210901]/60">
+              Or jump straight to:
+            </span>
+            <div className="flex flex-wrap items-center justify-center gap-2.5">
+              {[
+                { label: "Events & Activities", path: "/events", fn: onNavigateEvents },
+                { label: "Blog & Journal", path: "/blog", fn: onNavigateBlog },
+                { label: "Our Story", path: "/about", fn: onNavigateAbout },
+                { label: "Foundation & Giving", path: "/foundation", fn: undefined },
+                { label: "Contact Us", path: "/contact", fn: onNavigateContact },
+              ].map((item) => (
+                <a
+                  key={item.label}
+                  href={item.path}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (item.fn) {
+                      item.fn();
+                    } else {
+                      window.history.pushState(null, "", item.path);
+                      window.dispatchEvent(new PopStateEvent("popstate"));
+                    }
+                  }}
+                  data-name="button"
+                  className="px-3.5 py-1.5 rounded-full bg-white border border-[#210901] text-xs font-bold text-[#210901] hover:bg-[#d7f741] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none transition-[filter] duration-150 cursor-pointer"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </main>

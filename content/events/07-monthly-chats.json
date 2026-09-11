@@ -6,7 +6,7 @@
   "date": "Once a Month • 7:00 PM WAT",
   "venue": "Online on Telegram",
   "category": "monthly",
-  "image": "/uploads/62c881e484a773c554732bdd3a21d7feea1dd996.png",
+  "image": "/uploads/game-meetup-2.jpg",
   "cardBg": "bg-[#1e1b4b]",
   "cardText": "text-white",
   "titleColor": "text-[#ffade3]",
@@ -20,5 +20,5 @@
   ],
   "actionUrl": "https://t.me/genzsforchrist",
   "actionText": "Join Monthly Chat on Telegram",
-  "order": 7
+  "order": 6
 }

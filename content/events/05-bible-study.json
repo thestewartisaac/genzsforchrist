@@ -6,7 +6,7 @@
   "date": "Every Two Weeks on Friday • 5:30 PM WAT",
   "venue": "Online on Telegram",
   "category": "daily",
-  "image": "/uploads/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png",
+  "image": "/uploads/bible-study.png",
   "cardBg": "bg-[#00434a]",
   "cardText": "text-white",
   "titleColor": "text-[#d7f741]",
@@ -20,5 +20,5 @@
   ],
   "actionUrl": "https://t.me/genzsforchrist",
   "actionText": "Join Bible Study on Telegram",
-  "order": 5
+  "order": 4
 }

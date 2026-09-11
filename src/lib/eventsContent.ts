@@ -3,6 +3,11 @@ import imgSecretPlaceLogo from "@/imports/Homepage/2ce99f59ffd657ef0bb367464fc2e
 import imgWhatWeDoSecretPlace from "@/imports/Homepage/f5348df6f5df01c615d6da6ff80c656b0f3abad1.png";
 import imgWhatWeDoDaily from "@/imports/Homepage/8cfb78f68128e08761f1d331859ac14bf6168641.png";
 import imgHumanitarian from "@/imports/Homepage/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png";
+import bibleStudy from "@/imports/bible-study.png";
+import praying from "@/imports/praying.png";
+import gameMeetup2 from "@/imports/game-meetup-2.jpg";
+import sportsFiesta1 from "@/imports/sports-fiesta-1.jpg";
+import imgLagosHangoutAnniversary from "@/imports/lagos-hangout-anniversity.jpeg";
 import imgCarousel1 from "@/imports/Homepage/62c881e484a773c554732bdd3a21d7feea1dd996.png";
 import imgCarousel2 from "@/imports/Homepage/ee341b9f360edf170fcd9e64ea7bbdd2baed5316.png";
 import imgCarousel3 from "@/imports/Homepage/3486655db75152df5483c1fb8bc7cc9bd4d5b749.png";
@@ -59,6 +64,18 @@ const IMAGE_MAP: Record<string, string> = {
   "/uploads/f5348df6f5df01c615d6da6ff80c656b0f3abad1.png": imgWhatWeDoSecretPlace,
   "/uploads/8cfb78f68128e08761f1d331859ac14bf6168641.png": imgWhatWeDoDaily,
   "/uploads/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png": imgHumanitarian,
+  "/uploads/bible-study.png": bibleStudy,
+  "bible-study.png": bibleStudy,
+  "/uploads/praying.png": praying,
+  "praying.png": praying,
+  "/uploads/game-meetup-2.jpg": gameMeetup2,
+  "game-meetup-2.jpg": gameMeetup2,
+  "/uploads/sports-fiesta-1.jpg": sportsFiesta1,
+  "sports-fiesta-1.jpg": sportsFiesta1,
+  "/uploads/lagos-hangout-anniversity.jpeg": imgLagosHangoutAnniversary,
+  "lagos-hangout-anniversity.jpeg": imgLagosHangoutAnniversary,
+  "/uploads/lagos-hangout-anniversary.jpeg": imgLagosHangoutAnniversary,
+  "lagos-hangout-anniversary.jpeg": imgLagosHangoutAnniversary,
   "/uploads/62c881e484a773c554732bdd3a21d7feea1dd996.png": imgCarousel1,
   "/uploads/ee341b9f360edf170fcd9e64ea7bbdd2baed5316.png": imgCarousel2,
   "/uploads/3486655db75152df5483c1fb8bc7cc9bd4d5b749.png": imgCarousel3,
@@ -68,6 +85,9 @@ const IMAGE_MAP: Record<string, string> = {
 export function resolveImage(img?: string): string {
   if (!img) return imgWhatWeDoSecretPlace;
   if (IMAGE_MAP[img]) return IMAGE_MAP[img];
+  const cleanName = img.replace(/^\/uploads\//, "").replace(/^\//, "");
+  if (IMAGE_MAP[cleanName]) return IMAGE_MAP[cleanName];
+  if (IMAGE_MAP[`/uploads/${cleanName}`]) return IMAGE_MAP[`/uploads/${cleanName}`];
   return img;
 }
 
@@ -229,40 +249,41 @@ export function getEventsFromContent(): ActivityItem[] {
   // Fallback defaults with guaranteed high-contrast colors matching What We Do on homepage
   return [
     {
-      id: "sports-fiesta",
-      title: "Sports Fiesta & Fellowship",
-      subtitle: "Building relationships, unity, & sharing Christ through sports.",
+      id: "lagos-anniversary-hangout",
+      title: "Lagos 2026 Anniversary Hangout",
+      subtitle: "Worship, Word, prayer, connections, and joyful fellowship.",
       status: "upcoming",
-      targetDate: "2026-09-20T09:00:00Z",
-      date: "September 20, 2026 • 9:00 AM",
-      venue: "Main Bowl National Sports Arena, Lagos",
-      category: "fun",
-      image: imgCarousel2,
-      cardBg: "bg-[#e62129]",
+      targetDate: "2026-09-19T13:00:00Z",
+      date: "Saturday 19 September 2026 • 1:00 PM",
+      venue: "Ndubuisi Kanu Park, Ikeja, Lagos",
+      category: "hangout",
+      image: imgLagosHangoutAnniversary,
+      cardBg: "bg-[#00434a]",
       cardText: "text-white",
-      titleColor: "text-[#FED33D]",
+      titleColor: "text-[#d7f741]",
       shadowColor: "#210901",
       description:
-        "At Gen Z’s for Christ, we believe that sports are more than just games—they are a powerful platform for building relationships, fostering unity, and sharing the love of Christ.",
+        "Join us for our Lagos 2026 Anniversary Hangout! A power-packed day of worship, bible study, prayer, connections, open conversations, and games.",
       fullDescription:
-        "At Gen Z’s for Christ, we believe that sports are more than just games—they are a powerful platform for building relationships, fostering unity, and sharing the love of Christ.\n\nThrough our sports fellowship initiatives, we create an environment where young people can connect, grow in friendship, and strengthen their faith while engaging in healthy competition and recreation.",
+        "Join us for our Lagos 2026 Anniversary Hangout at Ndubuisi Kanu Park, Ikeja, Lagos!\n\nA celebration of God's goodness, revival, and community. We are gathering for unhindered worship, deep bible study, earnest prayer, meaningful connections, open real conversations, and fun games.\n\nCome expectant, invite a friend, and let's make unforgettable memories together in Christ.",
       highlights: [
-        "Football tournament, basketball match-ups & track races",
-        "Praise, barbecue & networking hangout",
-        "Open gospel invitation and salvation altar call",
+        "Heartfelt acoustic worship & praise session",
+        "Interactive Bible Study & scripture discussions",
+        "United prayer & spiritual intercession",
+        "Open conversations & authentic networking",
+        "Fun group games, laughter & refreshments",
       ],
-      actionUrl: "https://instagram.com/genzsforchrist",
-      actionText: "Register / Join Sports Team",
+      actionUrl: "https://chat.whatsapp.com/ELjOCqsqMuZLjG953nXWUQ?s=cl&p=i&mlu=4&ilr=4",
+      actionText: "Join Lagos WhatsApp Group",
       order: 1,
     },
     {
       id: "city-gatherings",
       title: "Monthly Physical City Gatherings",
       subtitle: "Show up, connect in person, and build a stronger local community.",
-      status: "upcoming",
-      targetDate: "2026-09-12T15:00:00Z",
-      date: "September 12, 2026 • 3:00 PM",
-      venue: "Physical City Hubs (Lagos, Abuja, London, Ibadan)",
+      status: "ongoing",
+      date: "Once a Month • Announced on Telegram",
+      venue: "Physical City Hubs (Locations Announced on Telegram)",
       category: "city",
       image: imgCarousel3,
       cardBg: "bg-[#00434a]",
@@ -270,16 +291,16 @@ export function getEventsFromContent(): ActivityItem[] {
       titleColor: "text-[#d7f741]",
       shadowColor: "#210901",
       description:
-        "Each city hosts a physical fellowship every month, an opportunity to show up, connect in person, and build a stronger community.",
+        "Each city hosts a physical fellowship every month, an opportunity to show up, connect in person, and build a stronger community. Locations are announced in our Telegram channel.",
       fullDescription:
-        "Each city hosts a physical fellowship every month, an opportunity to show up, connect in person, break bread, and build a stronger community of passionate young believers who support each other in their walk with Christ.",
+        "Each city hosts a physical fellowship every month, an opportunity to show up, connect in person, break bread, and build a stronger community of passionate young believers who support each other in their walk with Christ. Specific venue locations for each city are announced in our official Telegram community.",
       highlights: [
         "In-person meetups across major cities",
         "Worship, shared meals, and life-giving friendship",
         "Local campus and city community outreaches",
       ],
       actionUrl: "https://t.me/genzsforchrist",
-      actionText: "Find Your City Hub",
+      actionText: "Join Telegram for City Updates",
       order: 2,
     },
     {
@@ -290,7 +311,7 @@ export function getEventsFromContent(): ActivityItem[] {
       date: "Every Night • 4 Timezones",
       venue: "Live on Telegram Voice Channel",
       category: "daily",
-      image: imgWhatWeDoDaily,
+      image: praying,
       cardBg: "bg-[#26103d]",
       cardText: "text-white",
       titleColor: "text-[#fbb222]",
@@ -303,7 +324,7 @@ export function getEventsFromContent(): ActivityItem[] {
         "WAT (Nigeria & Cameroon): 9:00 PM",
         "GMT (Ghana & Sierra Leone): 8:00 PM",
         "BST (United Kingdom): 9:00 PM",
-        "EAT (Kenya): 11:00 PM"
+        "EAT (Kenya): 11:00 PM",
       ],
       timezones: [
         { zone: "WAT", region: "Nigeria & Cameroon", time: "9:00 PM" },
@@ -323,7 +344,7 @@ export function getEventsFromContent(): ActivityItem[] {
       date: "Every Two Weeks on Friday • 5:30 PM WAT",
       venue: "Online on Telegram",
       category: "daily",
-      image: imgHumanitarian,
+      image: bibleStudy,
       cardBg: "bg-[#00434a]",
       cardText: "text-white",
       titleColor: "text-[#d7f741]",
@@ -346,7 +367,7 @@ export function getEventsFromContent(): ActivityItem[] {
       title: "Reset Sundays",
       subtitle: "Relax, connect, gist, and enjoy game nights for the new week.",
       status: "ongoing",
-      date: "Every Other Sunday • 8:00 PM WAT",
+      date: "Every Sunday • 8:00 PM WAT",
       venue: "Online on Telegram",
       category: "weekly",
       image: imgWhatWeDoDaily,
@@ -375,7 +396,7 @@ export function getEventsFromContent(): ActivityItem[] {
       date: "Once a Month • 7:00 PM WAT",
       venue: "Online on Telegram",
       category: "monthly",
-      image: imgCarousel1,
+      image: gameMeetup2,
       cardBg: "bg-[#1e1b4b]",
       cardText: "text-white",
       titleColor: "text-[#ffade3]",
@@ -398,8 +419,8 @@ export function getEventsFromContent(): ActivityItem[] {
       title: "The Secret Place 2026",
       subtitle: "Our flagship annual gathering for deep encounters and spiritual awakening.",
       status: "past",
-      date: "August 1st, 2026",
-      venue: "Lagos, Nigeria & Worldwide Broadcast",
+      date: "August 1st, 2026 • 9:00 AM",
+      venue: "Calvary Chapel, Cathedral of Refuge, E. Momoh Avenue, Kado-kuchi, Abuja",
       category: "annual",
       image: imgWhatWeDoSecretPlace,
       logo: imgSecretPlaceLogo,
@@ -419,6 +440,32 @@ export function getEventsFromContent(): ActivityItem[] {
       actionUrl: "https://youtube.com/@genzsforchrist",
       actionText: "Watch 2026 Replays",
       order: 7,
+    },
+    {
+      id: "sports-fiesta",
+      title: "Sports Fiesta",
+      subtitle: "Building relationships, unity, & sharing Christ through sports.",
+      status: "past",
+      date: "June 13th, 2026 • 10:00 AM",
+      venue: "Monaliza Park, Central Business District, Garki, Abuja",
+      category: "fun",
+      image: sportsFiesta1,
+      cardBg: "bg-[#e62129]",
+      cardText: "text-white",
+      titleColor: "text-[#FED33D]",
+      shadowColor: "#210901",
+      description:
+        "At Gen Z’s for Christ, we believe that sports are more than just games—they are a powerful platform for building relationships, fostering unity, and sharing the love of Christ.",
+      fullDescription:
+        "At Gen Z’s for Christ, we believe that sports are more than just games—they are a powerful platform for building relationships, fostering unity, and sharing the love of Christ.\n\nThrough our sports fellowship initiatives, we create an environment where young people can connect, grow in friendship, and strengthen their faith while engaging in healthy competition and recreation.",
+      highlights: [
+        "Football tournament, basketball match-ups & track races",
+        "Praise, barbecue & networking hangout",
+        "Open gospel invitation and salvation altar call",
+      ],
+      actionUrl: "https://instagram.com/genzsforchrist",
+      actionText: "View Event Highlights",
+      order: 8,
     },
   ];
 }

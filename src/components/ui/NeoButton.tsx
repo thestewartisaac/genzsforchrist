@@ -51,12 +51,12 @@ export default function NeoButton({
   const getVariantClasses = () => {
     switch (variant) {
       case "primary":
-        // Solid Dark Ink with Amber Drop Shadow
-        return "bg-[#210901] text-white border-[#210901] drop-shadow-[4px_4px_0px_#fbb222] hover:drop-shadow-none";
+        // Clean White with Amber Drop Shadow (Standard Primary Button across the site)
+        return "bg-white text-[#210901] border-[#210901] drop-shadow-[4px_4px_0px_#fbb222] hover:drop-shadow-none";
 
       case "primary-inverted":
-        // White on Dark Hero with Amber Drop Shadow
-        return "bg-white text-[#210901] border-black drop-shadow-[4px_4px_0px_#fbb222] hover:drop-shadow-none";
+        // Solid Dark Ink with Amber Drop Shadow
+        return "bg-[#210901] text-white border-[#210901] drop-shadow-[4px_4px_0px_#fbb222] hover:drop-shadow-none";
 
       case "lime":
         // Neon Lime with Dark Neo-Brutalist Shadow
@@ -79,7 +79,7 @@ export default function NeoButton({
         return "bg-[#e62129] text-white border-black drop-shadow-[4px_4px_0px_#210901] hover:drop-shadow-none";
 
       default:
-        return "bg-[#210901] text-white border-[#210901] drop-shadow-[4px_4px_0px_#fbb222] hover:drop-shadow-none";
+        return "bg-white text-[#210901] border-[#210901] drop-shadow-[4px_4px_0px_#fbb222] hover:drop-shadow-none";
     }
   };
 

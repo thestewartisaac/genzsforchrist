@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   Video,
   Share2,
+  MessageCircle,
 } from "lucide-react";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
@@ -197,15 +198,17 @@ export default function EventDetailPage({
                 </div>
               </div>
 
-              {event.actionUrl && (
-                <div className="pt-2">
+              <div className="pt-2 flex flex-col gap-2.5">
+                {event.actionUrl && (
                   <NeoButton
                     href={event.actionUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    variant="lime"
+                    variant="primary"
                     icon={
-                      event.actionUrl.includes("youtube") ? (
+                      event.actionUrl.includes("whatsapp.com") ? (
+                        <MessageCircle size={18} />
+                      ) : event.actionUrl.includes("youtube") ? (
                         <Video size={18} />
                       ) : event.actionUrl.includes("t.me") ? (
                         <Send size={18} />
@@ -217,8 +220,42 @@ export default function EventDetailPage({
                   >
                     {event.actionText || "Join Event"}
                   </NeoButton>
-                </div>
-              )}
+                )}
+
+                {/* Add to Google Calendar Action */}
+                <NeoButton
+                  href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+                    event.title
+                  )}&details=${encodeURIComponent(
+                    `${event.subtitle || ""}\n\n${event.description || ""}\n\nOrganized by Gen Zs for Christ`
+                  )}&location=${encodeURIComponent(event.venue)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="primary"
+                  icon={<Calendar size={18} />}
+                  iconPosition="left"
+                  className="w-full"
+                >
+                  Add to Google Calendar
+                </NeoButton>
+
+                {/* Share Link Action */}
+                <NeoButton
+                  onClick={handleShare}
+                  variant="primary"
+                  icon={
+                    copied ? (
+                      <CheckCircle2 size={18} className="text-[#d7f741]" />
+                    ) : (
+                      <Share2 size={18} />
+                    )
+                  }
+                  iconPosition="left"
+                  className="w-full"
+                >
+                  {copied ? "Event Link Copied!" : "Share Event Link"}
+                </NeoButton>
+              </div>
             </div>
           </div>
 
@@ -319,8 +356,14 @@ export default function EventDetailPage({
                   href={event.actionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  variant="lime"
-                  icon={<ExternalLink size={18} />}
+                  variant="primary"
+                  icon={
+                    event.actionUrl.includes("whatsapp.com") ? (
+                      <MessageCircle size={18} />
+                    ) : (
+                      <ExternalLink size={18} />
+                    )
+                  }
                 >
                   {event.actionText || "Connect to Event"}
                 </NeoButton>
@@ -328,7 +371,7 @@ export default function EventDetailPage({
 
               <NeoButton
                 onClick={onBack}
-                variant="secondary"
+                variant="primary"
                 icon={<ArrowLeft size={18} />}
               >
                 Back to All Events

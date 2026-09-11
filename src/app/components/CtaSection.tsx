@@ -38,7 +38,7 @@ export default function CtaSection({
 
                     <div className="flex flex-wrap gap-4 justify-center mt-4">
                         <NeoButton
-                            variant="primary-inverted"
+                            variant="primary"
                             size="lg"
                             onClick={onNavigateContact}
                             icon={<ArrowRight size={20} />}

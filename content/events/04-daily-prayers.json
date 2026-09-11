@@ -6,7 +6,7 @@
   "date": "Every Night • 4 Timezones",
   "venue": "Live on Telegram Voice Channel",
   "category": "daily",
-  "image": "/uploads/8cfb78f68128e08761f1d331859ac14bf6168641.png",
+  "image": "/uploads/praying.png",
   "cardBg": "bg-[#26103d]",
   "cardText": "text-white",
   "titleColor": "text-[#fbb222]",
@@ -43,5 +43,5 @@
   ],
   "actionUrl": "https://t.me/genzsforchrist",
   "actionText": "Join Daily Prayers on Telegram",
-  "order": 4
+  "order": 3
 }

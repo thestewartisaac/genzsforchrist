@@ -12,11 +12,13 @@ import {
   BookOpen,
   ArrowRight,
   ExternalLink,
+  ChevronUp,
 } from "lucide-react";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 import Footer from "@/imports/Footer/index";
 import CtaSection from "@/app/components/CtaSection";
 import NeoButton from "@/components/ui/NeoButton";
+import NotFoundPage from "@/components/NotFoundPage";
 import {
   BlogPost,
   getBlogPostBySlug,
@@ -38,8 +40,26 @@ export default function BlogDetailPage({
   onSelectPost?: (slug: string) => void;
 }) {
   const [copied, setCopied] = useState(false);
+  const [readingProgress, setReadingProgress] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const post = getBlogPostBySlug(slug);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // ── Track reading progress and back-to-top visibility ───────────────────
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        const currentScroll = window.scrollY;
+        const progress = Math.min(100, Math.max(0, (currentScroll / totalHeight) * 100));
+        setReadingProgress(progress);
+        setShowScrollTop(currentScroll > 400);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -308,6 +328,20 @@ export default function BlogDetailPage({
 
   return (
     <div ref={containerRef} className="gz-grid-bg text-[#210901] min-h-screen w-full flex flex-col font-['Instrument_Sans',sans-serif] selection:bg-[#d7f741] selection:text-[#210901] overflow-x-hidden">
+      {/* ── Reading Progress Indicator Bar ── */}
+      <div
+        className="fixed top-0 left-0 right-0 h-[4px] bg-transparent z-[150] pointer-events-none"
+        aria-hidden="true"
+      >
+        <div
+          className="h-full bg-[#d7f741] transition-all duration-75 ease-out"
+          style={{
+            width: `${readingProgress}%`,
+            boxShadow: "0 0 10px #d7f741, 0 0 16px rgba(215,247,65,0.8)",
+          }}
+        />
+      </div>
+
       {/* ── 1. Breadcrumb & Back Bar ───────────────────────────────────────── */}
       <div className="w-full bg-[#26103d] text-white py-4 px-6 sm:px-12 lg:px-20 border-b-2 border-[#210901] relative z-20">
         <div className="max-w-[1000px] mx-auto flex items-center justify-between gap-4">
@@ -614,6 +648,20 @@ export default function BlogDetailPage({
         secondaryButtonText="Follow Our Journey"
       />
       <Footer />
+
+      {/* ── Floating Scroll To Top Button ── */}
+      {showScrollTop && (
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          data-name="button"
+          className="fixed bottom-6 right-6 z-40 p-3.5 rounded-[16px] bg-[#210901] text-white border-2 border-white/20 shadow-[4px_4px_0px_#d7f741] hover:shadow-none hover:bg-[#26103d] transition-all cursor-pointer flex items-center justify-center animate-in fade-in zoom-in duration-200"
+          title="Back to Top"
+          aria-label="Scroll to top of article"
+        >
+          <ChevronUp size={22} className="text-[#d7f741]" />
+        </button>
+      )}
     </div>
   );
 }

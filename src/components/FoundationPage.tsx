@@ -56,6 +56,19 @@ export default function FoundationPage({
   const [lastDonation, setLastDonation] = useState<{ amount: number; name: string } | null>(null);
   const [activePhoto, setActivePhoto] = useState<string | null>(null);
 
+  // ── Keyboard shortcuts: ESC closes modals and lightbox ──────────────────
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (activePhoto) setActivePhoto(null);
+        if (showKeyModal) setShowKeyModal(false);
+        if (showSuccessModal) setShowSuccessModal(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activePhoto, showKeyModal, showSuccessModal]);
+
   const handleCopyAccount = (e: React.MouseEvent) => {
     e.preventDefault();
     navigator.clipboard.writeText(BANK_DETAILS.accountNumber);
@@ -658,9 +671,16 @@ export default function FoundationPage({
 
                 {/* Custom Amount */}
                 <div>
-                  <label className="text-xs font-bold uppercase text-[#210901]/70 tracking-wider block mb-1.5">
-                    Or Enter Custom Amount (₦)
-                  </label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-xs font-bold uppercase text-[#210901]/70 tracking-wider block">
+                      Or Enter Custom Amount (₦)
+                    </label>
+                    {customAmount && Number(customAmount) > 0 && (
+                      <span className="text-[11px] font-extrabold text-[#00434a] bg-[#d7f741] px-2.5 py-0.5 rounded-full border border-[#210901] shadow-[1px_1px_0px_#210901] animate-in fade-in duration-150">
+                        Preview: ₦{Number(customAmount).toLocaleString()}
+                      </span>
+                    )}
+                  </div>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-[#210901]/60">
                       ₦
@@ -671,7 +691,7 @@ export default function FoundationPage({
                       placeholder="e.g. 15000"
                       value={customAmount}
                       onChange={(e) => setCustomAmount(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-[12px] bg-[#faf8f5] border-2 border-[#210901] text-[#210901] font-bold text-lg focus:outline-none focus:bg-white"
+                      className="w-full pl-10 pr-4 py-3 rounded-[12px] bg-[#faf8f5] border-2 border-[#210901] text-[#210901] font-bold text-lg focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#fbb222]"
                     />
                   </div>
                 </div>

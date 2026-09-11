@@ -145,13 +145,7 @@ function BriefEventCard({
         <div className="pt-2 flex items-center">
           <NeoButton
             onClick={() => onReadMore(item)}
-            variant={
-              colors.cardBg.includes("#00434a")
-                ? "lime"
-                : colors.cardBg.includes("#26103d")
-                  ? "secondary-amber"
-                  : "secondary"
-            }
+            variant="primary"
             icon={<ArrowRight size={18} />}
             className="w-full sm:w-auto"
           >
@@ -204,6 +198,7 @@ export default function EventsPage({
     return allEvents.filter((item) => item.status === "past");
   }, [allEvents]);
 
+  const [activeFilter, setActiveFilter] = useState<"all" | "upcoming" | "ongoing" | "past">("all");
   const containerRef = useRef<HTMLDivElement>(null);
 
   // ── GSAP Scroll & Entrance Animations ──────────────────────────────────────
@@ -364,34 +359,106 @@ export default function EventsPage({
         </div>
       </section>
 
-      {/* ── 3. SECTION 1: UPCOMING EVENTS (No border rings) ───────────────── */}
-      <section className="w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-transparent">
-        <div className="max-w-[1312px] mx-auto">
-          {/* Section Heading */}
-          <div className="text-center max-w-[960px] mx-auto mb-14 sm:mb-18 flex flex-col gap-3">
-            <h2
-              className="text-[36px] sm:text-[48px] text-[#210901] leading-tight m-0"
-              style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
-            >
-              Upcoming Events
-            </h2>
-            <p
-              className="font-medium text-[19px] sm:text-[23px] text-[#210901]/80 max-w-[800px] mx-auto leading-relaxed"
-              style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
-            >
-              Mark your calendar and prepare for what God is doing next.
-            </p>
+      {/* ── 2. Filter Navigation Bar ── */}
+      <section className="gz-events-filter-bar w-full py-5 px-6 sm:px-12 lg:px-20 sticky top-0 z-30">
+        <div className="max-w-[1312px] mx-auto flex items-center justify-between gap-4 overflow-x-auto pb-1">
+          <div className="flex flex-wrap items-center gap-2">
+            {[
+              { id: "all", label: "All Gatherings", count: allEvents.length },
+              { id: "upcoming", label: "Upcoming", count: upcomingEvents.length },
+              { id: "ongoing", label: "Ongoing Rhythms", count: ongoingEvents.length },
+              { id: "past", label: "Past Gatherings", count: pastEvents.length },
+            ].map((tab) => {
+              const isActive = activeFilter === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveFilter(tab.id as any)}
+                  data-name="button"
+                  className={`px-4 py-2 rounded-[14px] text-xs sm:text-sm font-bold tracking-wide border-2 border-[#210901] cursor-pointer shrink-0 inline-flex items-center gap-2 transition-[filter] duration-150 ${isActive
+                    ? "bg-[#210901] text-white drop-shadow-[3px_3px_0px_#fbb222] hover:drop-shadow-none"
+                    : "bg-white text-[#210901] hover:bg-[#fff4ef] drop-shadow-[2px_2px_0px_#210901] hover:drop-shadow-none"
+                    }`}
+                >
+                  <span>{tab.label}</span>
+                  <span
+                    className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded-full ${isActive
+                      ? "bg-[#d7f741] text-[#210901]"
+                      : "bg-[#210901]/10 text-[#210901]"
+                      }`}
+                  >
+                    {tab.count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
+        </div>
+      </section>
 
-          {upcomingEvents.length === 0 ? (
-            <div className="text-center py-16 bg-[#fff4ef] rounded-[20px] border-2 border-dashed border-[#210901]/30 p-8">
-              <p className="text-[#210901]/70 text-base font-medium">
-                No upcoming events announced yet. Stay tuned or join our ongoing weekly rhythms below!
+      {/* ── 3. SECTION 1: UPCOMING EVENTS ───────────────── */}
+      {(activeFilter === "all" || activeFilter === "upcoming") && (
+        <section className="w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-transparent">
+          <div className="max-w-[1312px] mx-auto">
+            {/* Section Heading */}
+            <div className="text-center max-w-[960px] mx-auto mb-14 sm:mb-18 flex flex-col gap-3">
+              <h2
+                className="text-[36px] sm:text-[48px] text-[#210901] leading-tight m-0"
+                style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
+              >
+                Upcoming Events
+              </h2>
+              <p
+                className="font-medium text-[19px] sm:text-[23px] text-[#210901]/80 max-w-[800px] mx-auto leading-relaxed"
+                style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
+              >
+                Mark your calendar and prepare for what God is doing next.
               </p>
             </div>
-          ) : (
+
+            {upcomingEvents.length === 0 ? (
+              <div className="text-center py-16 bg-[#fff4ef] rounded-[20px] border-2 border-dashed border-[#210901]/30 p-8">
+                <p className="text-[#210901]/70 text-base font-medium">
+                  No upcoming events announced yet. Stay tuned or join our ongoing weekly rhythms below!
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+                {upcomingEvents.map((item) => (
+                  <BriefEventCard
+                    key={item.id}
+                    item={item}
+                    onReadMore={handleReadMore}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* ── 4. SECTION 2: Activities ────────────── */}
+      {(activeFilter === "all" || activeFilter === "ongoing") && (
+        <section className="w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-[#FFEDE5]">
+          <div className="max-w-[1312px] mx-auto">
+            {/* Section Heading */}
+            <div className="text-center max-w-[960px] mx-auto mb-14 sm:mb-18 flex flex-col gap-3">
+              <h2
+                className="text-[36px] sm:text-[48px] text-[#210901] leading-tight m-0"
+                style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
+              >
+                Activities
+              </h2>
+              <p
+                className="font-medium text-[19px] sm:text-[23px] text-[#210901]/80 max-w-[800px] mx-auto leading-relaxed"
+                style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
+              >
+                Consistent spiritual rhythms and community fellowship keeping us connected every week.
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-              {upcomingEvents.map((item) => (
+              {ongoingEvents.map((item) => (
                 <BriefEventCard
                   key={item.id}
                   item={item}
@@ -399,71 +466,42 @@ export default function EventsPage({
                 />
               ))}
             </div>
-          )}
-        </div>
-      </section>
-
-      {/* ── 4. SECTION 2: ONGOING ACTIVITIES (No border rings) ────────────── */}
-      <section className="w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-[#FFEDE5]">
-        <div className="max-w-[1312px] mx-auto">
-          {/* Section Heading */}
-          <div className="text-center max-w-[960px] mx-auto mb-14 sm:mb-18 flex flex-col gap-3">
-            <h2
-              className="text-[36px] sm:text-[48px] text-[#210901] leading-tight m-0"
-              style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
-            >
-              Ongoing Activities
-            </h2>
-            <p
-              className="font-medium text-[19px] sm:text-[23px] text-[#210901]/80 max-w-[800px] mx-auto leading-relaxed"
-              style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
-            >
-              Consistent spiritual rhythms and community fellowship keeping us connected every week.
-            </p>
           </div>
+        </section>
+      )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-            {ongoingEvents.map((item) => (
-              <BriefEventCard
-                key={item.id}
-                item={item}
-                onReadMore={handleReadMore}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── 5. SECTION 3: PAST EVENTS ───────────────────── */}
+      {(activeFilter === "all" || activeFilter === "past") && (
+        <section className="w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-transparent">
+          <div className="max-w-[1312px] mx-auto">
+            {/* Section Heading */}
+            <div className="text-center max-w-[960px] mx-auto mb-14 sm:mb-18 flex flex-col gap-3">
+              <h2
+                className="text-[36px] sm:text-[48px] text-[#210901] leading-tight m-0"
+                style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
+              >
+                Past Events
+              </h2>
+              <p
+                className="font-medium text-[19px] sm:text-[23px] text-[#210901]/80 max-w-[800px] mx-auto leading-relaxed"
+                style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
+              >
+                Relive the encounters, worship recordings, and testimonies from our completed gatherings.
+              </p>
+            </div>
 
-      {/* ── 5. SECTION 3: PAST EVENTS (No border rings) ───────────────────── */}
-      <section className="w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-transparent">
-        <div className="max-w-[1312px] mx-auto">
-          {/* Section Heading */}
-          <div className="text-center max-w-[960px] mx-auto mb-14 sm:mb-18 flex flex-col gap-3">
-            <h2
-              className="text-[36px] sm:text-[48px] text-[#210901] leading-tight m-0"
-              style={{ fontFamily: "'Gasoek One', sans-serif", fontWeight: 400 }}
-            >
-              Past Events
-            </h2>
-            <p
-              className="font-medium text-[19px] sm:text-[23px] text-[#210901]/80 max-w-[800px] mx-auto leading-relaxed"
-              style={{ fontFamily: "'Instrument Sans', system-ui, sans-serif" }}
-            >
-              Relive the encounters, worship recordings, and testimonies from our completed gatherings.
-            </p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+              {pastEvents.map((item) => (
+                <BriefEventCard
+                  key={item.id}
+                  item={item}
+                  onReadMore={handleReadMore}
+                />
+              ))}
+            </div>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-            {pastEvents.map((item) => (
-              <BriefEventCard
-                key={item.id}
-                item={item}
-                onReadMore={handleReadMore}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── 6. SECTION 4: PHOTO GALLERY (No border rings) ─────────────────── */}
       <section className="w-full py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-[#FFEDE5]">

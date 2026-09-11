@@ -167,6 +167,21 @@ export default function App() {
     };
   }, []);
 
+  // ── Dynamic SEO Document Title on Page Transition ───────────────────────
+  useEffect(() => {
+    const titles: Record<AppPage, string> = {
+      home: "Gen Zs for Christ | God's Own Generation",
+      about: "About Us | Gen Zs for Christ",
+      events: "Events & Gatherings | Gen Zs for Christ",
+      foundation: "Humanitarian Foundation & Giving | Gen Zs for Christ",
+      blog: "Blog & Stories | Gen Zs for Christ",
+      contact: "Contact & Community | Gen Zs for Christ",
+      admin: "Admin Command Portal | Gen Zs for Christ",
+      "404": "Page Not Found | Gen Zs for Christ",
+    };
+    document.title = titles[currentPage] || "Gen Zs for Christ";
+  }, [currentPage]);
+
   const navigateTo = (
     page: AppPage,
     subPath?: string
@@ -2580,44 +2595,72 @@ export default function App() {
           >
             Navigate
           </p>
-          {NAV_LINKS.map((label) => (
-            <a
-              key={label}
-              href={
-                label === "About"
-                  ? "/about"
-                  : label === "Events"
-                    ? "/events"
-                    : label === "Foundation"
-                      ? "/foundation"
-                      : label === "Blog"
-                        ? "/blog"
-                        : label === "Contact"
-                          ? "/contact"
-                          : "/"
-              }
-              data-mi
-              className="gz-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                if (label === "About") {
-                  navigateTo("about");
-                } else if (label === "Events") {
-                  navigateTo("events");
-                } else if (label === "Foundation" || label === "Give") {
-                  navigateTo("foundation");
-                } else if (label === "Blog") {
-                  navigateTo("blog");
-                } else if (label === "Contact") {
-                  navigateTo("contact");
-                } else {
-                  navigateTo("home");
+          {NAV_LINKS.map((label) => {
+            const isActive =
+              (label === "Home" && currentPage === "home") ||
+              (label === "About" && currentPage === "about") ||
+              (label === "Events" && currentPage === "events") ||
+              (label === "Foundation" && currentPage === "foundation") ||
+              (label === "Blog" && currentPage === "blog") ||
+              (label === "Contact" && currentPage === "contact");
+
+            return (
+              <a
+                key={label}
+                href={
+                  label === "About"
+                    ? "/about"
+                    : label === "Events"
+                      ? "/events"
+                      : label === "Foundation"
+                        ? "/foundation"
+                        : label === "Blog"
+                          ? "/blog"
+                          : label === "Contact"
+                            ? "/contact"
+                            : "/"
                 }
-              }}
-            >
-              {label}
-            </a>
-          ))}
+                data-mi
+                className={`gz-nav-link ${isActive ? "active" : ""}`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  color: isActive ? "#d7f741" : "#ffffff",
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (label === "About") {
+                    navigateTo("about");
+                  } else if (label === "Events") {
+                    navigateTo("events");
+                  } else if (label === "Foundation" || label === "Give") {
+                    navigateTo("foundation");
+                  } else if (label === "Blog") {
+                    navigateTo("blog");
+                  } else if (label === "Contact") {
+                    navigateTo("contact");
+                  } else {
+                    navigateTo("home");
+                  }
+                }}
+              >
+                <span>{label}</span>
+                {isActive && (
+                  <span
+                    style={{
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "9999px",
+                      backgroundColor: "#d7f741",
+                      boxShadow: "0 0 10px #d7f741, 0 0 16px rgba(215,247,65,0.7)",
+                      display: "inline-block",
+                    }}
+                  />
+                )}
+              </a>
+            );
+          })}
         </nav>
 
         {/* ── Divider ── */}
