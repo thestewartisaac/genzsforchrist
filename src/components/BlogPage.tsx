@@ -326,7 +326,7 @@ export default function BlogPage({
                   </div>
 
                   <NeoButton
-                    variant="primary-inverted"
+                    variant="primary"
                     size="lg"
                     icon={<ArrowRight size={20} />}
                     className="w-full sm:w-auto"

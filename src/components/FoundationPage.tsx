@@ -388,7 +388,7 @@ export default function FoundationPage({
           <div className="pt-4">
             <NeoButton
               onClick={scrollToGive}
-              variant="primary-inverted"
+              variant="primary"
               size="lg"
               icon={<ArrowRight size={20} />}
             >

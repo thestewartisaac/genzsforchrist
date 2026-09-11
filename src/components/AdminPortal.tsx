@@ -375,7 +375,7 @@ export default function AdminPortal({ onNavigateHome }: AdminPortalProps) {
             href="/admin/index.html"
             target="_blank"
             rel="noopener noreferrer"
-            variant="primary-inverted"
+            variant="primary"
             size="sm"
             icon={<ExternalLink size={12} />}
             className="hidden sm:inline-flex"

@@ -351,7 +351,7 @@ export default function ContactPage() {
                   {/* Reset Button */}
                   <NeoButton
                     onClick={handleReset}
-                    variant="primary-inverted"
+                    variant="primary"
                     size="lg"
                   >
                     Go back
@@ -432,7 +432,7 @@ export default function ContactPage() {
                   {/* Submit Button */}
                   <NeoButton
                     type="submit"
-                    variant="primary-inverted"
+                    variant="primary"
                     size="lg"
                     fullWidth
                     loading={isSubmitting}

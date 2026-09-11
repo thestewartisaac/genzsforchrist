@@ -364,10 +364,10 @@ export default function EventsPage({
         <div className="max-w-[1312px] mx-auto flex items-center justify-between gap-4 overflow-x-auto pb-1">
           <div className="flex flex-wrap items-center gap-2">
             {[
-              { id: "all", label: "All Gatherings", count: allEvents.length },
+              { id: "all", label: "All Events", count: allEvents.length },
               { id: "upcoming", label: "Upcoming", count: upcomingEvents.length },
               { id: "ongoing", label: "Ongoing Rhythms", count: ongoingEvents.length },
-              { id: "past", label: "Past Gatherings", count: pastEvents.length },
+              { id: "past", label: "Past Events", count: pastEvents.length },
             ].map((tab) => {
               const isActive = activeFilter === tab.id;
               return (
