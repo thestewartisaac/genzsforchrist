@@ -3,27 +3,99 @@
   "photos": [
     {
       "id": "1",
-      "src": "/uploads/8cfb78f68128e08761f1d331859ac14bf6168641.png",
-      "alt": "Gen Zs Worshiping at Secret Place",
-      "caption": "Passionate Worship"
+      "src": "/uploads/3-guys.jpg",
+      "alt": "Brothers in Faith",
+      "caption": "Brothers in Faith"
     },
     {
       "id": "2",
-      "src": "/uploads/f5348df6f5df01c615d6da6ff80c656b0f3abad1.png",
-      "alt": "Altar Encounters",
-      "caption": "Altar Fire"
+      "src": "/uploads/5-ladies.jpg",
+      "alt": "Sisters in Fellowship",
+      "caption": "Sisters in Fellowship"
     },
     {
       "id": "3",
-      "src": "/uploads/1d49bcef55f2ac1e7412fa22bcceb6d4b41953a6.png",
-      "alt": "Humanitarian Outreach and Fellowship",
-      "caption": "Community Love"
+      "src": "/uploads/efe-raise-mioc.JPG",
+      "alt": "Passionate Worship",
+      "caption": "Passionate Worship"
     },
     {
       "id": "4",
-      "src": "/uploads/62c881e484a773c554732bdd3a21d7feea1dd996.png",
-      "alt": "Youth Fellowship",
-      "caption": "Unashamed Faith"
+      "src": "/uploads/game-meetup-2.jpg",
+      "alt": "Game Night & Bonding",
+      "caption": "Game Night & Bonding"
+    },
+    {
+      "id": "5",
+      "src": "/uploads/genz-ex.jpg",
+      "alt": "Joyful Community",
+      "caption": "Joyful Community"
+    },
+    {
+      "id": "6",
+      "src": "/uploads/group-lagos.jpg",
+      "alt": "Lagos City Hub",
+      "caption": "Lagos City Hub"
+    },
+    {
+      "id": "7",
+      "src": "/uploads/group-photo-2.jpg",
+      "alt": "Kingdom Tribe",
+      "caption": "Kingdom Tribe"
+    },
+    {
+      "id": "8",
+      "src": "/uploads/group-photo-3.jpg",
+      "alt": "United in Purpose",
+      "caption": "United in Purpose"
+    },
+    {
+      "id": "9",
+      "src": "/uploads/group-yaounde.jpg",
+      "alt": "Yaoundé Hub Community",
+      "caption": "Yaoundé Hub Community"
+    },
+    {
+      "id": "10",
+      "src": "/uploads/meetup-abuja.jpeg",
+      "alt": "Abuja Fellowship",
+      "caption": "Abuja Fellowship"
+    },
+    {
+      "id": "11",
+      "src": "/uploads/meetup-lagos-2.jpg",
+      "alt": "Lagos Community Meetup",
+      "caption": "Lagos Community Meetup"
+    },
+    {
+      "id": "12",
+      "src": "/uploads/meetup-people.jpg",
+      "alt": "Unashamed Generation",
+      "caption": "Unashamed Generation"
+    },
+    {
+      "id": "13",
+      "src": "/uploads/prayer-meetup.jpg",
+      "alt": "Fervent Prayer & Intercession",
+      "caption": "Fervent Prayer & Intercession"
+    },
+    {
+      "id": "14",
+      "src": "/uploads/secret-place-2.jpg",
+      "alt": "Altar Encounters",
+      "caption": "Altar Encounters"
+    },
+    {
+      "id": "15",
+      "src": "/uploads/secret-place-3.JPG",
+      "alt": "Worship & Reflection",
+      "caption": "Worship & Reflection"
+    },
+    {
+      "id": "16",
+      "src": "/uploads/sports-fiesta-1.jpg",
+      "alt": "Sports Fiesta & Outdoor Games",
+      "caption": "Sports Fiesta & Outdoor Games"
     }
   ]
 }

@@ -9,6 +9,7 @@ import {
   Radio,
   BookOpen,
   Trophy,
+  X,
 } from "lucide-react";
 import HeroAnimatedBackground from "@/components/HeroAnimatedBackground";
 
@@ -167,6 +168,7 @@ export default function EventsPage({
   // Dynamic CMS content
   const allEvents = useMemo(() => getEventsFromContent(), []);
   const gallery = useMemo(() => getGalleryFromContent(), []);
+  const [selectedPhoto, setSelectedPhoto] = useState<any | null>(null);
 
   // Selected event state for dedicated event view
   const [activeEvent, setActiveEvent] = useState<ActivityItem | null>(() => {
@@ -520,7 +522,8 @@ export default function EventsPage({
               <div
                 key={photo.id}
                 data-name="gallery-item"
-                className="rounded-[20px] overflow-hidden h-[380px] sm:h-[480px] lg:h-[450px] group relative"
+                onClick={() => setSelectedPhoto(photo)}
+                className="rounded-[20px] overflow-hidden h-[380px] sm:h-[480px] lg:h-[450px] group relative cursor-pointer"
               >
                 <img
                   src={photo.src}
@@ -532,6 +535,33 @@ export default function EventsPage({
           </div>
         </div>
       </section>
+
+      {/* ── Lightbox for Gallery Photos (Fullscreen Zoom) ── */}
+      {selectedPhoto && (
+        <div
+          onClick={() => setSelectedPhoto(null)}
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-pointer"
+        >
+          <button
+            type="button"
+            onClick={() => setSelectedPhoto(null)}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 size-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-md transition-colors border border-white/20 cursor-pointer"
+            aria-label="Close fullscreen view"
+          >
+            <X size={24} />
+          </button>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-[95vw] max-h-[92vh] flex items-center justify-center"
+          >
+            <img
+              src={selectedPhoto.src}
+              alt={selectedPhoto.alt}
+              className="w-auto h-auto max-w-full max-h-[92vh] object-contain rounded-[16px] shadow-2xl"
+            />
+          </div>
+        </div>
+      )}
 
       {/* ── 7. Unified CTA Section & Footer ── */}
       <CtaSection onNavigateContact={onNavigateContact} />

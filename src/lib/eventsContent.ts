@@ -13,6 +13,22 @@ import imgCarousel2 from "@/imports/Homepage/ee341b9f360edf170fcd9e64ea7bbdd2bae
 import imgCarousel3 from "@/imports/Homepage/3486655db75152df5483c1fb8bc7cc9bd4d5b749.png";
 import imgCarousel4 from "@/imports/Homepage/5a58b780d0d9b93164f071a91b87b98716d31737.png";
 
+// Events Page Gallery Images
+import img3Guys from "@/imports/3-guys.jpg";
+import img5Ladies from "@/imports/5-ladies.jpg";
+import imgEfeRaiseMioc from "@/imports/efe-raise-mioc.JPG";
+import imgGenzEx from "@/imports/genz-ex.jpg";
+import imgGroupLagos from "@/imports/group-lagos.jpg";
+import imgGroupPhoto2 from "@/imports/group-photo-2.jpg";
+import imgGroupPhoto3 from "@/imports/group-photo-3.jpg";
+import imgGroupYaounde from "@/imports/group-yaounde.jpg";
+import imgMeetupAbuja from "@/imports/meetup-abuja.jpeg";
+import imgMeetupLagos2 from "@/imports/meetup-lagos-2.jpg";
+import imgMeetupPeople from "@/imports/meetup-people.jpg";
+import imgPrayerMeetup from "@/imports/prayer-meetup.jpg";
+import imgSecretPlace2 from "@/imports/secret-place-2.jpg";
+import imgSecretPlace3 from "@/imports/secret-place-3.JPG";
+
 export type EventStatus = "upcoming" | "ongoing" | "past" | "cancelled";
 
 export interface ActivityItem {
@@ -70,8 +86,12 @@ const IMAGE_MAP: Record<string, string> = {
   "praying.png": praying,
   "/uploads/game-meetup-2.jpg": gameMeetup2,
   "game-meetup-2.jpg": gameMeetup2,
+  "src/imports/game-meetup-2.jpg": gameMeetup2,
+  "/src/imports/game-meetup-2.jpg": gameMeetup2,
   "/uploads/sports-fiesta-1.jpg": sportsFiesta1,
   "sports-fiesta-1.jpg": sportsFiesta1,
+  "src/imports/sports-fiesta-1.jpg": sportsFiesta1,
+  "/src/imports/sports-fiesta-1.jpg": sportsFiesta1,
   "/uploads/lagos-hangout-anniversity.jpeg": imgLagosHangoutAnniversary,
   "lagos-hangout-anniversity.jpeg": imgLagosHangoutAnniversary,
   "/uploads/lagos-hangout-anniversary.jpeg": imgLagosHangoutAnniversary,
@@ -80,6 +100,79 @@ const IMAGE_MAP: Record<string, string> = {
   "/uploads/ee341b9f360edf170fcd9e64ea7bbdd2baed5316.png": imgCarousel2,
   "/uploads/3486655db75152df5483c1fb8bc7cc9bd4d5b749.png": imgCarousel3,
   "/uploads/5a58b780d0d9b93164f071a91b87b98716d31737.png": imgCarousel4,
+
+  // Events Gallery Images
+  "/uploads/3-guys.jpg": img3Guys,
+  "3-guys.jpg": img3Guys,
+  "src/imports/3-guys.jpg": img3Guys,
+  "/src/imports/3-guys.jpg": img3Guys,
+
+  "/uploads/5-ladies.jpg": img5Ladies,
+  "5-ladies.jpg": img5Ladies,
+  "src/imports/5-ladies.jpg": img5Ladies,
+  "/src/imports/5-ladies.jpg": img5Ladies,
+
+  "/uploads/efe-raise-mioc.JPG": imgEfeRaiseMioc,
+  "efe-raise-mioc.JPG": imgEfeRaiseMioc,
+  "efe-raise-mioc.jpg": imgEfeRaiseMioc,
+  "src/imports/efe-raise-mioc.JPG": imgEfeRaiseMioc,
+  "/src/imports/efe-raise-mioc.JPG": imgEfeRaiseMioc,
+
+  "/uploads/genz-ex.jpg": imgGenzEx,
+  "genz-ex.jpg": imgGenzEx,
+  "src/imports/genz-ex.jpg": imgGenzEx,
+  "/src/imports/genz-ex.jpg": imgGenzEx,
+
+  "/uploads/group-lagos.jpg": imgGroupLagos,
+  "group-lagos.jpg": imgGroupLagos,
+  "src/imports/group-lagos.jpg": imgGroupLagos,
+  "/src/imports/group-lagos.jpg": imgGroupLagos,
+
+  "/uploads/group-photo-2.jpg": imgGroupPhoto2,
+  "group-photo-2.jpg": imgGroupPhoto2,
+  "src/imports/group-photo-2.jpg": imgGroupPhoto2,
+  "/src/imports/group-photo-2.jpg": imgGroupPhoto2,
+
+  "/uploads/group-photo-3.jpg": imgGroupPhoto3,
+  "group-photo-3.jpg": imgGroupPhoto3,
+  "src/imports/group-photo-3.jpg": imgGroupPhoto3,
+  "/src/imports/group-photo-3.jpg": imgGroupPhoto3,
+
+  "/uploads/group-yaounde.jpg": imgGroupYaounde,
+  "group-yaounde.jpg": imgGroupYaounde,
+  "src/imports/group-yaounde.jpg": imgGroupYaounde,
+  "/src/imports/group-yaounde.jpg": imgGroupYaounde,
+
+  "/uploads/meetup-abuja.jpeg": imgMeetupAbuja,
+  "meetup-abuja.jpeg": imgMeetupAbuja,
+  "src/imports/meetup-abuja.jpeg": imgMeetupAbuja,
+  "/src/imports/meetup-abuja.jpeg": imgMeetupAbuja,
+
+  "/uploads/meetup-lagos-2.jpg": imgMeetupLagos2,
+  "meetup-lagos-2.jpg": imgMeetupLagos2,
+  "src/imports/meetup-lagos-2.jpg": imgMeetupLagos2,
+  "/src/imports/meetup-lagos-2.jpg": imgMeetupLagos2,
+
+  "/uploads/meetup-people.jpg": imgMeetupPeople,
+  "meetup-people.jpg": imgMeetupPeople,
+  "src/imports/meetup-people.jpg": imgMeetupPeople,
+  "/src/imports/meetup-people.jpg": imgMeetupPeople,
+
+  "/uploads/prayer-meetup.jpg": imgPrayerMeetup,
+  "prayer-meetup.jpg": imgPrayerMeetup,
+  "src/imports/prayer-meetup.jpg": imgPrayerMeetup,
+  "/src/imports/prayer-meetup.jpg": imgPrayerMeetup,
+
+  "/uploads/secret-place-2.jpg": imgSecretPlace2,
+  "secret-place-2.jpg": imgSecretPlace2,
+  "src/imports/secret-place-2.jpg": imgSecretPlace2,
+  "/src/imports/secret-place-2.jpg": imgSecretPlace2,
+
+  "/uploads/secret-place-3.JPG": imgSecretPlace3,
+  "secret-place-3.JPG": imgSecretPlace3,
+  "secret-place-3.jpg": imgSecretPlace3,
+  "src/imports/secret-place-3.JPG": imgSecretPlace3,
+  "/src/imports/secret-place-3.JPG": imgSecretPlace3,
 };
 
 export function resolveImage(img?: string): string {
@@ -503,30 +596,22 @@ export function getGalleryFromContent(): GalleryData {
   return {
     title: "Photo Gallery",
     photos: [
-      {
-        id: "1",
-        src: imgWhatWeDoDaily,
-        alt: "Gen Zs Worshiping at Secret Place",
-        caption: "Passionate Worship",
-      },
-      {
-        id: "2",
-        src: imgWhatWeDoSecretPlace,
-        alt: "Altar Encounters",
-        caption: "Altar Fire",
-      },
-      {
-        id: "3",
-        src: imgHumanitarian,
-        alt: "Humanitarian Outreach and Fellowship",
-        caption: "Community Love",
-      },
-      {
-        id: "4",
-        src: imgCarousel1,
-        alt: "Youth Fellowship",
-        caption: "Unashamed Faith",
-      },
+      { id: "1", src: img3Guys, alt: "Brothers in Faith", caption: "Brothers in Faith" },
+      { id: "2", src: img5Ladies, alt: "Sisters in Fellowship", caption: "Sisters in Fellowship" },
+      { id: "3", src: imgEfeRaiseMioc, alt: "Passionate Worship", caption: "Passionate Worship" },
+      { id: "4", src: gameMeetup2, alt: "Game Night & Bonding", caption: "Game Night & Bonding" },
+      { id: "5", src: imgGenzEx, alt: "Joyful Community", caption: "Joyful Community" },
+      { id: "6", src: imgGroupLagos, alt: "Lagos City Hub", caption: "Lagos City Hub" },
+      { id: "7", src: imgGroupPhoto2, alt: "Kingdom Tribe", caption: "Kingdom Tribe" },
+      { id: "8", src: imgGroupPhoto3, alt: "United in Purpose", caption: "United in Purpose" },
+      { id: "9", src: imgGroupYaounde, alt: "Yaoundé Hub Community", caption: "Yaoundé Hub Community" },
+      { id: "10", src: imgMeetupAbuja, alt: "Abuja Fellowship", caption: "Abuja Fellowship" },
+      { id: "11", src: imgMeetupLagos2, alt: "Lagos Community Meetup", caption: "Lagos Community Meetup" },
+      { id: "12", src: imgMeetupPeople, alt: "Unashamed Generation", caption: "Unashamed Generation" },
+      { id: "13", src: imgPrayerMeetup, alt: "Fervent Prayer & Intercession", caption: "Fervent Prayer & Intercession" },
+      { id: "14", src: imgSecretPlace2, alt: "Altar Encounters", caption: "Altar Encounters" },
+      { id: "15", src: imgSecretPlace3, alt: "Worship & Reflection", caption: "Worship & Reflection" },
+      { id: "16", src: sportsFiesta1, alt: "Sports Fiesta & Outdoor Games", caption: "Sports Fiesta & Outdoor Games" },
     ],
   };
 }
